@@ -1,2 +1,2 @@
 # algorithm
-Desribe data structure and algorithms and their implementation
+Describe data structure and algorithms and their implementation

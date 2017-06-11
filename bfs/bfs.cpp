@@ -15,9 +15,9 @@ queue<int> q;
 
 int main() {
 	// Doc input
-	// do thi co huong, trong so cac canh = 1, 
+	// do thi co huong, trong so cac canh = 1,
 	// https://visualgo.net/dfsbfs, CP3 4.4. DAG
-	/* 
+	/*
 	8 8 // V,E
 	0 1 1 // dist(u,v) = 1
 	0 2 1
@@ -28,6 +28,7 @@ int main() {
 	3 4 1
 	7 6 1
 	*/
+
 	freopen("input.txt","r",stdin);
 	scanf("%d %d",&V,&E);
 	AdjList.assign(V,vector<pair<int,int> >());
@@ -41,7 +42,7 @@ int main() {
 
 	// Bat dau BFS tai 1 dinh bat ky
 	q.push(0); visited[0] = 1;
-	
+
 	while (!q.empty()) {
 		int u = q.front(); q.pop();
 		printf("visit %d\n",u);
@@ -52,7 +53,7 @@ int main() {
 				q.push(v); visited[v] = 1;
 			}
 		}
-	}	
+	}
 
 
 	return 0;

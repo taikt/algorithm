@@ -1,3 +1,5 @@
+// http://www.geeksforgeeks.org/data-structures/linked-list/
+
 #include <stdio.h>
 
 typedef struct node_

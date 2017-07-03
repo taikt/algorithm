@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXBUCKET 1000
+#define MAXBUCKET 400 //1000 --> segmentation fault
 #define MULTIPLIER 31
 #define MAXLEN 100
 
@@ -116,13 +116,16 @@ int main(int argc, char* argv[])
 	printf("\nhash table:\n");
 	for (i =0; i< MAXBUCKET; i++)
 	{
+		//printf("%d\n",i);
 		for (wp=table[i]; wp!= NULL; wp=wp->next)
 		{
 			printf("table %d:%s->%ld\n", i, wp->word, wp->count);
 		}
 	}
 	
-	clearable();
+	printf("test\n");
+	
+	//clearable();
 	return 0;
 }
 

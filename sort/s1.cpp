@@ -1,4 +1,6 @@
+// http://stackoverflow.com/questions/5038895/does-stdsort-implement-quicksort
 // sort algorithm example
+
 #include <iostream>     // std::cout
 #include <algorithm>    // std::sort
 #include <vector>       // std::vector

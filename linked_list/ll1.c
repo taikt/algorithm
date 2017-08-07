@@ -1,4 +1,5 @@
 // http://www.geeksforgeeks.org/data-structures/linked-list/
+// https://www.youtube.com/watch?v=vcQIFT79_50&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=5
 
 #include <stdio.h>
 

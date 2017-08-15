@@ -6,6 +6,8 @@ xóa ký tự trùng nhau trong 1 danh sách liên kết chưa sắp xếp.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <bitset>
+using namespace std;
 
 class linkedlist {
 	struct Node {
@@ -42,7 +44,24 @@ public:
 	void printList() {
 		Node* tmp = head;
 		while (tmp != NULL) {
-			printf("%d\n",tmp->data);
+			printf("%d  ",tmp->data);
+			tmp = tmp->link;
+		}
+		printf("\n");
+	}
+
+	void removeDuplicate() {
+		Node* tmp = head;
+		Node* pre = head;
+		bitset<128> bits(0);
+
+		while (tmp != NULL) {
+			if (bits.test(tmp->data)) {
+				pre->link = tmp->link;
+			}
+
+			bits.set(tmp->data);
+			pre = tmp;
 			tmp = tmp->link;
 		}
 	}
@@ -52,16 +71,21 @@ public:
 
 int main() {
 	linkedlist ll;
-	int a[]={2,3,4,5};
+	int a[]={2,3,4,5,3,6,7,4};
 
 
 	for (int i=0; i< (sizeof(a)/sizeof(a[0])); i++) { 
 		//printf("%d ",a[i]);
 		ll.createNode(a[i]);
 	}
+	printf("before..\n");
 	
 	ll.printList();
+	ll.removeDuplicate();
 
+	printf("after..\n");
+	ll.removeDuplicate();
+	ll.printList();
 	
 
 	return 0;

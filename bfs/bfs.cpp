@@ -15,7 +15,7 @@ queue<int> q;
 
 int main() {
 	// Doc input
-	// do thi co huong, trong so cac canh = 1,
+	// Do thi co huong, trong so cac canh = 1,
 	// https://visualgo.net/dfsbfs, CP3 4.4. DAG
 	/*
 	8 8 // V,E

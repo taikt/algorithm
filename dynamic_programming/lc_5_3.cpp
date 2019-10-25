@@ -34,7 +34,7 @@ class Solution {
                 left--;
                 right++;
             }
-            if ((right-left-2) > maxlen && (left+1 < right -1)) {
+            if ((right-left-1) > maxlen && (left+1 < right -1)) {
                 maxlen = right-1-left;
                 start = left+1;
             }

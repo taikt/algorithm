@@ -24,6 +24,7 @@ class Solution {
 	    int minMeetingRooms(vector<vector<int>>& intervals) {
 	    	map<int,int> m;
 	    	for (auto a: intervals) {
+	    		// for [start,end] time: m[start] = 1; m[end] = -1
 	    		++m[a[0]];
 	    		--m[a[1]];
 	    		printf("a[0]=%d, a[1]=%d => %d,%d\n",a[0],a[1],m[a[0]],m[a[1]]);

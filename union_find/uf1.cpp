@@ -4,6 +4,14 @@
 // https://visualgo.net/ufds
 
 // Tai (taitrananhvn@gmail.com, 20.12.2016)
+/*
+	https://www.geeksforgeeks.org/union-find/
+	O(n)
+
+	https://www.geeksforgeeks.org/union-find-algorithm-set-2-union-by-rank/
+	O(logn)
+	below implementation is union by rank.
+*/
 
 #include <cstdio>
 #include <vector>

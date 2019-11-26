@@ -1,5 +1,8 @@
 // detect cycle in graph
-//
+// https://www.geeksforgeeks.org/detect-cycle-in-a-directed-graph-using-bfs/
+// https://www.geeksforgeeks.org/detect-cycle-in-an-undirected-graph-using-bfs/
+// https://www.geeksforgeeks.org/topological-sorting-indegree-based-solution/
+
 #include <vector>
 #include <queue>
 #include <cstdio>

@@ -2,6 +2,9 @@
 
 // Depth-First Search
 // https://visualgo.net/dfsbfs
+// https://www.geeksforgeeks.org/detect-cycle-undirected-graph/
+// https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
+// https://www.geeksforgeeks.org/topological-sorting/
 
 #include <vector>
 #include <cstdio>

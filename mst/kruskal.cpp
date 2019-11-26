@@ -89,10 +89,14 @@ int main() {
     // v(0) -> v(3), w=5
     // v(2) -> v(3), w=1
     // vector< vector< pair<int,int> > > AdjList;
+    
     vector<pair<int,pair<int,int> > > EdgeList; // vector<pair<int,ii> >
     
-    vector< vector<pair<int,int> > > AdjList;
-    AdjList.assign(N, vector<pair<int,int> >());
+    // https://stackoverflow.com/questions/25108854/initializing-the-size-of-a-c-vector/25108894
+    //vector<vector<pair<int,int> > > AdjList(N);
+    vector< vector<pair<int,int> > > AdjList(N,vector<pair<int,int>>());
+    //AdjList.assign(N, vector<pair<int,int> >());
+
     for (int i = 0; i<E; i++) {
     	scanf("%d %d %d",&u,&v,&w);
     	EdgeList.push_back(make_pair(w, pair<int,int>(u,v)));

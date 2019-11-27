@@ -10,7 +10,7 @@ O(logn)
 method: union-find not use path compession+ ranking
 comlexity: O(n)
 
-input: 
+input:
 [[1,1,0],
  [1,1,0],
  [0,0,1]]

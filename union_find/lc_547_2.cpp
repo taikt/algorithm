@@ -113,10 +113,12 @@ int main() {
     freopen("lc_547.out","w",stdout);
     int n,t;
     scanf("%d\n",&n);
+    //cin>>n;
     vector<vector<int>> v(n,vector<int>(n)); //without initialization, it crash
     for (int i=0; i<n;i++) {
         for (int j=0; j<n; j++) {
             scanf("%d",&v[i][j]);
+            //cin>>v[i][j];
             //printf("%d ",v[i][j]);
         }
         //printf("\n");

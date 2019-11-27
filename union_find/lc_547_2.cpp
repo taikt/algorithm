@@ -8,9 +8,9 @@ https://www.geeksforgeeks.org/union-find-algorithm-set-2-union-by-rank/
 O(logn)
 
 
-method: union-find use path compession(after find a given node'root, the root become parent of given node)
-+ ranking (use rank at each node, node with larger height then get higher rank)
-comlexity: O(logn)
+method: union-find using path compression(after find a given node'root, the root become parent of given node)
++ ranking (use rank at each node, node with higher height then get higher rank)
+Complexity: O(logn)
 
 input:
 [[1,1,0],
@@ -21,9 +21,10 @@ output: 2
 
 */
 
-#include <cstdio>
+
+#include <bits/stdc++.h>
 using namespace std;
-#include <vector>
+
 
 class Solution {
 public:
@@ -39,13 +40,15 @@ public:
 				if (M[i][j]) {
 					int x = findSet2(root,i);
 					int y = findSet2(root,j);
-					if (rank[x] > rank[y]) {
-						root[y] = x;
-						res--;
-					} else { //rank[y] >= rank[x]
-						root[x] = y;
-						res--;
-						if (rank[y] == rank[x]) rank[y]++;
+					if (x != y) {
+                        if (rank[x] > rank[y]) {
+                            root[y] = x;
+                            res--;
+                        } else { //rank[y] >= rank[x]
+                            root[x] = y;
+                            res--;
+                            if (rank[y] == rank[x]) rank[y]++;
+                        }
 					}
 				}
 			}
@@ -54,7 +57,7 @@ public:
 
 	}
 	/*
-	ie. i->j->k->l->O  (root[i]=k, root[k]=o)
+	ie. i->j->k->l->O  (result: root[i]=k, root[k]=o)
 		1.
 		root[i] = root[j] =k
 		i = k;
@@ -73,7 +76,7 @@ public:
 	}
 
 	/*
-	i.e i->j->k->l->o
+	i.e i->j->k->l->o (result: root[i]=root[j]=root[k]=root[l]=root[o]=o)
 		1. findSet2(i)
 		root[i] = findset2(j); // backtrace: root[i] = o
 		return findset2(j);
@@ -89,23 +92,43 @@ public:
 		5.
 		return o;
 	*/
+	// path compression
 	int findSet2(vector<int>& root, int i) {
+	    #if 0
 		if (i == root[i]) return i;
 		else {
 			root[i] = findSet2(root,root[i]);
 			return root[i];
 		}
+		#endif // 0
+
+		return (i == root[i]) ? i : (root[i]=findSet2(root,root[i]));
 	}
 
 };
 
 int main() {
+
+    freopen("lc_547.inp","r",stdin);
+    freopen("lc_547.out","w",stdout);
+    int n,t;
+    scanf("%d\n",&n);
+    vector<vector<int>> v(n,vector<int>(n)); //without initialization, it crash
+    for (int i=0; i<n;i++) {
+        for (int j=0; j<n; j++) {
+            scanf("%d",&v[i][j]);
+            //printf("%d ",v[i][j]);
+        }
+        //printf("\n");
+    }
+
+	#if 0
 	vector<vector<int>> v={
 		{1,1,0},
 		{1,1,0},
 		{0,0,1}
 	};
-
+    #endif // 0
 	Solution anw;
 	printf("number of circle friend: %d\n",anw.findCircleNum(v));
 

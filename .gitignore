@@ -40,6 +40,8 @@
 *.tar
 *.xz
 a.out
+*.out
+*.exe
 Module.symvers
 modules.builtin
 tags

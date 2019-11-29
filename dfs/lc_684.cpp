@@ -12,21 +12,29 @@ class Solution {
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         vector<int> res={};
-        //unordered_map<int, unordered_set<int>> m; // keep tracking a map between each vertice and adjacent vertices
-                                                  // of resulting tree
+        int n=edges.size();
+        unordered_map<int, unordered_set<int>> m; // keep tracking a map between each vertex and set of adjacent vertices of resulting tree
         /*
             m: {0} --> {1,2,3}
                {2} --> {4,5,3}
         */
-
         for(auto a:edges) {
             //if (check_cycle(a,m)) {
-            //    return a;
+              //  return a;
             //}
-            //count<< a[0] <<"\n";
-            printf("%d %d\n",a[0],a[1]);
-
+            cout<<a[0]<<a[1]<<"\n";
+            m[a[0]].insert(a[1]);
+            m[a[1]].insert(a[0]);
         }
+
+        for (auto a:m) {
+            cout<<a.first<<"-->";
+            for (auto x:a.second) {
+                cout<<x<<" ";
+            }
+            cout<<"\n";
+        }
+
         return res;
     }
 };
@@ -34,19 +42,17 @@ public:
 int main() {
     freopen("lc_684.inp","r",stdin);
     freopen("lc_684.out","w",stdout);
-    vector<vector<int>> edges={
-        {0,1},
-        {0,2}
-        };
-    #if 0
-    int i,n,m,a,b;
+
+    int n,m,a,b,c;
+
     scanf("%d %d\n",&n,&m);
+    vector<vector<int>> edges(n);
     FOR(i,0,n) {
         scanf("%d %d\n",&a,&b);
-        edges[a].push_back(b);
-        edges[b].push_back(a);
+        edges[i].push_back(a);
+        edges[i].push_back(b);
     }
-    #endif
+
     Solution aws;
     vector<int> out= aws.findRedundantConnection(edges);
 

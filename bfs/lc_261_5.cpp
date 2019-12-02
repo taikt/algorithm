@@ -2,7 +2,7 @@
     https://leetcode.com/problems/graph-valid-tree/
     https://github.com/grandyang/leetcode/issues/261
 
-    method: Union-Find to check cycling of undirected graph
+    method: BFS to check cycling of undirected graph
     valid tree if: not having cycle and connected graph
 
     Input: n = 5, and edges = [[0,1], [0,2], [0,3], [1,4]]
@@ -17,18 +17,18 @@ using namespace std;
 
 class Solution {
 public:
+    // input is 2-D vector
     bool validTree(int n, vector<vector<int>>& edges) {
         queue<int> q;
         q.push(0);
-        unordered_set<int> s;
+        unordered_set<int> s({0});
         vector<unordered_set<int>> g(n,unordered_set<int>());
         for (auto a:edges) {
             cout<<"a[0]="<<a[0]<<",a[1]="<<a[1]<<"\n";
+
             g[a[0]].insert(a[1]);
             g[a[1]].insert(a[0]);
         }
-
-        vector<int> pre(n,-1);
         int t=-1;
         while (!q.empty()) {
             t = q.front(); q.pop();
@@ -43,26 +43,30 @@ public:
                 }
             }
         }
-        return true;
+        // return true; // neu return true, chi kiem tra do thi co chu trinh
+        cout<<"size of s="<<s.size()<<"\n";
+        return (s.size()==n);// kiem tra do thi co ket noi
+
     }
 };
 
 int main() {
     freopen("lc_261.inp","r",stdin);
     freopen("lc_261.out","w",stdout);
-    //m: so dinh
-    //n: so canh
+    //n: so dinh
+    //m: so canh
     int m,n,x,y;
-    scanf("%d %d\n",&m,&n);
+    scanf("%d %d\n",&n,&m);
     vector<vector<int>> edges(m);
-    FOR(i,0,n) {
+    FOR(i,0,m) {
         scanf("%d %d\n",&x,&y);
-        edges[x].push_back(y);
-        edges[y].push_back(x);
+        edges[i].push_back(x);
+        edges[i].push_back(y);
     }
+        //
 
     Solution anw;
-    if (anw.validTree(m,edges)) cout<<"true";
+    if (anw.validTree(n,edges)) cout<<"true";
     else cout<<"false";
 
     return 0;

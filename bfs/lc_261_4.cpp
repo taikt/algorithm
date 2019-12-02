@@ -17,7 +17,7 @@ using namespace std;
 
 class Solution {
 public:
-    //bool validTree(int n, vector<vector<int>>& edges) {
+    //input is 1-D vector with pair
     bool validTree(int n, vector<pair<int,int>>& edges) {
         queue<int> q;
         q.push(0);
@@ -25,9 +25,6 @@ public:
         vector<unordered_set<int>> g(n,unordered_set<int>());
         for (auto a:edges) {
             cout<<"a.first="<<a.first<<",a.second="<<a.second<<"\n";
-
-            //g[a[0]].insert(a[1]);
-            //g[a[1]].insert(a[0]);
 
             g[a.first].insert(a.second);
             g[a.second].insert(a.first);
@@ -49,35 +46,26 @@ public:
         // return true; // neu return true, chi kiem tra do thi co chu trinh
         cout<<"size of s="<<s.size()<<"\n";
         return (s.size()==n);// kiem tra do thi co ket noi
-
     }
 };
 
 int main() {
     freopen("lc_261.inp","r",stdin);
     freopen("lc_261.out","w",stdout);
-    //m: so dinh
-    //n: so canh
+
+    //n: so dinh
+    //m: so canh
     int m,n,x,y;
-    scanf("%d %d\n",&m,&n);
+    scanf("%d %d\n",&n,&m);
     vector<pair<int,int>> edges; //edges(m) ==> wrong
-#if 0
-    FOR(i,0,n) {
+
+    FOR(i,0,m) {
         scanf("%d %d\n",&x,&y);
-        edges[x].push_back(y);
-        edges[y].push_back(x);
-    }
- #endif // 0
-    cout<<"m="<<m<<",n="<<n<<"\n";
-    FOR(i,0,n) {
-        scanf("%d %d\n",&x,&y);
-        //edges[i].push_back(x);
-        //edges[i].push_back(y);
         edges.push_back(make_pair(x,y));
     }
 
     Solution anw;
-    if (anw.validTree(m,edges)) cout<<"true";
+    if (anw.validTree(n,edges)) cout<<"true";
     else cout<<"false";
 
     return 0;

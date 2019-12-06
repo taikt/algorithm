@@ -17,8 +17,6 @@ public:
             cout<<"data["<<byte<<"]="<<"("<<input <<">>"<< shift1<<")"<<"&"<<hexa1<<"\n";
             cout<<"data["<<byte+1<<"]="<<"("<<input <<"<<"<< shift2<<")"<<"&"<<hexa2<<"\n";
         }
-
-
     }
     string convert(int bit, int len) {
         //cout<<"test"<<bit<<len<<"\n";

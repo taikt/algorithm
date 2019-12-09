@@ -25,45 +25,52 @@ using namespace std;
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        unordered_map<string,string> root;
-        unordered_map<string,set<string>> m;
+        unordered_map<string,int> emailId;
+        unordered_map<int,set<string>> m;
         unordered_map<string,string> owner;
         vector<vector<string>> res;
+        vector<int> parent(70,-1);
+
+        int id=0;
+        for(auto account: accounts) {
+            // account: {john,a,b,c}
+            FOR(i,1,account.size()) {
+                if (emailId.find(account[i]) == emailId.end())
+                    emailId[account[i]]=id++;
+                int x=findParent(emailId[account[1]],parent);
+                int y=findParent(emailId[account[i]],parent);
+                //if (x!=y) parent[y]=x;
+                if (x>y) {
+                    parent[y]=x;
+                } else if (y>x){
+                    parent[x]=y;
+                }
+            }
+        }
 
         for(auto account: accounts) {
             FOR(i,1,account.size()) {
-                owner[account[i]] = account[0];
-                root[account[i]] = account[i];
+                owner[account[i]]=account[0];
+                int x=findParent(emailId[account[i]],parent);
+                m[x].insert(account[i]);
             }
         }
-
-        for (auto account: accounts) {
-            string x=findRoot(account[1],root);
-            FOR(i,2,account.size()) {
-                root[findRoot(account[i],root)] = x;
+        // m[1]->{a,b,c}
+        // m[2] -> {x,y}
+        for (auto a:m) {
+            vector<string> v(a.second.begin(),a.second.end());
+            if (v.size() != 0) {
+                v.insert(v.begin(),owner[v[0]]);
+                res.push_back(v);
             }
-        }
-
-        for(auto account: accounts) {
-            FOR(i,1,account.size()) {
-                string t=findRoot(account[i],root);
-                m[t].insert(account[i]);
-            }
-        }
-
-        for (auto a: m) {
-            vector<string> st(a.second.begin(),a.second.end());
-            st.insert(st.begin(),owner[a.first]);
-            res.push_back(st);
         }
 
         return res;
-
-    }
-    string findRoot(string x,unordered_map<string,string> & root) {
-        return (x==root[x])? x: (root[x]=findRoot(root[x],root));
     }
 
+    int findParent(int x, vector<int>& parent) {
+        return (parent[x]==-1)? x:(parent[x]=findParent(parent[x],parent));
+    }
 };
 
 int main() {

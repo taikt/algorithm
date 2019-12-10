@@ -26,45 +26,45 @@ class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
         unordered_map<string,int> emailId;
-        unordered_map<int,set<string>> m;
+        unordered_map<int,vector<string>> m;
         unordered_map<string,string> owner;
         vector<vector<string>> res;
-        //vector<int> parent(100,-1); //(assign -1) make crash on leetcode !!! why
+        //vector<int> parent(100,-1);// (assign -1) make crash on leetcode !!! why
         vector<int> parent(accounts.size(),0);
-        int id=0;
-
-        FOR(i,0,parent.size())
+        FOR(i,0,accounts.size()) {
             parent[i] = i;
-
-        for(auto account: accounts) {
-            // account: {john,a,b,c}
-            FOR(i,1,account.size()) {
-                if (emailId.find(account[i]) == emailId.end()) {
-                    emailId[account[i]]=id;
-                    id++;
+            FOR(j,1,accounts[i].size()) {
+                if (emailId.find(accounts[i][j]) != emailId.end()) {
+                    int x=findParent(emailId[accounts[i][j]],parent);
+                    int y=findParent(i,parent);
+                    //union
+                    parent[x]=y;
+                } else {
+                    emailId[accounts[i][j]] = i;
                 }
-                int x=findParent(emailId[account[1]],parent);
-                int y=findParent(emailId[account[i]],parent);
-                if (x!=y) parent[y]=x;
-
             }
         }
 
-        for(auto account: accounts) {
-            FOR(i,1,account.size()) {
-                owner[account[i]]=account[0];
-                int x=findParent(emailId[account[i]],parent);
-                m[x].insert(account[i]);
-            }
+        // emailID
+        // a -> 0
+        // b -> 0
+        // x -> 1
+        int root;
+        for(auto x:emailId) {
+            root = findParent(x.second,parent);
+            m[root].push_back(x.first);
+            //cout<<x.second<<","<<x.first<<"\n";
         }
-        // m[1]->{a,b,c}
-        // m[2] -> {x,y}
-        for (auto a:m) {
-            vector<string> v(a.second.begin(),a.second.end());
-            if (v.size() != 0) {
-                v.insert(v.begin(),owner[v[0]]);
-                res.push_back(v);
-            }
+        //m
+        // {0} -> {a,b}
+        // {1} -> {x}
+        for (auto x:m) {
+            sort(x.second.begin(),x.second.end());
+            vector<string> v;
+            for(auto i: x.second)
+                v.push_back(i);
+            v.insert(v.begin(),accounts[x.first][0]);
+            res.push_back(v);
         }
 
         return res;

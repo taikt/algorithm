@@ -29,49 +29,45 @@ public:
         unordered_map<int,set<string>> m;
         unordered_map<string,string> owner;
         vector<vector<string>> res;
-        //vector<int> parent(100,-1); //(assign -1) make crash on leetcode !!! why
-        vector<int> parent(accounts.size(),0);
-        int id=0;
+        vector<int> parent(100,-1);
 
-        FOR(i,0,parent.size())
-            parent[i] = i;
-
-        for(auto account: accounts) {
-            // account: {john,a,b,c}
-            FOR(i,1,account.size()) {
-                if (emailId.find(account[i]) == emailId.end()) {
-                    emailId[account[i]]=id;
-                    id++;
+        FOR(i,0,accounts.size()) {
+            FOR(j,1,accounts[i].size()) {
+                if (emailId.find(accounts[i][j]) != emailId.end()) {
+                    int x=findParent(emailId[accounts[i][j]],parent);
+                    int y=findParent(i,parent);
+                    //union
+                    parent[x]=y;
+                } else {
+                    emailId[accounts[i][j]] = i;
                 }
-                int x=findParent(emailId[account[1]],parent);
-                int y=findParent(emailId[account[i]],parent);
-                if (x!=y) parent[y]=x;
-
             }
         }
 
-        for(auto account: accounts) {
-            FOR(i,1,account.size()) {
-                owner[account[i]]=account[0];
-                int x=findParent(emailId[account[i]],parent);
-                m[x].insert(account[i]);
-            }
+        // emailID
+        // a -> 0
+        // b -> 0
+        // x -> 1
+        int root;
+        for(auto x:emailId) {
+            root = findParent(x.second,parent);
+            m[root].insert(x.first);
+            //cout<<x.second<<","<<x.first<<"\n";
         }
-        // m[1]->{a,b,c}
-        // m[2] -> {x,y}
-        for (auto a:m) {
-            vector<string> v(a.second.begin(),a.second.end());
-            if (v.size() != 0) {
-                v.insert(v.begin(),owner[v[0]]);
-                res.push_back(v);
-            }
+        //m
+        // {0} -> {a,b}
+        // {1} -> {x}
+        for (auto x:m) {
+            vector<string> v(x.second.begin(), x.second.end());
+            v.insert(v.begin(),accounts[x.first][0]);
+            res.push_back(v);
         }
 
         return res;
     }
 
     int findParent(int x, vector<int>& parent) {
-        return (parent[x]==x)? x:(parent[x]=findParent(parent[x],parent));
+        return (parent[x]==-1)? x:(parent[x]=findParent(parent[x],parent));
     }
 };
 

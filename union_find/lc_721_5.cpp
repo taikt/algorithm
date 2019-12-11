@@ -5,6 +5,9 @@
     accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
     Output: [["John", 'john00@mail.com', 'john_newyork@mail.com', 'johnsmith@mail.com'],  ["John", "johnnybravo@mail.com"], ["Mary", "mary@mail.com"]]
 
+    {john,a,b,c} => group 1
+    {mary,x,y} => group 2
+
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -22,14 +25,14 @@ public:
         FOR(i,0,accounts.size()) {
             parent[i] = i;
             FOR(j,1,accounts[i].size()) {
-                if (emailId.find(accounts[i][j]) != emailId.end()) {
+                if (emailId.count(accounts[i][j])) {
                     int x=findParent(emailId[accounts[i][j]],parent);
                     int y=findParent(i,parent);
                     //union
                     parent[x]=y;
-                } else {
-                    emailId[accounts[i][j]] = i;
                 }
+                emailId[accounts[i][j]] = i; // fine if still assign to group i because it already united
+                //emailId[accounts[i][j]] = findParent(i,parent); // also correct
             }
         }
 

@@ -4,18 +4,6 @@
     Input:
     accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
     Output: [["John", 'john00@mail.com', 'john_newyork@mail.com', 'johnsmith@mail.com'],  ["John", "johnnybravo@mail.com"], ["Mary", "mary@mail.com"]]
-
-    Method:
-    {john,a,b,c,d}, {john,b,x,y}
-    initial unions: {a}->a,{b}->b,{c}->c, {d}->d, {x}->x, {y}->y
-    united:
-    root[b]->root[a]=a: {b}-> a
-    root[c]-> root[a]=a: {b,c} -> a
-    root[d]-> root[a]: {b,c,d} -> a
-    root[x] -> root[b]=a: {b,c,d,x} ->a
-    root[y] -> root[b]=a: {b,c,d,x,y} -> a
-
-    General: root[v[i]] -> root[v[1]], i>=2, v[0]='name'
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -29,18 +17,16 @@ public:
         unordered_map<int,set<string>> m;
         unordered_map<string,string> owner;
         vector<vector<string>> res;
-        //vector<int> parent(100,-1); //(assign -1) make crash on leetcode !!! why
-        vector<int> parent(accounts.size(),0);
+        vector<int> parent(100,-1);
+        //vector<int> parent(accounts.size(),0);
         int id=0;
-
-        FOR(i,0,parent.size())
-            parent[i] = i;
 
         for(auto account: accounts) {
             // account: {john,a,b,c}
             FOR(i,1,account.size()) {
                 if (emailId.find(account[i]) == emailId.end()) {
                     emailId[account[i]]=id;
+                    parent[id] = id;
                     id++;
                 }
                 int x=findParent(emailId[account[1]],parent);

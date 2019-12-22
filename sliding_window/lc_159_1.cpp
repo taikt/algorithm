@@ -1,3 +1,7 @@
+/*
+https://leetcode.com/articles/longest-substring-with-at-most-two-distinct-charac/
+*/
+
 #include "bits/stdc++.h"
 using namespace std;
 

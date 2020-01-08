@@ -1,3 +1,6 @@
+// https://leetcode.com/problems/min-stack/
+// wrong for some tests !!
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -5,7 +8,7 @@ class MinStack {
     public:
     /** initialize your data structure here. */
     MinStack() {
-        min_value = 1000;
+        min_value = INT_MAX;
     }
 
     void push(int x) {
@@ -39,7 +42,7 @@ class MinStack {
 int main() {
     freopen("lc_155.inp","r",stdin);
     freopen("lc_155.out","w",stdout);
-
+    // [[],[0],[1],[0],[],[],[]]
 
     MinStack minStack; // = new MinStack();
     minStack.push(-2);

@@ -10,7 +10,7 @@ class Solution {
             for (int i=0; i<out.size(); i++) {
                 for (int j=0; j<out[i].size(); j++)
                 printf("%d ",out[i][j]);
-                printf("\n");    
+                printf("\n");
             }
             printf("[debug] end---------\n\n");
         }
@@ -31,6 +31,26 @@ class Solution {
                     //logout(res);
                 }
             }
+            return res;
+        }
+
+        vector<vector<int>> subsets2(vector<int> &S) {
+            vector<vector<int>> res(1); // res={{},}
+            sort(S.begin(), S.end());
+            vector<int> temp;
+
+            int len = S.size(), max = 1<<len;
+            for (int i=1; i<max; i++) {
+                temp.clear();
+                int current = i;
+                for (int j=0; j<S.size(); j++) {
+                    if (current & 1) temp.push_back(S[j]);
+                    current = current >> 1; //current >>= 1;
+                }
+                res.push_back(temp);
+            }
+
+
             return res;
         }
 };

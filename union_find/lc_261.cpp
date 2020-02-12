@@ -38,6 +38,32 @@ public:
     int findSet(vector<int>& root, int i) {
         return (root[i] == -1) ? i : (root[i]=findSet(root,root[i]));
     }
+    // use ranking
+    bool validTree2(int n, vector<vector<int>>& edges) {
+       vector<int> root(n,-1);
+       vector<int> rank(n,1);
+       int res = 0;
+       for(auto a: edges) {
+            cout<<"a[0]="<<a[0]<<",a[1]="<<a[1]<<"\n";
+            int x=findSet(root,a[0]);
+            int y=findSet(root,a[1]);
+            if (x==y) return false; // graph co chu trinh
+            // su dung ranking
+            if (rank[x]>rank[y]) root[y]=x;
+            else {
+                root[x]=y;
+                if (rank[x]==rank[y]) rank[y]++;
+            }
+       }
+
+       FOR(i,0,n) {
+           cout<<"i="<<i<<":"<<root[i]<<"\n";
+           if (root[i] == -1) ++res;
+       }
+       if (res = 1) return true; // graph ket noi
+       else return false;
+    }
+
 };
 
 int main() {

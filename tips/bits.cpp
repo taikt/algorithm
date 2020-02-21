@@ -47,7 +47,7 @@ public:
     }
 
     // mask: middle ones: p ones, followed by q zero
-    // 0000 0111 => << q 
+    // 0000 0111 => << q
     // 0001 1100
     int middleOnes(int p,int q) {
         int x = allZeroFollowedbyPones(p); // 0000 0111
@@ -55,6 +55,7 @@ public:
     }
 
     // clears rightmost p bits of N
+    // 1101 1101 => 1101 1000 (clear 3 rightmost bits)
     // method: create mask: 1111 1000
     // n &= mask;
     // out: 1101 1000
@@ -64,8 +65,7 @@ public:
     }
 
     // insert P ones to right of N
-    // input: N=0110 1011, p=3
-    // output: 0110 1111
+    // N=0110 1011, p=3 => 0110 1111
     // method: create mask: 0000 0111
     // n |=mask;
     int insertPonestoRight(int p,int n) {

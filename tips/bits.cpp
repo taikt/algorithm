@@ -46,6 +46,14 @@ public:
         return x;
     }
 
+    // mask: middle ones: p ones, followed by q zero
+    // 0000 0111 => << q 
+    // 0001 1100
+    int middleOnes(int p,int q) {
+        int x = allZeroFollowedbyPones(p); // 0000 0111
+        return x<<q; // 0001 1100
+    }
+
     // clears rightmost p bits of N
     // method: create mask: 1111 1000
     // n &= mask;
@@ -79,8 +87,9 @@ int main() {
     //a.allZeroFollowedbyPones(3);
     //a.allOnesFollowedbyPzeros(3);
     //a.clearRightmostPbits(3,75);
-    cout<<"N="<<bitset<N>(75)<<", clear rightmost p bits="<<bitset<N>(a.clearRightmostPbits(3,75))<<"\n";
-    cout<<"N="<<bitset<N>(75)<<", inst P ones To Right="<<bitset<N>(a.insertPonestoRight(3,75))<<"\n";
+    //cout<<"N="<<bitset<N>(75)<<", clear rightmost p bits="<<bitset<N>(a.clearRightmostPbits(3,75))<<"\n";
+    //cout<<"N="<<bitset<N>(75)<<", inst P ones To Right="<<bitset<N>(a.insertPonestoRight(3,75))<<"\n";
+    cout<<bitset<N>(a.middleOnes(3,2));
 
     return 0;
 }

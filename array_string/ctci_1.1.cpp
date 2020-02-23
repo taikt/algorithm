@@ -1,5 +1,5 @@
 /*
-Implement an algorithm to determine if a string has all unique characters. What if you can not use additional data structures? 
+Implement an algorithm to determine if a string has all unique characters. What if you can not use additional data structures?
 
 xác định 1 string có các ký tự duy nhất hay không.
 
@@ -55,7 +55,7 @@ int checkUnique1(char st[],int len) {
 		if (count[st[i]] >= 2) return 0;
 	}
 
-	return 1; 
+	return 1;
 }
 
 // solution 2
@@ -70,10 +70,10 @@ int checkUnique2(char st[],int len) {
 	for (int i=0; i< len; i++)
 	{
 		if (count[st[i]-'a']) return 0;
-		count[st[i]-'a'] = true; 
+		count[st[i]-'a'] = true;
 	}
 
-	return 1; 
+	return 1;
 }
 
 // solution 3: use bitwise operation
@@ -86,7 +86,7 @@ int checkUnique3(char st[],int len) {
 		x = x | (1 << (st[i] - 'a'));
 	}
 
-	return 1; 
+	return 1;
 }
 
 // solution 4_1: similar solution2 in cpp style
@@ -99,7 +99,7 @@ int checkUnique4_1(const string& s) { //checkUnique4(string s) is ok
 	for (int i=0; i< len; i++)
 	{
 		if (count[s[i]-'a']) return 0;
-		count[s[i]-'a'] = true; 
+		count[s[i]-'a'] = true;
 	}
 
 	return 1;
@@ -111,11 +111,11 @@ int checkUnique4_2(const string& s) { //checkUnique4(string s) is ok
 	int len = s.length();
 	printf("%d\n",len);
 	vector<bool> count(32); //default, all count[i] == false
-	
+
 	for (int i=0; i< len; i++)
 	{
 		if (count[s[i]-'a']) return 0;
-		count[s[i]-'a'] = true; 
+		count[s[i]-'a'] = true;
 	}
 
 	return 1;
@@ -132,8 +132,20 @@ bool checkUnique5(string s) {
 	return true;
 }
 
+bool isUnique(const std::string& input) {
+    std::bitset<128> asciiTable;
+    for (char character : input) {
+        if (asciiTable[(int) character]) {  // if character already exists in "hash table"
+            return false;
+        }
+        asciiTable.flip((int) character);
+    }
+    return true;
+}
+
+#if 0
 int main() {
-	
+
 	char st[] = "tesadf"; // should not use char* st = "tesadf"; if modify st[i] can lead segment fault
 
 	int len = sizeof(st);
@@ -147,3 +159,4 @@ int main() {
 
 	return 0;
 }
+#endif

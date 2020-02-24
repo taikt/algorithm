@@ -1,4 +1,6 @@
 #include "include/catch.hpp"
+#include "bits/stdc++.h"
+using namespace std;
 
 #if 0
 // cci_5.4
@@ -64,7 +66,7 @@ TEST_CASE("Chapter 01 - Problem 03 - URLify()", "test") {
 
 #endif // 1
 
-#if 1
+#if 0
 // cci_1.4
 bool palindromePermutation(const std::string& input);
 TEST_CASE("Chapter 01 - Problem 04 - palindromePermutation()", "test") {
@@ -74,4 +76,33 @@ TEST_CASE("Chapter 01 - Problem 04 - palindromePermutation()", "test") {
 	REQUIRE(palindromePermutation("AA  B AA"));
 	REQUIRE(!palindromePermutation("aA  B AA"));
 }
+#endif // 1
+
+#if 0
+// cci_1.6
+string compress(string str);
+TEST_CASE("Chapter 01 - Problem 06 - stringCompression()", "test"){
+    REQUIRE("a2b1c5a3" == compress("aabcccccaaa"));
+    REQUIRE("alex" == compress("alex"));
+    REQUIRE("" == compress(""));
+    REQUIRE("a10" == compress("aaaaaaaaaa"));
+}
+#endif // 1
+
+#if 1
+vector<vector<int>> rotate1(vector<vector<int>>& matrix, int N);
+vector<vector<int>> inp = {{1, 2, 3, 4},
+                           {1, 2, 3, 4,},
+                           {1, 2, 3, 4,},
+                           {1, 2, 3, 4,}
+                          };
+vector<vector<int>> out = {{1, 1, 1, 1},
+                           {2, 2, 2, 2,},
+                           {3, 3, 3, 3,},
+                           {4, 4, 4, 4,}
+                          };
+TEST_CASE("Chapter 01 - Problem 06 - stringCompression()", "test") {
+    REQUIRE(rotate1(inp,4)==out);
+}
+
 #endif // 1

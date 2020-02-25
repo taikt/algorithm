@@ -1,5 +1,6 @@
 #include "include/catch.hpp"
 #include "bits/stdc++.h"
+//#include "node.h"
 using namespace std;
 
 #if 0
@@ -89,7 +90,7 @@ TEST_CASE("Chapter 01 - Problem 06 - stringCompression()", "test"){
 }
 #endif // 1
 
-#if 1
+#if 0
 vector<vector<int>> rotate1(vector<vector<int>>& matrix, int N);
 vector<vector<int>> inp = {{1, 2, 3, 4},
                            {1, 2, 3, 4,},
@@ -105,4 +106,31 @@ TEST_CASE("Chapter 01 - Problem 06 - stringCompression()", "test") {
     REQUIRE(rotate1(inp,4)==out);
 }
 
+#endif // 1
+
+#if 1
+// cci_2.1
+#include "./../linked_list/cci_2.1.h"
+
+TEST_CASE("Chapter 02 - Problem 01 - removeDups()", "test"){
+    const std::vector<int> noDups = {1,7,3,6,5,4,2};
+    const std::vector<int> dups = {2,2,1,5,6,2,5,2,7,7};
+    const std::vector<int> fixedDups = {2,1,5,6,7};
+    const std::vector<int> emptyVec;
+
+    // check that remove dups function doesn't affect lists with no dups
+    SinglyLinkedNode<int>* noDupsHead = vectorToList(noDups);
+    removeDups(noDupsHead);
+    REQUIRE(noDups == listToVector(noDupsHead));
+
+    // check case with duplicates
+    SinglyLinkedNode<int>* dupsHead = vectorToList(dups);
+    removeDups(dupsHead);
+    REQUIRE(fixedDups == listToVector(dupsHead));
+
+    // check case with empty list
+    SinglyLinkedNode<int>* emptyHead = vectorToList(emptyVec);
+    removeDups(emptyHead);
+    REQUIRE(emptyVec == listToVector(emptyHead));
+}
 #endif // 1

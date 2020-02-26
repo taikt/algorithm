@@ -1,3 +1,4 @@
+// g++ run_test.cpp test-main.cpp ./../linked_list/cci_2.1.h -I./include
 #include "include/catch.hpp"
 #include "bits/stdc++.h"
 //#include "node.h"

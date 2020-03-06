@@ -109,7 +109,7 @@ TEST_CASE("Chapter 01 - Problem 06 - stringCompression()", "test") {
 
 #endif // 1
 
-#if 1
+#if 0
 // cci_2.1
 #include "./../linked_list/cci_2.1.h"
 
@@ -135,3 +135,14 @@ TEST_CASE("Chapter 02 - Problem 01 - removeDups()", "test"){
     REQUIRE(emptyVec == listToVector(emptyHead));
 }
 #endif // 1
+
+#if 1
+// g++ run_test.cpp test-main.cpp ./../stack/lc_20_1.cpp -I./include
+#include "./../stack/lc_20_1.cpp"
+TEST_CASE("lc_20") {
+    Solution4 awn;
+    REQUIRE(awn.isValid("{}()")== true);
+    REQUIRE(awn.isValid("{}())(")== true);
+}
+
+#endif

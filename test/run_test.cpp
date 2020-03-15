@@ -136,13 +136,35 @@ TEST_CASE("Chapter 02 - Problem 01 - removeDups()", "test"){
 }
 #endif // 1
 
-#if 1
+#if 0
 // g++ run_test.cpp test-main.cpp ./../stack/lc_20_1.cpp -I./include
-#include "./../stack/lc_20_1.cpp"
+#include "./../stack/lc_20.cpp"
 TEST_CASE("lc_20") {
     Solution4 awn;
     REQUIRE(awn.isValid("{}()")== true);
     REQUIRE(awn.isValid("{}())(")== true);
 }
-
 #endif
+
+#if 1
+#include "./../linked_list/lc_23.cpp"
+TEST_CASE("lc_23") {
+    vector<int> l1 = {1,4,5,9};
+    vector<int> l2 = {1,3,4};
+    vector<int> l3 = {2,6};
+
+
+    //printList(l);
+    vector<ListNode*> lists(3);
+    lists[0]= vectorToList(l1);
+    lists[1]= vectorToList(l2);
+    lists[2]= vectorToList(l3);
+    Solution anw;
+    ListNode* out = anw.mergeKLists(lists);
+    printList(out);
+
+    vector<int> output = listToVector(out);
+    vector<int> expect_output ={1,1,2,3,4,4,5,6,9};
+    REQUIRE(output == expect_output);
+}
+#endif // 1

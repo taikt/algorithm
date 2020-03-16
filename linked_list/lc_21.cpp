@@ -14,7 +14,80 @@ using namespace std;
       ListNode(int x) : val(x), next(NULL) {}
   };
 
+// O(n+m)
 class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if (!l1 || !l2) {
+            return (!l1)? l2: l1;
+        }
+        ListNode *head, *p;
+        if (l1->val <= l2->val) {
+            head = l1;
+            l1 = l1->next;
+        } else {
+            head = l2;
+            l2 = l2->next;
+        }
+        p = head;
+        while (l1 && l2) {
+            if (l1->val <= l2->val) {
+                p->next = l1;
+                l1 = l1->next;
+                p = p->next;
+            } else {
+                p->next = l2;
+                l2 = l2->next;
+                p = p->next;
+            }
+        }
+        if (l1) p->next = l1;
+        if (l2) p->next = l2;
+
+        return head;
+    }
+
+    void printList(ListNode* l) {
+        ListNode *temp = l;
+
+        while (temp != nullptr) {
+            cout<<temp->val<<" ";
+            temp = temp->next;
+        }
+        cout<<"\n";
+    }
+};
+
+class Solution2 {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode* dummy = new ListNode(-1), *cur = dummy;
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                cur->next = l1;
+                l1 = l1->next;
+            } else {
+                cur->next = l2;
+                l2 = l2->next;
+            }
+            cur = cur->next;
+        }
+        cur->next = l1?l1:l2;
+        return dummy->next;
+    }
+
+    void printList(ListNode* l) {
+        ListNode *temp = l;
+
+        while (temp != nullptr) {
+            cout<<temp->val<<" ";
+            temp = temp->next;
+        }
+        cout<<"\n";
+    }
+};
+
+class Solution3 {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
         if (l1 == nullptr) return l2;

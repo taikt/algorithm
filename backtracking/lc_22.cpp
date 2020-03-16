@@ -20,7 +20,25 @@ public:
     }
 };
 
+class Solution2 {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        generateParenthesisDFS(0, 0, "", res, n);
+        return res;
+    }
+    // left: open bracket (
+    // right: right bracket )
+    void generateParenthesisDFS(int left, int right, string out, vector<string> &res, int max) {
+        if (out.length() == 2*max) {res.push_back(out); return;}
+        if (left < max)
+            generateParenthesisDFS(left + 1, right, out + '(',res,max);
+        if (right < left) // if right < max => create invalid cases: ))()((
+            generateParenthesisDFS(left, right+1, out + ')', res,max);
+    }
+};
 
+#if 0
 int main() {
     freopen("lc_22.inp","r",stdin);
     freopen("lc_22.out","w",stdout);
@@ -33,3 +51,4 @@ int main() {
 
     return 0;
 }
+#endif

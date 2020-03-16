@@ -12,6 +12,30 @@ public:
         }
         cout<<"\n";
         */
+        if (strs.empty()) return "";
+        // sau sap xep, chi can so sanh string dau va cuoi
+        sort(strs.begin(),strs.end());
+        /*
+        for (auto x:strs) {
+            cout<<x<<" ";
+        }
+        */
+        int i=0, len = min(strs[0].size(), strs.back().size());
+        while (i<len && strs[0][i] == strs.back()[i]) i++;
+
+        return strs[0].substr(0,i);
+    }
+};
+
+class Solution2 {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        /*
+        for (auto x:strs) {
+            cout<<x<<" ";
+        }
+        cout<<"\n";
+        */
         // vertical scanning
         string res = "";
         if (strs.empty()) return "";
@@ -27,6 +51,7 @@ public:
     }
 };
 
+#if 0
 int main() {
     freopen("lc_14.inp","r",stdin);
     freopen("lc_14.out","w",stdout);
@@ -43,3 +68,4 @@ int main() {
 
     return 0;
 }
+#endif

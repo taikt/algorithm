@@ -1,0 +1,955 @@
+logo <https://leetcode.com/>
+Explore <https://leetcode.com/explore/>
+Problems <https://leetcode.com/problemset/all/>
+Mock <https://leetcode.com/interview/>
+Contest <https://leetcode.com/contest/>
+Articles <https://leetcode.com/articles/>
+Discuss <https://leetcode.com/discuss/>
+Store
+🌈🤩30-Day LeetCoding Challenge!
+icon/close
+
+<https://leetcode.com/explore/other/card/30-day-leetcoding-challenge>
+0
+
+Back <https://leetcode.com/discuss/interview-experience>
+
+
+          2020 XP: Facebook | Google | Amazon | Microsoft | Dropbox | PayPal | HackerRank
+
+566
+
+Anonymous User
+Anonymous User
+
+Last Edit: an hour ago
+
+17.1K VIEWS
+
+Thank you to the leetcode community for being extremely helpful, now
+it's my turn to contribute my experience and feedback.
+
+
+      MYSELF / SUMMARY
+
+------------------------------------------------------------------------
+
+Experience: 2.5 years as Full-Stack Software Engineer
+Education: unrelated eng degree from top 10 eng school (self-taught dev)
+Previous Role: Full-stack Software Engineer + Part-time Remote
+Full-stack Software Engineer (2 jobs)
+Date started applying: End of January / Beginning of February 2020
+Date offer accepted: Mid-March 2020
+Total companies applied to: ~60
+Total companies interviewed with: ~16
+Leetcode: ~150 (60 easy / 80 medium / 10 hard)
+
+
+      PREPARATION
+
+------------------------------------------------------------------------
+
+
+        Overview
+
+The bulk of my preparation was doing leetcode-style questions on
+leetcode and other places. I did a total of ~150 problems, comprised of
+~60 easy, ~80 medium, and ~10 hard. I also completed the Udemy course
+"Master the Coding Interview: Data Structures + Algorithms" by Andrei
+Neagoie. For system design I mainly watched YouTube videos, such as:
+Design Twitter <http://https//www.youtube.com/watch?v=KmAyPUv9gOY>,
+Design a Parking Lot <https://youtu.be/DSGsa0pu8-k>, and TechLead's
+video <https://www.youtube.com/watch?v=REB_eGHK_P4>. Lastly, I also
+spent a good 15-20 hours of just thinking back and writing out in great
+detail my top 6-8 most successful/complex projects in preparation for
+the behavioral stages.
+
+Video Links:
+(if you can't see the embedded videos, just right-click on the hyperlink
+text and open in a new tab)
+
+
+        The Turning Point
+
+I was initially trying to go through all of the materials above while
+holding both my full-time + part-time job, so I was navigating
+everything a bit slowly. Once I started getting interviews with big-name
+companies I became much more stressed because I knew that not having a
+CS background put me at a disadvantage, which means I needed a lot more
+time to prepare if I wanted to have a fighting chance. Watching this
+video <https://www.youtube.com/watch?v=nmf-oObylnk> from Nick White was
+the main turning point for me. He mentions that he was able to do well
+in interviews for Google and Uber because he studied all day every day
+for a month straight. The next day I put in my 2-week notice at my
+full-time job, which gave me me about 2.5 weeks to study full-time. Had
+I not done that I know that I would not have been as successful in my
+interviews.
+
+
+        Leetcode Strategy
+
+I made a list of all of the "core" data structures and algorithms that
+were recommended for study in the Google and Facebook prep materials
+(which are consistent with the ones you'd find in a YouTube or Google
+search). These are, for example, strings, arrays, trees, linked lists,
+stacks, queues, hash tables, sorting, graphs, dynamic programming, etc.
+Then I simply bounced around and did problems from each area, starting
+with "Easy" difficulty problems and then moving on to only "Medium"
+difficulty. This means that I would NOT do multiple tree problems and
+then multiple array problems, instead I would follow something more
+like: array => string => dynamic programming => linked list, etc. As
+onsite dates approach, I used leetcode premium to filter problems by
+that given company and focused mainly on those problems.
+
+In regards to my approach to individual problems, if I was completely
+stumped, I would still give myself up to an hour or two to try to come
+up with a brute-force solution. Once I solved, or didn't solve, a given
+problem, I would look at the solutions in the discussion and see how my
+solution compared in complexity and conciseness. If my answer was
+significantly weaker, then I would clear out my code and try again later
+that day or the following day to ensure that I understood how to write
+the more optimal solution. For problems that were super new to me, or
+just really challenging, I would search YouTube for detailed explanation
+videos, such as for n-queens, word ladder, longest palindromic
+substring, etc.
+
+
+      INTERVIEW EXPERIENCES
+
+------------------------------------------------------------------------
+
+
+        Dropbox [REJECTED]
+
+  * Position
+      o Front-end Software Engineer
+  * Application
+      o I applied directly on their site and got an email to schedule a
+        call with one of their recruiters
+      o This was, if I remember correctly, the first technical interview
+        I did (during my 2020 interviewing)
+  * Stage 1: Recruiter Call
+      o Quick and straightforward conversation about the position, the
+        company, and my background/experience
+  * Stage 2: Technical Phone Screen
+      o Overview
+          + Two problems, one easier and one more challenging
+          + I made the mistake of thinking there was only one problem,
+            so I was very thorough in my explanation for Problem 1 and
+            then ran out of time for Problem 2
+      o Problem 1
+          + Mock CSS-class matching for single class
+              # Given a mock DOM tree and a single class name, return
+                all of the DOM elements that have the class
+      o Problem 2
+          + Mock css-class matching for nested classes, i.e.
+            "class1>class2>class3"
+              # Given a mock DOM tree and a string of nested classes,
+                return all of the DOM elements that match the class with
+                the given class hierarchy
+  * Interview Result
+      o Was rejected due to not passing all test cases in Problem 2
+      o This was one of my first interviews so I was still not fully
+        prepared, and I definitely took it as a lesson to always ask in
+        subsequent interviews whether there are 1 or 2 problems so I can
+        try to allocate my time appropriately
+  * Overall Experience
+      o Very positive
+      o Both the recruiter and engineer were nice, and the problems
+        themselves were both relevant and fun/challenging
+      o Dropboox was one of my top choices so it definitely hurt to be
+        rejected, and the fact that it was one of my first interviews
+        was demotivating
+
+
+        PayPal [NDA - LATE OFFER]
+
+  * Position
+      o Full-stack Software Engineer
+  * Overview
+      o Applied directly on their site
+      o Went through onsite interview process
+  * Interview Result
+      o Was initially rejected, but then got a call a couple weeks later
+        if I was still interested in joining. By that time I had already
+        accepted an offer so I thanked them and declined.
+  * Interview Experience
+      o Mostly positive
+      o Some of the interview stages felt a bit adversarial, i.e. felt
+        like "why should we even be considering you?"
+
+
+        Microsoft [REJECTED]
+
+  * Position
+      o Software Engineer (applied to several, including Front-end,
+        Azure, and general Level 2)
+  * Application
+      o I applied directly on their website for several positions, and
+        never got a response
+      o I then searched for Microsoft recruiters on LinkedIn and
+        messaged them directly
+      o After messaging 3-4 recruiters, one of them responded and then
+        that ultimately led to a tech phone screen for a Level 2 SE position
+  * Stage 1: Tech Phone Screen
+      o Learned about the engineer's xp, the position, and the company
+      o Was asked detailed questions about my experience
+      o Then we did a coding exercise, count total leaves in a tree
+      o Interviewer then added some additional criteria to the question,
+        which I didn't necessarily had to code, but more as a discussion
+      o Interviewer then asked additional general technical questions
+        across a range of topics
+  * Interview Result
+      o Was ultimately ghosted
+      o I think my background/xp was simply not enough for a Level 2 role
+  * Interview Experience
+      o Very positive (other than being ghosted)
+
+
+        HackerRank [OFFER]
+
+  * Position
+      o Front-end Software Engineer
+  * Application
+      o Applied directly on their site
+      o Got an email invite to do their initial online assessment (no
+        call yet)
+  * Stage 1: Online Assessment (on HackerRank)
+      o Had 2 hours to do two small React projects (completed via
+        HackerRank's "projects") which allow you to clone a repo and
+        push your changes via git (was a really cool experience)
+      o First project was to build some components to render a list of
+        items in a table, with the ability to sort by various fields
+      o Second project was similar to the first, except it involved
+        adding routes and being able to navigate to a route and
+        filtering the data by the path in the route
+  * Stage 2: Phone call w/ Eng Manager (technical + behavioral)
+      o Wasn't too sure what to expect, but the call ended up being a
+        super positive experience which lasted something like 90-120 minutes
+      o The call involved situational questions that were both
+        behavioral and technical, as well as a bunch of specific
+        front-end + React questions across the board
+  * Stage 3: Virtual Onsite Part I (the virtual onsite was split into
+    two days)
+      o In-person onsite was changed to virtual due to COVID-19
+      o Interview 1: System Design
+          + Design a web app where people can play tic-tac-toe together
+      o Interview 2: Coding Challenge
+          + Challenge 1
+              # Given a string that is a grammatically-correct English
+                sentence, return a string that is a new sentence with
+                all of those words sorted by word-length, while making
+                sure that capitalization + punctuation is correct
+          + Challenge 2
+              # leetcode #121
+                <https://leetcode.com/problems/best-time-to-buy-and-sell-stock/>
+                - best time to buy and sell stock
+  * Interview 3: React Project
+      o Given part of HackerRank's custom component library, build a
+        simple tabs component (i.e. you can select tab 1 to see that
+        content, or select tab 2 to see that content)
+  * Stage 4: Virtual Onsite Part II
+      o Interview 1: Behavioral
+          + Was asked to give examples of when I personified
+            HackerRank's core values
+      o Interview 2: Technical + Business
+          + Had a general conversation with an engineering SVP about the
+            company and myself
+      o Interview 3: Wrap-up w/ Recruiter
+  * Interview Result
+      o Was told that I passed the onsite and that they'd be moving
+        forward with an offer
+      o I accepted an offer with my top choice company before they could
+        finalize their offer, so I let them know and thanked them for a
+        great xp
+  * Interview Experience
+      o Very positive
+      o Was super excited to interview with a YC company, and I was
+        really impressed with their products as well as everyone I
+        interviewed with
+
+
+        Amazon [OFFER]
+
+  * Position
+      o Software Development Engineer
+  * Application
+      o Recruiter reached out to me via Hired.com <http://hired.com/>
+        and invited me to have an initial phone call
+  * Stage 1: Call with recruiter
+      o Quick and straightforward conversation about the position, the
+        company, my background/experience, and the interview process
+  * Stage 2: Online Assessment
+      o Overview
+          + Had something like 90 minutes to do two medium
+            leetcode-style questions and then write about my solutions
+            and their space/time complexity
+      o Question 1
+          + leetcode #419 - battleships on a board
+            <https://leetcode.com/problems/battleships-in-a-board/>
+      o Question 2
+          + leetcode #200 - number of islands
+            <https://leetcode.com/problems/number-of-islands/description/>
+  * Stage 3: Tech Phone Screen
+      o Overview
+          + Had a 45-min call with a sr engineer which included some
+            behavioral questions plus a coding challenge
+      o Coding Challenge
+          + Write a function that takes an array of numbers and returns
+            the second-largest number
+  * Stage 4: Virtual Onsite
+      o Interview 1: LP + Coding Challenge
+          + Overview
+              # As usual, Amazon interviews have a strong focus on the
+                leadership principles, so I was asked 1 or 2 LP
+                questions + the coding challenge
+          + Coding Challenge
+              # Assume you have something like a google analytics page
+                tracker that logs which page a user went to and which
+                page the user came from, i.e. user went from Page 1 to
+                Page 2
+              # Write a function that takes an array of page logs and
+                two pages and then returns whether there exists a
+                transitive link between those two pages, i.e. if user
+                went from Page 1 to Page 2 to Page 3, there exists a
+                transitive link between Page 1 and Page 3
+      o Interview 2: LP + System Design
+          + System Design
+              # Design a system that handles the checkout payment part
+                of an e-commerce app, i.e. when a user is in their cart
+                and then submits their payment
+      o Interview 3: LP + Coding Challenge
+          + Coding Challenge
+              # Write a function that takes a tree and returns the max width
+      o Interview 4: LP + Coding Challenge
+          + Coding Challenge
+              # "Build tic-tac-toe"
+  * Interview Result
+      o Heard back later that afternoon that I passed and that they were
+        gonna make me an offer
+      o Offer was extremely attractive, but I wanted to wait to hear
+        from Google and FB first
+      o Ultimately declined the offer due to accepting FB
+  * Interview Experience
+      o Very positive
+      o Recruiters were outstanding and super helpful
+      o Interviews were challenging
+      o Only non-positive comment is that I don't really feel like I
+        "clicked" with 3 out of the 4 onsite interviewers, and in all of
+        the interviews it was pretty much impossible to gauge whether
+        the interviewers were happy/unhappy with my responses
+
+
+        Google [was in hiring committee stage]
+
+  * Position
+      o Software Engineer
+  * Application
+      o Google recruiter cold-messaged me on LinkedIn like 6 months
+        earlier, when I wasn't interviewing
+      o I followed up with that recruiter and was able to go directly to
+        an onsite interview somehow
+  * Stage 1: Call with recruiter
+      o Quick and straightforward conversation about the position, the
+        company, my background/experience, and the interview process
+  * Stage 2: Virtual Onsite
+      o Interview 1: Coding Challenge
+          + Coding Challenge
+              # Write a function that takes an array of words and
+                returns their shortened letter-count version, i.e.
+                ["google", "word"] => ["g4e", "w2d"]. If the shortened
+                version is not unique, expand out 1 letter at a time
+      o Interview 2: Coding Challenge
+          + Coding Challenge
+              # The question was a real-world application of weighted
+                Dijsktra's algorithm
+          + Coding Challenge Result
+              # I made the mistake of not practicing Dijsktra's
+                algorithm, so I pretty much bombed this round, but I
+                tried to fail as gracefully as possible
+              # Tried to rack up points on the parts of the problem
+                which were more general math, and then I just kept
+                asking questions, including questions about how
+                Dijkstra's algorithm works
+              # The interviewer was nice and answered all of my
+                questions where possible, which helped me feel less
+                embarassed/incompetent
+              # The prep materials said to practice Dijkstra's algorithm
+                but I ignored it because i was like, "nah i doubt they
+                would ask that during a 45-min interview", and lo and
+                behold. Moral of the story, study EVERYTHING on your
+                guide (whichever study guide the company gives you)
+      o Interview 3: Coding Challenge
+          + Coding Challenge
+              # Something about tracking when RPC calls were made and
+                detecting when a particular call exceeds the timeout
+                threshold
+      o Interview 4: Googlyness
+          + Was asked several situational behavioral questions
+      o Interview 5: Coding Challenges
+          + Overview
+              # Was asked 1 coding challenge, and to discuss the start
+                of a second technical challenge
+          + Coding Challenge 1
+              # Don't remember the exact problem, but something related
+                to taking an array of numbers and a target number, and
+                then rotating the array upon the target number without
+                changing the original order
+          + Technical Question 2 (no coding)
+              # Given a map as a square, and a set of locations on the
+                map, users are able to select a rectangle on the map and
+                all of the locations on the map are returned
+              # How would you preprocess the map data so that the find
+                operation for the locations in the inner rectangle can
+                be done in less than O(n) time?
+  * Interview Result
+      o Feedback on my performance was mostly positive, so I made it to
+        the hiring committe stage. At this point, the HC decided that
+        because of my poor performance in the second interview but
+        strong performance in the other rounds, they wanted me to do two
+        more 45-min interviews focused on front-end and JavaScript
+        (since JS is my strongest language)
+      o While waiting to schedule the additional two interviews, I
+        started the team-matching process and met with a team that I
+        ended up feeling really strongly/positive about
+      o Shortly before my interviews, however, FB made me an offer, and
+        that was my top choice so I accepted FB and ended my
+        application/candidacy with Google and thanked them for the great
+        opportunity and experience
+  * Interview Experience
+      o Very positive
+      o Recruiters were outstanding
+      o Interviews were challenging
+      o I enjoyed the engaging feedback from the interviewers during the
+        coding challenges
+
+
+        Facebook [OFFER - ACCEPTED]
+
+  * Position
+      o Rotational Software Engineer
+  * Application
+      o Interviewed with FB in 2018 and got rejected. Recruiter followed
+        up with me a year later and asked if I was interested in
+        interviewing again. At the time I wasn't but then several months
+        later I followed up with that recruiter and was able to schedule
+        a call to start the interview process again
+  * Stage 1: Call with recruiter
+      o Quick and straightforward conversation about the position, the
+        company, my background/experience, and the interview process
+  * Stage 2: Tech Phone Screen
+      o Coding Challenge 1
+          + "Easy" level leetcode question
+          + Return the sum of an array that contains either numbers or
+            other arrays of numbers, and multiply the total of each
+            array by its nested depth
+      o Coding Challenge 2
+          + "Medium" level leetcode question
+          + Given a string with alphanum characters and open or close
+            parentheses, remove the minimum number of parentheses
+            necessary to ensure all parentheses correctly close (only
+            "(" and ")" are used, no brackets or curly braces)
+  * Stage 3: Virtual Onsite
+      o Interview 1: Coding Challenge
+          + Challenge 1
+              # Write a function that accepts an array of numbers and
+                returns the length of the longest monotonic subsequence
+          + Challenge 2
+              # Write a function that accepts a tree and returns the
+                length of the longest path between any two nodes
+      o Interview 2: System Design
+          + Problem
+              # You're working on a music streaming app. How would you
+                build a feature to show users their top 10 most-played
+                songs each week?
+              # Interviewer had follow-up questions, and also asked
+                about things like how to measure the feature's success,
+                and what other similar/related features can be built on
+                top of this
+      o Interview 3: Behavioral
+          + Was asked several behavioral questions about how I would
+            handle a certain scenario or to talk about past
+            challenges/successes
+      o Interview 4: Coding Challenge
+          + something like leetcode #460 - subarray sum equals k
+            <https://leetcode.com/problems/subarray-sum-equals-k/>
+  * Interview Result
+      o Received offer for Rotational Software Engineer E4
+  * Interview Experience
+      o Extremely Positive
+      o Recruiters were outstanding
+      o Interviewers were really experienced
+      o All of the discussions felt like real, down-to-earth
+        conversations, as if we were working a problem together
+      o FB was my #1 choice so I accepted the offer and then declined my
+        other offers/candidacies
+
+
+      CLOSING THOUGHTS
+
+------------------------------------------------------------------------
+
+ 1. I think that I was probably largely carried by my
+    communication/interpersonal skills, especially during the times that
+    I could not fully solve a problem, or had only a brute-force solution
+      * I made every effort to never let there be more than a couple
+        seconds of silence or "nothingness"
+      * If I was stuck, I would just think out loud "hmm, can we use
+        another array here, or maybe a hash table would help..", and if
+        I was heading in the wrong direction then the interiewer would
+        give some useful feedback like "i don't think we need to use a
+        hash table, what if we did the problem in reverse..." or
+        something like that
+      * So, my advice would be to use *** or practice with friends until
+        you feel strong/confident about your communication skills
+      * I'll say it again: If you don't feel confident about your
+        communication skills: PLEASE PRACTICE
+ 2. Related to #1: DON'T UNDERESTIMATE THE BEHAVIORAL QUESTIONS
+    (especially for Amazon)
+      * I was lucky and found someone else's post on their Amazon onsite
+        experience here on leetcode where they talked about how they
+        were underprepared for the leadership principles questions.
+        Because I saw this post, I spent more than one entire day (> 14
+        hours) just thinking back through all of my past jobs and
+        projects, and then typing up notes that I then referenced during
+        interviews (following the STAR template). I can say with
+        certainty that going through this exercise and having all of
+        those notes readily available allowed me to strongly succeed
+        during behavioral interviews with multiple companies.
+ 3. You have to be thinking, breathing, and living coding challenges and
+    design interviews for at least a month straight to really be fully
+    prepared (or at least that was the case for me)
+      * It wasn't until my ~120th leetcode question that I started to
+        feel more confident, to the point where I could at least come up
+        with a brute-force, if not optimal, solution for many of the
+        medium problems in my target categories, and solve all (or most)
+        easy problems
+ 4. Mental health and routine
+      * I used to sleep only 5-6 hours several nights a week, but during
+        this interview phase I made sure to get the full 8 hours of
+        sleep every night
+      * For me, exercise helped me stay sane through all of the
+        preparation and back-to-back 5+ hour-long interviews
+      * Preparation/study days
+          o I'm a morning person so I would normally wake up around 6am,
+            have coffee, and start studying/practicing
+          o After 3-4 hours of intense studying, I need a break because
+            I become unproductive. This is when I would go to the gym or
+            go outside for a run
+          o After exercise I eat, have a coffee, and get another 3-4
+            hour power session in
+          o By the time the evening rolls around, the mental barrier to
+            work on another coding challenge is super high, so this is
+            when I would watch videos on algorithms or system design
+      * Interview days
+          o During my interview with PayPal, I made the mistake of going
+            into the interview "cold" (no warmup problems). This made me
+            stumble through my first interview, after which I was able
+            to do much better. From that point on I made sure to always
+            do 1-2 practice problems before any interview (but not too
+            many to where I felt tired or strained)
+      * My routine for interview days was like:
+          o wake up early
+          o have a coffee
+          o do a practice problem and review my solutions to problems
+            that are commonly asked by that company
+          o go exercise
+          o eat, and then have a coffee
+          o do another practice problem and review solutions again
+          o do interview
+ 5. During the interview
+      * Virtual interviews (due to COVID-19)
+          o Having a whiteboard in my office was extremely helpful
+            during the virtual interviews. I can say with certainty that
+            having my large whiteboard helped me draw out and solve many
+            of the coding challenges, so I recommend getting one that
+            you can use and show via video during your interviews.
+      * Clarify ALL assumptions and get agreement on your gameplan (as
+        we've all heard many times)
+          o If someone asks "return the max width of a tree", you should
+            ask what kind of tree is it? What is the definition of
+            width? On multiple occasions, my assumptions were different
+            from the interviewer, so had I not asked clarifying
+            questions from the beginning, I probably would've started
+            off on a very wrong path
+
+I hope this information helps some of you out there, as many previous
+leetcode posts helped me. Remember to never give up. There were some
+problems that I was able to understand after practicing them once or
+twice, but there were many more problems that I had to do over and over
+and over again, more than 6 times. Also, try to develop a routine so
+that you have a consistent system and schedule for practicing and
+interviewing.
+
+I'm happy to answer any additional questions where possible.
+
+------------------------------------------------------------------------
+
+
+      FOLLOW-UPS FROM COMMENTS
+
+
+        "How long should I spend on a problem before I look at the
+        solution?"
+
+Working on leetcode problems is about striking a balance between "i need
+to spend as much time working on a challenge to develop my
+problem-solving muscle" and "i need to get as many tools and solutions
+under my belt so that I have a better chance during the interview".
+
+As I mentioned earlier, I personally tried not spend more than 1-2 hours
+trying to solve a particular problem. Why? Well, you usually won't get
+more than like 30-40 minutes in any given interview, and beyond the 1-2
+hours it becomes kind of helpless. I would try to solve a problem in
+under 45 minutes. If I failed, I would start over and try to really use
+my still-developing heuristics, i.e. "what data do i have, what data do
+we need to get to, how should we store that data, does sorting help,
+does dynamic programming help, does working in reverse help, does bfs
+help, does dfs help", etc. Once I went through this exercise 2 or 3
+times, it was like, "okay i have no idea how to proceed", so I would
+like at the solutions in the discussion. The more frequently you do
+this, the better you get at recognizing patterns or similarities between
+problems, but you also have to remember to build your heuristics. In
+other words, develop your problem-solving framework, instead of just
+going from problem to problem and having it be a toss-up between whether
+you've seen something similar or not. This means, for example, making
+(or writing) a list of steps that you can apply to every problem.
+
+
+        Google study guide
+
+https://careers.google.com/how-we-hire/interview/#interviews-for-software-engineering-and-technical-roles
+<https://careers.google.com/how-we-hire/interview/#interviews-for-software-engineering-and-technical-roles>
+
+Remember that this guide is for Google interviews only. Other companies
+may (and usually do) have their own study guides. The point is to study
+everything that's on the guide that your given company gives you.
+
+
+        What does a sample behavioral interview question response look like?
+
+*QUESTION*
+
+------------------------------------------------------------------------
+
+"Tell me about a time that you were asked to build a feature, but you
+were given very few or very vague instructions. How did you go about
+building that feature, and how did you know it was correct?"
+
+*SAMPLE RESPONSE* (this is a completely made-up story, where the main
+goal is to show the process/template)
+
+------------------------------------------------------------------------
+
+*Scenario*
+"Let me just take a few moments to gather my thoughts and look over my
+notes. Ok, I have an example from my second job where I was working as a
+back-end engineer at Company X. To provide a bit more context, Company X
+is a website that allows people to find the cheapest shipping option and
+then print shipping labels."
+
+*Task*
+"The feature that I was tasked with building was to develop an API that
+allowed another internal team to fetch data and see how many shipping
+labels were printed for a particular zipcode."
+
+*Action*
+"The first thing I did was come up with a list of questions that would
+guide the API design, such as: are we sure that only internal teams will
+be consuming this API (this impacts authentication/authorization)? How
+frequently will this API be consumed (for performance/scalability
+considerations)? What data is needed in the response?"
+
+"So what I did next was send a slack message to one of the engineers on
+that particular internal team and I scheduled a quick 30-min meeting to
+go over these questions. The meeting ended up being super helpful
+because I learned exactly how our customer success team will be using
+our internal web tools to see this data, which answered questions 1 and
+3. And then I also learned that this feature will mainly be used for
+monthly reporting, so this API won't be called nearly as much as some of
+our public-facing APIs.
+
+*Result*
+"The result of me taking these actions to outline questions and then
+schedule a meeting was that I was able to get all of the missing pieces
+for this feature, as well as get a much better understanding of some of
+the security and performance constraints, and I was able to also learn
+and expand my knowledge about the company's internal tools. This enabled
+me to build the feature successfully and on time for the appropriate use
+case."
+
+The interviewer will likely step in throughout your responses and ask
+for further elaboration, and might ask how you would do things
+differently given some other criteria.
+
+
+        "What's your educational background"
+
+Something like mechanical engineering or aerospace engineering
+
+
+        "Were you allowed to refer to notes during your interview"
+
+Yes, I referred to my notes in almost all of my interviews. Keep in mind
+that it was just quick references to bullet points, not reading an
+entire essay line-by-line.
+
+
+        "Why did you choose FB over Google? I heard work life balance is
+        non existent in FB while Google has the best work life balance.
+        Is it about Total Compensation?"
+
+It's not about total compensation. It's based on a number of factors:
+
+  * Being this early in my career, and being self-taught, i AM looking
+    for less work-life balance so that I can grow as fast as possible
+    during the next several years
+  * My virtual onsite experience was extremely positive, and I felt a
+    stronger connection with the interviewers at FB
+  * You can argue that both Google and FB have some of the most
+    ubiquitous products in areas like video, chat, networks, and images,
+    but I have a personal preference for Facebook's because they're more
+    geared towards building community (which is one of my own personal
+    values)
+  * This may be completely due to poor sampling, but I tend to see more
+    people going from Google to FB than FB to Google
+  * I get more of a startup vibe from FB (which is what I'm looking for)
+  * I use FB products daily to keep in touch with a lot of my friends
+    and extended family (so it feels more fun as a product, versus what
+    I use for professional reasons, such as Gmail and Hangouts)
+
+To be honest it's extremely difficult to pick one over the other, so it
+likely comes down to personal preference rather than 100% objective
+reasons. But I do feel like I can grow faster at FB, and I'm really
+interested in working on completely b2c products and social
+networks/community.
+
+hackerrankgooglefacebookamazonmicrosoftpaypaldropbox
+Comments: 73
+BestMost VotesNewest to OldestOldest to Newest
+Preview
+Post
+
+pastaplease13's avatar <https://leetcode.com/pastaplease13>
+pastaplease13 <https://leetcode.com/pastaplease13>
+
+8
+
+2 days ago
+
+Read More
+
+Congratulations!! Was the process for FB's rotational program different
+than than the process their usual software engineer role?
+
+8
+
+Show 2 replies
+
+Reply
+
+Share
+
+Report
+joane8913456's avatar <https://leetcode.com/joane8913456>
+joane8913456 <https://leetcode.com/joane8913456>
+
+6
+
+2 days ago
+
+Read More
+
+Congrats! I guess google interview 5's question is like LC189.
+Thanks a lot for your sharing. Hope one day I could also share my story too.
+
+6
+
+Reply
+
+Share
+
+Report
+mgallegos's avatar <https://leetcode.com/mgallegos>
+mgallegos <https://leetcode.com/mgallegos>
+
+3
+
+2 days ago
+
+Read More
+
+"I tried to fail as gracefully as possible" loved the phrase. I totally
+feel you since I've been through most of the same process as you, will
+have a couple of interviews with some the same companies as you so I
+hope to be better this time. Thanks for the inspirational post and
+congrats con the offers received!
+
+3
+
+Show 1 reply
+
+Reply
+
+Share
+
+Report
+OzQQ's avatar <https://leetcode.com/ozqq>
+OzQQ <https://leetcode.com/ozqq>
+
+22
+
+2 days ago
+
+Read More
+
+Congrats! I'm still in the journey, it does require self discipline a
+lot to keep moving forward.
+
+3
+
+Reply
+
+Share
+
+Report
+abhinavroy23's avatar <https://leetcode.com/abhinavroy23>
+abhinavroy23 <https://leetcode.com/abhinavroy23>
+
+2
+
+7 hours ago
+
+Read More
+
+This is really detailed brother. Thanks for sharing your experience.
+Congrats for the offer :)
+
+2
+
+Reply
+
+Share
+
+Report
+bode_naija's avatar <https://leetcode.com/bode_naija>
+bode_naija <https://leetcode.com/bode_naija>
+
+2
+
+a day ago
+
+Read More
+
+Congratulations, Very helpful and informative post
+
+2
+
+Reply
+
+Share
+
+Report
+satyamsinha93's avatar <https://leetcode.com/satyamsinha93>
+satyamsinha93 <https://leetcode.com/satyamsinha93>
+
+2
+
+2 days ago
+
+Read More
+
+Congratulations!!
+Thanks for this detailed write-up, it will surely help many including
+me. I am new to leetcode but now it feels the best platform for coding,
+learning and getting motivated from the posts.
+Please inform the sources you came to know about "prep materials said to
+practice Dijkstra's algorithm", mainly the prep materials. I currently,
+refer to ***.
+
+2
+
+Show 2 replies
+
+Reply
+
+Share
+
+Report
+mfieawda's avatar <https://leetcode.com/mfieawda>
+mfieawda <https://leetcode.com/mfieawda>
+
+4
+
+2 days ago
+
+Read More
+
+Helpful and thorough post, thanks!
+
+2
+
+Reply
+
+Share
+
+Report
+shane-arthur's avatar <https://leetcode.com/shane-arthur>
+shane-arthur <https://leetcode.com/shane-arthur>
+
+5
+
+2 days ago
+
+Read More
+
+Had the exact same two questions for phone screen in dropbox for UI SWE.
+
+3
+
+Reply
+
+Share
+
+Report
+intekhab1026's avatar <https://leetcode.com/intekhab1026>
+intekhab1026 <https://leetcode.com/intekhab1026>
+
+4
+
+2 days ago
+
+Read More
+
+Congratulations on your offer, really impressive story. I am also on the
+way to make my story :)
+
+2
+
+Reply
+
+Share
+
+Report
+
+  *
+  * 1
+  * 2
+  * 3
+  * 4
+  * 5
+  * 6
+  * 7
+  * 8
+*
+
+Copyright © 2020 LeetCode
+
+  * Help Center <https://leetcode.com/support>
+  * Jobs <https://leetcode.com/jobs>
+  * Bug Bounty <https://leetcode.com/bugbounty>
+  * Terms <https://leetcode.com/terms>
+  * Privacy Policy <https://leetcode.com/privacy>
+
+United StatesUnited States <https://leetcode.com/region>
+

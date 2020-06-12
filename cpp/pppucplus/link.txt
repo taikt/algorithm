@@ -1,0 +1,4 @@
+book: Programming - Principles and Practice Using C++
+
+solution (correct for 1st and 2nd editions)
+https://github.com/bewuethr/stroustrup_ppp

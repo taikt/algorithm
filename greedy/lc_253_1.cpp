@@ -50,7 +50,7 @@ void test_map() {
 	m[3] = 0;
 	// map created below (BST)
 	//           2(1)
-	//                7(1) 
+	//                7(1)
 	//            3(0)    8(-1)
 	for (auto it:m) {
 		printf("%d(value=%d)\n",it.first,it.second);
@@ -62,7 +62,7 @@ int main() {
 	Solution anw;
 	vector<vector<int>> intervals= {
 		{7,10},
-		{2,4}	
+		{2,4}
 	};
 	printf("%d\n",anw.minMeetingRooms(intervals));
 

@@ -22,6 +22,9 @@ int main() {
     int a,b;
 
     //freopen("lc_252.txt","r",stdin);
+    // i.e lc_252.txt
+    // 1 2
+    // 5 6
     // de tao EOF trong window stdin, new line: ctr+Z, Enter
     while (scanf("%d %d",&a,&b) != EOF) {
         vector<int> v{a,b};

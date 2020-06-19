@@ -4,7 +4,7 @@
 // https://www.techiedelight.com/print-keys-values-map-cpp/
 
 /*
-	unordered_map: hash, map key and value, O(1), use whenn don't need ordered data
+	unordered_map: hash, map key and value, O(1), use when don't need ordered data
 	unordered_set: hash, only contain key, O(1), use when don't need ordered data
 	map: balancing BST, map key and value, O(logn), use when need ordered data
 	set: balancing BST, only contain key, O(logn), use when need ordered data

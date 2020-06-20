@@ -5,10 +5,9 @@ vd: [2,5,8,9,14,7] => day lien tuc tang dai nhat [7,8,9] => chieu dai max =3
 #include <bits/stdc++.h>
 using namespace std;
 
-
-
+// g++ -g -fsanitize=address lc_128.cpp (only linux work for sanitize address: check overflow)
 int main() {
-    vector<int> v{0};
+    vector<int> v{0,3,6,4};
     int max_length=0;
 
     // method 1: su dung hash
@@ -38,10 +37,11 @@ int main() {
     chi can duyet 1 lan: loop for.
     cnt tang deu neu cac phan tu van tang deu, cnt reset(0) neu cac phan tu khong con tang deu
     max length la max cnt
+    Time complexity: O(nlogn)
     */
-    sort(v.begin(),v.end(),[](int a, int b){return a<b;});
+    if (v.size() == 0) return 0;
+    sort(v.begin(),v.end(),[](int a, int b){return a<b;}); // O(nlogn)
     int cnt=1;
-    cout<<v.size()<<" "<<v[0]<<","<<v[5]<<"\n";
     for (int i=0; i<v.size();i++) {//not use i+1 to avoid overflow
         if (v[i+1] == v[i]+1) {
             cnt++;

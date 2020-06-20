@@ -8,7 +8,7 @@ using namespace std;
 
 
 int main() {
-    vector<int> v{2,5,8,9,14,7};
+    vector<int> v{0};
     int max_length=0;
 
     // method 1: su dung hash
@@ -40,9 +40,17 @@ int main() {
     max length la max cnt
     */
     sort(v.begin(),v.end(),[](int a, int b){return a<b;});
-    for (auto x:v) {
-
-
+    int cnt=1;
+    cout<<v.size()<<" "<<v[0]<<","<<v[5]<<"\n";
+    for (int i=0; i<v.size();i++) {//not use i+1 to avoid overflow
+        if (v[i+1] == v[i]+1) {
+            cnt++;
+        } else if (v[i+1] == v[i]) {
+            //not increase cnt
+        } else { //v[i+1] > v[i]+1 => reset cnt
+            max_length = max(max_length,cnt); // update max length before reset cnt
+            cnt=1;
+        }
     }
 
     cout<<"max length:"<<max_length;

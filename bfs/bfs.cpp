@@ -38,6 +38,11 @@ int main() {
 		int u,v,w;
 		scanf("%d %d %d",&u,&v,&w);
 		AdjList[u].push_back(make_pair(v,w));
+		// AdjList[0] = {(1,1), (2,1)}
+		// AdjList[1] = {(2,1), (3,1)}
+		// AdjList[2] = {(3,1), (5,1)}
+		// AdjList[3] = {(4,1)}
+		// AdjList[7] = {(6,1)}
 	}
 
 	// Bat dau BFS tai 1 dinh bat ky

@@ -3,6 +3,21 @@ using namespace std;
 
 #define N=5
 vector<vector<int>> v(N, vector<int>());
+queue<int> q;
+vector<int> visited;
+
+bool bfs(int u) {
+    q.push(u);
+    while (!.q.empty()) {
+        t=q.front(); q.pop();
+        visited[t] = 1;
+        for (auto x: v[t]) {
+            pre[x] = t;
+            q.push(x);
+        }
+    }
+
+}
 
 int main() {
     v[1].push_back(2);v[1].push_back(3);

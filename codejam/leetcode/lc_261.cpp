@@ -15,6 +15,7 @@ queue<int> q;
 vector<int> visited(N,0);
 vector<int> pre(N,0);
 
+// bfs
 bool bfs(int u) {
     // kiem tra do thi khong chu ki
     q.push(u);visited[u]=1;
@@ -45,13 +46,15 @@ bool bfs(int u) {
 // sub-graph o day la la tap cac dinh connected voi dinh dang xet
 bool dfs(int u) {
     visited[u] = 1;
-    for (auto x: v[u])
-    if (visited[x] && (pre[u] != x)) // unvalid tree
-    {
-        return false;
-    } else if (!visited[x]) { // dfs dinh next
-        pre[x] = u;
-        return dfs(x);
+    for (auto x: v[u]) {
+        if (visited[x] && (pre[u] != x)) // unvalid tree
+        {
+            return false;
+        } else if (!visited[x]) { // dfs dinh next
+            pre[x] = u;
+            if (!dfs(x)) return false;
+            //if (dfs(x,v,visited,pre)) return true; // wrong if use like this
+        }
     }
     return true;
 }
@@ -61,10 +64,15 @@ int main() {
     v[2].push_back(1); v[2].push_back(3);
     v[3].push_back(1); v[3].push_back(2); v[3].push_back(4);
     v[4].push_back(3);
+
+// bfs method
 #if 0
     if (bfs(1)) cout<<"valid tree\n";
     else cout<<"unvalid tree\n";
 #endif // 0
+
+// dfs method
+#if 1
     // kiem tra do thi ket noi
     bool valid = dfs(1);
     for (auto x: visited)
@@ -73,8 +81,9 @@ int main() {
     };
     if (valid) cout<<"valid tree\n";
     else cout<<"unvalid tree\n";
+#endif // 1
 
-
+// TODO: union-find method
     return 0;
 }
 
@@ -164,6 +173,5 @@ public:
         }
         return true;
     }
-
 };
 #endif // 0

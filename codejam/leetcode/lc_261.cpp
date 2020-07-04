@@ -88,7 +88,7 @@ int main() {
 }
 
 // leetcode submit: pass
-#if 0
+#if 1
 //bfs
 class Solution {
 public:
@@ -141,7 +141,53 @@ public:
 
 };
 
-//dfs
+// bfs 2
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        queue<int> q;
+        q.push(0);
+        vector<bool> visited(n,false);
+        vector<int> pre(n,-1);
+        int t=-1;
+        while (!q.empty()) {
+            t = q.front(); q.pop();
+            visited[t]=true;
+            for(auto v:edges[t]) {
+                if (!visited[v]) {
+                    q.push(v);
+                    pre[v]=t;
+                } else if (v!=pre[t]) // neu dinh v da duoc tham ma khong phai la parent cua t thi do thi co chu trinh
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+int main() {
+    freopen("lc_261.inp","r",stdin);
+    freopen("lc_261.out","w",stdout);
+    //m: so dinh
+    //n: so canh
+    int m,n,x,y;
+    scanf("%d %d\n",&m,&n);
+    vector<vector<int>> edges(m);
+    FOR(i,0,n) {
+        scanf("%d %d\n",&x,&y);
+        edges[x].push_back(y);
+        edges[y].push_back(x);
+    }
+
+    Solution anw;
+    if (anw.validTree(m,edges)) cout<<"true";
+    else cout<<"false";
+
+    return 0;
+}
+
+
+//dfs 1
 class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
@@ -174,4 +220,83 @@ public:
         return true;
     }
 };
+
+//dfs 2: improve dfs1
+// su du bien pre kieu int, khong can vector
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> v(n,vector<int>());
+        vector<int> visited(n,0);
+        //vector<int> pre(n,0);
+        for (auto ed: edges) {
+            v[ed[0]].push_back(ed[1]);
+            v[ed[1]].push_back(ed[0]);
+        }
+        bool valid = dfs(0,v,visited,-1);
+        for (auto x: visited)
+        if (!x) {
+            return false;
+        };
+        return valid;
+    }
+
+    bool dfs(int u,vector<vector<int>>&v,vector<int>& visited, int pre) {
+        visited[u] = 1;
+        for (auto x: v[u]) {
+            if (visited[x] && (pre != x)) // unvalid tree
+            {
+                return false;
+            } else if (!visited[x]) { // dfs dinh next
+
+                if (!dfs(x,v,visited,u)) return false;
+            }
+        }
+        return true;
+    }
+
+};
+
+// dfs 3: improve dfs 2
+// simpler code
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> v(n,vector<int>());
+        vector<int> visited(n,0);
+        //vector<int> pre(n,0);
+        for (auto ed: edges) {
+            v[ed[0]].push_back(ed[1]);
+            v[ed[1]].push_back(ed[0]);
+        }
+        bool valid = dfs(0,v,visited,-1);
+        for (auto x: visited)
+        if (!x) {
+            return false;
+        };
+        return valid;
+    }
+
+    bool dfs(int u,vector<vector<int>>&v,vector<int>& visited, int pre) {
+        if (visited[u]) return false;
+        visited[u] = 1;
+        for (auto x: v[u]) {
+            if (pre != x)
+            {
+                if (!dfs(x,v,visited,u)) return false;
+            }
+        }
+        return true;
+    }
+};
+//note
+/*
+neu dau vao la vector canh mot chieu (su dung pair), convert ra vector 2 chieu nhu sau
+ input: vector<pair<int,int>>& edges)
+ vector<vector<int>> g(n,vector<int>());
+        for (auto a:edges) {
+            g[a.first].push_back(a.second);
+            g[a.second].push_back(a.first);
+        }
+*/
 #endif // 0

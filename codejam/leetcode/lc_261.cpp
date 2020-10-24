@@ -8,87 +8,74 @@ An undirected graph is tree if it has following properties.
 
 #include <bits/stdc++.h>
 using namespace std;
-
-#define N 5
-vector<vector<int>> v(N, vector<int>());
-queue<int> q;
-vector<int> visited(N,0);
-vector<int> pre(N,0);
+/*
+// chua thong tin canh
+vector<vector<int>> edge(N, vector<int>()); // hoac vector<unordered_set<int>> edge(N, unordered_set<int>())
+// luu thong tin dinh da visit
+vector<int> visited(N,0); // hoac unordered_set<int> visited
+*/
 
 // bfs
-bool bfs(int u) {
-    // kiem tra do thi khong chu ki
-    q.push(u);visited[u]=1;
-    int t=0;
-    while (!q.empty()) {
-        t=q.front(); q.pop();
-        //visited[t] = 1;
-        for (auto x: v[t]) {
-            if (x != pre[t] && visited[x]) {
-                return false;
-            }
-            else if (!visited[x]){
-                pre[x] = t;
-                q.push(x); visited[x] = 1;
+// sau khi visit dinh, cat tia canh lien quan, khong can dung pre de danh dau
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        queue<int> q;
+        int t;
+        vector<unordered_set<int>> ed(n,unordered_set<int>());
+        vector<int> visited(n,0);
+        for (auto x: edges) {
+           ed[x[0]].insert(x[1]);
+           ed[x[1]].insert(x[0]);
+        }
+
+        q.push(0);visited[0] =1;
+        while (!q.empty()) {
+            t = q.front(); q.pop();
+            for (auto x: ed[t]) {
+                if (visited[x]) return 0;
+                visited[x] = 1;
+                q.push(x);
+                ed[x].erase(t);
             }
         }
+        //for (auto x: visited) {
+        //    if (!x) return 0;
+        //}
+        return (visited.size()==n);// kiem tra do thi co ket noi
+
+        //return 1;
     }
-    // kiem tra do thi ket noi
-    for (auto x: visited)
-        if (!x) return false;
+};
 
-    return true;
-
-}
-
-// return false neu subgraph co chu ky
-// true neu sub-graph khong co chu ky
-// sub-graph o day la la tap cac dinh connected voi dinh dang xet
-bool dfs(int u) {
-    visited[u] = 1;
-    for (auto x: v[u]) {
-        if (visited[x] && (pre[u] != x)) // unvalid tree
-        {
-            return false;
-        } else if (!visited[x]) { // dfs dinh next
-            pre[x] = u;
-            if (!dfs(x)) return false;
-            //if (dfs(x,v,visited,pre)) return true; // wrong if use like this
+// bfs
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        queue<int> q;
+        int t;
+        vector<unordered_set<int>> ed(n,unordered_set<int>());
+        unordered_set<int> visited;
+        for (auto x: edges) {
+           ed[x[0]].insert(x[1]);
+           ed[x[1]].insert(x[0]);
         }
+
+        q.push(0);visited.insert(0);
+        while (!q.empty()) {
+            t = q.front(); q.pop();
+            for (auto x: ed[t]) {
+                if (visited.count(x)) return 0;
+                visited.insert(x);
+                q.push(x);
+                ed[x].erase(t);
+            }
+        }
+        return (visited.size()==n);// kiem tra do thi co ket noi
     }
-    return true;
-}
+};
 
-int main() {
-    v[1].push_back(2);v[1].push_back(3);
-    v[2].push_back(1); v[2].push_back(3);
-    v[3].push_back(1); v[3].push_back(2); v[3].push_back(4);
-    v[4].push_back(3);
-
-// bfs method
-#if 0
-    if (bfs(1)) cout<<"valid tree\n";
-    else cout<<"unvalid tree\n";
-#endif // 0
-
-// dfs method
-#if 1
-    // kiem tra do thi ket noi
-    bool valid = dfs(1);
-    for (auto x: visited)
-    if (!x) {
-        valid = false; break;
-    };
-    if (valid) cout<<"valid tree\n";
-    else cout<<"unvalid tree\n";
-#endif // 1
-
-// TODO: union-find method
-    return 0;
-}
-
-// leetcode submit: pass
-#if 1
+// sau khi visit dinh, dung pre de danh dau
 //bfs
 class Solution {
 public:
@@ -141,7 +128,7 @@ public:
 
 };
 
-// bfs 2
+// bfs
 class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
@@ -165,28 +152,6 @@ public:
     }
 };
 
-int main() {
-    freopen("lc_261.inp","r",stdin);
-    freopen("lc_261.out","w",stdout);
-    //m: so dinh
-    //n: so canh
-    int m,n,x,y;
-    scanf("%d %d\n",&m,&n);
-    vector<vector<int>> edges(m);
-    FOR(i,0,n) {
-        scanf("%d %d\n",&x,&y);
-        edges[x].push_back(y);
-        edges[y].push_back(x);
-    }
-
-    Solution anw;
-    if (anw.validTree(m,edges)) cout<<"true";
-    else cout<<"false";
-
-    return 0;
-}
-
-
 //dfs 1
 class Solution {
 public:
@@ -205,7 +170,9 @@ public:
         };
         return valid;
     }
-
+    // return false neu subgraph co chu ky
+    // true neu sub-graph khong co chu ky
+    // sub-graph o day la la tap cac dinh connected voi dinh dang xet
     bool dfs(int u,vector<vector<int>>&v,vector<int>& visited, vector<int>& pre) {
         visited[u] = 1;
         for (auto x: v[u]) {
@@ -289,6 +256,27 @@ public:
         return true;
     }
 };
+
+int main() {
+    //freopen("lc_261.inp","r",stdin);
+    //freopen("lc_261.out","w",stdout);
+    //n: so dinh
+    //m: so canh
+    int m,n,x,y;
+    scanf("%d %d\n",&m,&n);
+    vector<vector<int>> edges(n);
+    FOR(i,0,m) {
+        scanf("%d %d\n",&x,&y);
+        edges[x].push_back(y);
+        edges[y].push_back(x);
+    }
+
+    Solution anw;
+    if (anw.validTree(n,edges)) cout<<"true";
+    else cout<<"false";
+
+    return 0;
+}
 //note
 /*
 neu dau vao la vector canh mot chieu (su dung pair), convert ra vector 2 chieu nhu sau
@@ -299,4 +287,4 @@ neu dau vao la vector canh mot chieu (su dung pair), convert ra vector 2 chieu n
             g[a.second].push_back(a.first);
         }
 */
-#endif // 0
+

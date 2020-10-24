@@ -75,6 +75,8 @@ void test_unordered_set() {
     else printf("set doesn't exist 3\n");
 #endif
 	cout << "\ntest_unordered_set \n";
+	set.erase(4);
+	set.erase(7); // neu khong ton tai phan tu, cung khong sao
     for (auto it : set)
         cout << it << " ";
 	printf("\n");
@@ -95,10 +97,10 @@ void test_set() {
 }
 
 int main() {
-    test_unordered_map();
-	test_map();
+    //test_unordered_map();
+	//test_map();
     test_unordered_set();
-	test_set();
+	//test_set();
 
     return 0;
 }

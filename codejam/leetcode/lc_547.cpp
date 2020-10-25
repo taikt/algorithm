@@ -54,6 +54,34 @@ public:
 	}
 };
 
+// dfs
+class Solution {
+public:
+	int findCircleNum(vector<vector<int>>& M) {
+		int n= M.size();
+		int res=0;
+		vector<bool> visisted(n,false);
+		FOR(i,0,n) {
+            if (!visisted[i]) {
+                dfs(i,visisted,M);
+                res++;
+            }
+		}
+		return res;
+	}
+
+	void dfs(int i, vector<bool>& visisted, vector<vector<int>>& M) {
+	    int n=M.size();
+	    FOR(j,0,n) {
+            if (!visisted[j] && M[i][j]) {
+                visisted[j]=true;
+                dfs(j,visisted,M);
+            }
+	    }
+	}
+
+};
+
 int main() {
     /*
     3

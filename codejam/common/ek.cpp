@@ -30,11 +30,11 @@ void augment(int u, int minEd) {
 	if (u == s) {
 		f = minEd;
 		return;
-	} 
+	}
 	else if (p[u] != -1) {
 		augment(p[u],min(minEd,res[p[u]][u]));
 		res[p[u]][u] -= f;
-		res[u][p[u]] += f; 
+		res[u][p[u]] += f;
 	}
 }
 
@@ -77,7 +77,7 @@ int main() {
 		while (!q.empty()) {
 			int u = q.front(); q.pop();
 			if (u == t) break; // dung BFS neu duyet toi dinh t
-			for (int i=0; i<V; i++) 
+			for (int i=0; i<V; i++)
 				if (res[u][i] > 0 && !visited[i]) {
 					p[i] = u; visited[i] = 1;
 					q.push(i);
@@ -85,7 +85,7 @@ int main() {
 		}
 
 		augment(t,INF); // Duyet quay lui tu dinh t de tim f tren augmentin path, khoi tao f = INF
-		
+
 		if (f == 0) break; // Khong tim thay augmenting path nao nua
 
 		mf += f;

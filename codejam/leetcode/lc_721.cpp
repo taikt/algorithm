@@ -11,6 +11,7 @@ using namespace std;
 
 #define FOR(i,a,b) for(int i=a;i<b;i++)
 
+// DFS
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
@@ -55,11 +56,65 @@ public:
 
 };
 
+// dfs method 2
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        unordered_map<string,set<int>> emailId;
+
+        int n=accounts.size();
+        vector<bool> visited(n,false);
+        vector<vector<string>> res;
+        FOR(i,0,n) {
+            FOR(j,1,accounts[i].size()) {
+                emailId[accounts[i][j]].insert(i);
+            }
+        }
+
+        FOR(i,0,n) {
+            if (!visited[i]) {
+                unordered_set<string> temp; // use set to avoid insert duplicated emails
+                // if use vector, it need use find() to check duplicated email first, as result, make complexity n*n
+                vector<string> out{accounts[i][0]};
+                visitDFS(i,accounts,temp,visited,emailId);
+
+                out.insert(out.end(),temp.begin(),temp.end());
+                sort(out.begin()+1,out.end());
+
+                res.push_back(out);
+            }
+        }
+
+        return res;
+    }
+
+    void visitDFS(int i, vector<vector<string>>& accounts, unordered_set<string>& temp, vector<bool>& visited, unordered_map<string,set<int>>& emailId) {
+        visited[i] = true;
+        temp.insert(accounts[i].begin()+1,accounts[i].end());
+        FOR(j,0,accounts[i].size()) {
+            set<int> groupSet=emailId[accounts[i][j]];
+            for (auto x: groupSet) {
+                if (!visited[x]) visitDFS(x,accounts,temp,visited,emailId);
+            }
+
+        }
+    }
+
+};
+
 int main() {
     Solution anw;
     int n=0;
     string st,word;
+/*
+5
+john johnsmith@mail.com john00@mail.com
+John johnnybravo@mail.com
+John johnsmith@mail.com john_newyork@mail.com
+Mary mary@mail.com
+John a@gmail.com johnnybravo@mail.com
 
+*/
     freopen("lc_721.inp","r",stdin);
     freopen("lc_721.out","w",stdout);
 

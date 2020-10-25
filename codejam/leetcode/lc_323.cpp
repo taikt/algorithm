@@ -7,6 +7,7 @@
 #include <vector>
 using namespace std;
 
+// dfs
 class Solution {
 public:
 	int countComponents(int n, vector<pair<int, int>>& edges) {
@@ -19,7 +20,7 @@ public:
 		vector<bool> visited(n,false);
 		for (auto a : edges) {
 			//printf("[%d,%d] ",a.first,a.second);
-			g[a.first].push_back(a.second); 
+			g[a.first].push_back(a.second);
 			g[a.second].push_back(a.first);
 		}
 		// {{0,5},{2,9},{8,0}};

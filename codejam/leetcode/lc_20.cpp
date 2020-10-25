@@ -103,6 +103,9 @@ public:
 
 #if 0
 int main() {
+/*
+{[[[]]](}
+*/
     freopen("lc_20.inp","r",stdin);
     freopen("lc_20.out","w",stdout);
     string s;

@@ -1,6 +1,6 @@
 // https://www.codeproject.com/Articles/15351/Implementing-a-simple-smart-pointer-in-c
 #include "stdio.h"
-
+// taikt
 class RefBase {
     int * ptr_test;
     public:

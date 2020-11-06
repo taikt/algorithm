@@ -1,0 +1,107 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 5-3
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 5-3, page 107
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write a pointer version of the function <code>strcat</code> that we showed in
+Chapter 2: <code>strcat(s,t)</code> copies the string <code>t</code> to the end of <code>s</code> .
+</i>
+<br>
+<br>
+
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/* ex 5-3, p107 */</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">strcpy</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">++</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">++);</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">strcat</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FF00">strcpy</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">);</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">testbuff</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>128</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#FFFFFF">&quot;&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;1&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;12&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;123&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;1234&quot;</FONT>
+  <FONT COLOR="#00FFFF">};</FONT>
+
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">numtests</FONT> <FONT COLOR="#00FFFF">=</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">test</FONT> <FONT COLOR="#00FFFF">/</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">inner</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thistest</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thistest</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">numtests</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">inner</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">inner</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">numtests</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">inner</FONT><FONT COLOR="#00FFFF">++)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">strcpy</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">testbuff</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">]);</FONT>
+      <FONT COLOR="#00FF00">strcat</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">testbuff</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">inner</FONT><FONT COLOR="#00FFFF">]);</FONT>
+
+      <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;[%s] + [%s] = [%s]\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">inner</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">testbuff</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

@@ -1,0 +1,88 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-2
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-2, page 8
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Experiment to find out what happens when <code>printf</code> 's argument string
+contains \c, where c is some character not listed above.
+</i>
+<br>
+<br>
+
+By 'above', the question is referring to:
+<br>
+<code>\n</code> (newline)
+<br>
+<code>\t</code> (tab)
+<br>
+<code>\b</code> (backspace)
+<br>
+<code>\&quot;</code> (double quote)
+<br>
+<code></code> \\ (backslash)
+
+We have to tread carefully here, because using a non-specified escape
+sequence invokes <a href=undefined.html>  undefined behaviour</a>. The following
+program attempts to demonstrate all the legal escape sequences, not including
+the ones already shown (except <code>\n</code> , which I actually need in the program),
+and not including hexadecimal and octal escape sequences.
+
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Audible or visual alert. \a\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>  
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Form feed. \f\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;This escape, \r, moves the active position to the initial position of the current line.\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Vertical tab \v is tricky, as its behaviour is unspecified under certain conditions.\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

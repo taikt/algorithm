@@ -1,0 +1,93 @@
+//http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
+
+0. quicknote
+check example part to see how to create shared lib and use makefile.
+To check alternative way to create shared lib using autoconf, check /tmas/autoconf/ex3.
+
+1. Create static library (.a)
+Compile: cc -Wall -c ctest1.c ctest2.c 
+Compiler options: 
+-Wall: include warnings. See man page for warnings specified. 
+Create library "libctest.a": ar -cvq libctest.a ctest1.o ctest2.o 
+List files in library: ar -t libctest.a 
+Linking with the library: 
+cc -o executable-name prog.c libctest.a 
+cc -o executable-name prog.c -L/path/to/library-directory -lctest 
+
+
+2. Create dynamic(shared) library (.so)
+gcc -Wall -fPIC -c *.c
+gcc -shared -Wl,-soname,libctest.so.1 -o libctest.so.1.0 *.o
+
+# two above commands creates libctest.so.1.0
+
+mv libctest.so.1.0 /lib
+ln -sf /lib/libctest.so.1.0 /lib/libctest.so.1
+ln -sf /lib/libctest.so.1.0 /lib/libctest.so
+
+(The link to /lib/libctest.so allows the naming convention for the compile flag -lctest to work. 
+The link to /lib/libctest.so.1 allows the run time binding to work. See dependency below)
+
+# Linking with shared object library
+gcc -Wall -I/path/to/include-files -L/path/to/libraries prog.c -lctest -o prog
+
+# Don't need to specify lib path in linking, just export lib path
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/lib
+
+# nm: list symbols in object files or archive lib and shared lib
+# ie. 
+# nm test.o
+# nm test.a
+# nm test.so
+ 
+# Note some symbol type
+# T(normal code section), U(undefined symbol used but not defined. Dependency on another library)
+
+2.1. added comment (6.4.2019)
+a. put your lib in an any sub directory
+# after creating libctest.so.1.0 at sub directory
+
+# in your diectory
+ln -sf libctest.so.1.0 libctest.so
+ln -sf libctest.so.1.0 libctest.so.1
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path_to_your_lib
+(i.e export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/$(pwd)/lib)
+# need to export LD_LIBRARY_PATH every time running app
+
+gcc -Wall -I/path/to/include-files -L/path/to/library prog.c -lctest -o prog
+
+(in Makefile 
+LDFLAGS=-L./path/to/library -lctest
+app : $(OBJ)
+    $(CXX) -o $@ $^ $(LDFLAGS)
+)
+
+b. put your lib in /lib directory of root
+# after creating libctest.so.1 at sub directory
+
+mv libctest.so.1.0 /lib
+ln -sf /lib/libctest.so.1.0 /lib/libctest.so.1
+ln -sf /lib/libctest.so.1.0 /lib/libctest.so
+gcc -Wall -I/path/to/include-files prog.c -lctest -o prog 
+
+# don't need specify lib path, don't need to export LD_LIBRARY_PATH for each app running
+
+(in Makefile 
+LDFLAGS=-lctest
+app : $(OBJ)
+    $(CXX) -o $@ $^ $(LDFLAGS)
+)
+
+
+
+3. Remark
+if creating archive lib and shared lib from same source, the size of archive lib is bigger.
+reason: executable program created by archive lib consists original source + source in lib and created at compiling time.
+executable program created by dynamic lib only constists original source, the lib will NOT be included in the executable but 
+will be dynamically linked during runtime execution. 
+
+4. extern "C"
+http://stackoverflow.com/questions/14191464/linking-gcc-with-g-code
+Suppose a lib created in C code (gcc), we have another c++ code and want to use the lib.
+We need to use "extern C" in c++ code
+

@@ -1,0 +1,171 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 2-4
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 2-4, page 48
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write an alternate version of <code>squeeze(s1,s2)</code> that deletes each character
+in the string <code>s1</code> that matches any character in the <i> string </i> <code>s2</code> .
+</i>
+<br>
+<br>
+
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+ * Exercise 2-4 Page 48
+ *
+ * Write an alternate version of squeeze(s1,s2) that deletes each
+ * character in s1 that matches any character in the string s2.
+ *
+ */</FONT>
+
+<FONT COLOR="#FFFF00">/* squeeze2: delete all characters occurring in s2 from string s1. */</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">squeeze2</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[],</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[])</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">instr2</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">instr2</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">k</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FFFF">!</FONT><FONT COLOR="#00FF00">instr2</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">++)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">])</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">instr2</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT> 
+
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(!</FONT><FONT COLOR="#00FF00">instr2</FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>
+    <FONT COLOR="#00FFFF">}</FONT> 
+  <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<FONT COLOR="#FFFF00">/* test driver */</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;string.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">leftstr</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#FFFFFF">&quot;&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;a&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;antidisestablishmentarianism&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;beautifications&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;characteristically&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;deterministically&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;electroencephalography&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;familiarisation&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;gastrointestinal&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;heterogeneousness&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;incomprehensibility&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;justifications&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;knowledgeable&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;lexicographically&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;microarchitectures&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;nondeterministically&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;organizationally&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;phenomenologically&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;quantifications&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;representationally&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;straightforwardness&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;telecommunications&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;uncontrollability&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;vulnerabilities&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;wholeheartedly&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;xylophonically&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFF00">/* if there is such a word :-) */</FONT>
+    <FONT COLOR="#FFFFFF">&quot;youthfulness&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;zoologically&quot;</FONT>
+  <FONT COLOR="#00FFFF">};</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">rightstr</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#FFFFFF">&quot;&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;a&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;the&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;quick&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;brown&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;dog&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;jumps&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;over&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;lazy&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;fox&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;get&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;rid&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;of&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;windows&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;and&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;install&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;linux&quot;</FONT>
+  <FONT COLOR="#00FFFF">};</FONT>
+
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>32</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">numlefts</FONT> <FONT COLOR="#00FFFF">=</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">leftstr</FONT> <FONT COLOR="#00FFFF">/</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">leftstr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">numrights</FONT> <FONT COLOR="#00FFFF">=</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">rightstr</FONT> <FONT COLOR="#00FFFF">/</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">rightstr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">left</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">right</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">left</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">left</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">numlefts</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">left</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">right</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">right</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">numrights</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">right</FONT><FONT COLOR="#00FFFF">++)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">strcpy</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">leftstr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">left</FONT><FONT COLOR="#00FFFF">]);</FONT>
+
+      <FONT COLOR="#00FF00">squeeze2</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">rightstr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">right</FONT><FONT COLOR="#00FFFF">]);</FONT>
+
+      <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;[%s] - [%s] = [%s]\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">leftstr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">left</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">rightstr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">right</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

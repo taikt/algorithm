@@ -1,2 +1,0 @@
-https://github.com/Jeonghum/hfdpcpp_s
-https://sourceforge.net/p/hfdp-cpp/code/HEAD/tree/

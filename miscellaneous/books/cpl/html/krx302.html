@@ -1,0 +1,247 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 3-2
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 3-2, page 60
+</h3>
+<h4>
+Solution by <a href=mailto:paul@paulgriffiths.demon.co.uk>  Paul Griffiths </a>
+</h4>
+</center>
+
+<i>
+Write a function <code>escape(s,t)</code> that converts characters like newline and tab into visible escape sequences
+like <code>\n</code> and <code>\t</code> as it copies the string <code>t</code> to <code>s</code> . Use a <code>switch</code> . Write a function for the other
+direction as well, converting escape sequences into the real characters.
+
+</i>
+<br>
+<br>
+
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+  
+  EX3_2.C
+  =======
+  
+  Suggested solution to Exercise 3-2
+
+*/</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">escape</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">);</FONT>
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">unescape</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">text1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>50</B></FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;\aHello,\n\tWorld! Mistakee\b was \&quot;Extra 'e'\&quot;!\n&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">text2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>50</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+    
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Original string:\n%s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">text1</FONT><FONT COLOR="#00FFFF">);</FONT>
+    
+    <FONT COLOR="#00FF00">escape</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">text2</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">text1</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Escaped string:\n%s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">text2</FONT><FONT COLOR="#00FFFF">);</FONT>
+    
+    <FONT COLOR="#00FF00">unescape</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">text1</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">text2</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Unescaped string:\n%s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">text1</FONT><FONT COLOR="#00FFFF">);</FONT>
+    
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+<FONT COLOR="#FFFF00">/*  Copies string t to string s, converting special
+    characters into their appropriate escape sequences.
+    The &quot;complete set of escape sequences&quot; found in
+    K&amp;R Chapter 2 is used, with the exception of:
+    
+    \? \' \ooo \xhh
+    
+    as these can be typed directly into the source code,
+    (i.e. without using the escape sequences themselves)
+    and translating them is therefore ambiguous.          */</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">escape</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        
+        <FONT COLOR="#FFFF00">/*  Translate the special character, if we have one  */</FONT>
+        
+        <B><FONT COLOR="#00FFFF">switch</FONT></B><FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\n'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'n'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\t'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'t'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\a'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'a'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\b'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'b'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\f'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'f'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\r'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'r'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\v'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'v'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\&quot;'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\&quot;'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">default</FONT></B><FONT COLOR="#00FFFF">:</FONT>
+            
+            <FONT COLOR="#FFFF00">/*  This is not a special character, so just copy it  */</FONT>
+            
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+        <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>    <FONT COLOR="#FFFF00">/*  Don't forget the null character  */</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+<FONT COLOR="#FFFF00">/*  Copies string t to string s, converting escape sequences
+    into their appropriate special characters. See the comment
+    for escape() for remarks regarding which escape sequences
+    are translated.                                             */</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">unescape</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">switch</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            
+            <FONT COLOR="#FFFF00">/*  We've found an escape sequence, so translate it  */</FONT>
+            
+            <B><FONT COLOR="#00FFFF">switch</FONT></B><FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'n'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\n'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'t'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\t'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'a'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\a'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'b'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\b'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'f'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\f'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'r'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\r'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'v'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\v'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\&quot;'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\&quot;'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                
+            <B><FONT COLOR="#00FFFF">default</FONT></B><FONT COLOR="#00FFFF">:</FONT>
+                
+                <FONT COLOR="#FFFF00">/*  We don't translate this escape
+                    sequence, so just copy it verbatim  */</FONT>
+                
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\\'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">default</FONT></B><FONT COLOR="#00FFFF">:</FONT>
+            
+            <FONT COLOR="#FFFF00">/*  Not an escape sequence, so just copy the character  */</FONT>
+            
+            <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+        <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>    <FONT COLOR="#FFFF00">/*  Don't forget the null character  */</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

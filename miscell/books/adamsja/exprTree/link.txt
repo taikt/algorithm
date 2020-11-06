@@ -1,5 +1,0 @@
-Definition from schmidt:
-http://www.cs.wustl.edu/~schmidt/expr-tree/index.html
-
-other ExTrees:
-1. https://github.com/parkernewton/ExpressionTree

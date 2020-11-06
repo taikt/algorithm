@@ -1,0 +1,96 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-11
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-11, page 21
+</h3>
+<h4>
+Solution by <a href=mailto:DCorbit@SolutionsIQ.com>  Dann Corbit </a>
+</h4>
+</center>
+
+<i>
+How would you test the word count program? What kinds of input are most likely
+to uncover bugs if there are any?
+</i>
+<br>
+<br>
+
+<hr>
+
+<br>
+<br>
+
+It sounds like they are really trying to get the programmers to learn how to
+do a unit test. I would submit the following:
+<br>
+<br>
+0. input file contains zero words
+<br>
+1. input file contains 1 enormous word without any newlines
+<br>
+2. input file contains all white space without newlines
+<br>
+3. input file contains 66000 newlines
+<br>
+4. input file contains word/{huge sequence of whitespace of different kinds}/word
+<br>
+5. input file contains 66000 single letter words, 66 to the line
+<br>
+6. input file contains 66000 words without any newlines
+<br>
+7. input file is <code>/usr/dict</code> contents (or equivalent)
+<br>
+8. input file is full collection of moby words
+<br>
+9. input file is binary (e.g. its own executable)
+<br>
+10. input file is <code>/dev/nul</code> (or equivalent)
+<br>
+<br>
+66000 is chosen to check for integral overflow on small integer machines.
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+Dann suggests a followup exercise 1-11a: write a program to generate inputs (0,1,2,3,4,5,6)
+
+<br>
+<br>
+
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+

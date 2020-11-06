@@ -1,0 +1,195 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 3-3
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 3-3, page 63
+</h3>
+<h4>
+Solution by <a href=mailto:paul@paulgriffiths.demon.co.uk>  Paul Griffiths </a>
+</h4>
+</center>
+
+<i>
+Write a function <code>expand(s1,s2)</code> that expands shorthand notations like <code>a-z</code> in
+the string <code>s1</code> into the equivalent complete list <code>abc...xyz</code> in <code>s2</code> . Allow
+for letters of either case and digits, and be prepared to handle cases
+like <code>a-b-c</code> and <code>a-z0-9</code> and <code>-a-z</code> . Arrange that a leading or trailing <code>-</code> is
+taken literally.
+
+</i>
+<br>
+<br>
+
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+
+  EX3_3.C
+  =======
+
+  Suggested solution to Exercise 3-3
+
+*/</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;string.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">expand</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">{</FONT> <FONT COLOR="#FFFFFF">&quot;a-z-&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;z-a-&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;-1-6-&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+                  <FONT COLOR="#FFFFFF">&quot;a-ee-a&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;a-R-L&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;1-9-1&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+                  <FONT COLOR="#FFFFFF">&quot;5-5&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">NULL</FONT> <FONT COLOR="#00FFFF">};</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>100</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        
+        <FONT COLOR="#FFFF00">/*  Expand and print the next string in our array s[]  */</FONT>
+        
+        <FONT COLOR="#00FF00">expand</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]);</FONT>
+        <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Unexpanded: %s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]);</FONT>
+        <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Expanded  : %s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+<FONT COLOR="#FFFF00">/*  Copies string s2 to s1, expanding
+    ranges such as 'a-z' and '8-3'     */</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">expand</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">static</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">upper_alph</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>27</B></FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">static</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">lower_alph</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>27</B></FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;abcdefghijklmnopqrstuvwxyz&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">static</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">digits</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>11</B></FONT><FONT COLOR="#00FFFF">]</FONT>     <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;0123456789&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">start</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">end</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    
+    <FONT COLOR="#FFFF00">/*  Loop through characters in s2  */</FONT>
+    
+    <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">switch</FONT></B><FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+            <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+                
+                <FONT COLOR="#FFFF00">/*  '-' is leading or trailing, so just copy it  */</FONT>
+                
+                <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+            <B><FONT COLOR="#00FFFF">else</FONT></B> <FONT COLOR="#00FFFF">{</FONT>
+                
+                 <FONT COLOR="#FFFF00">/*  We have a &quot;range&quot; to extrapolate. Test whether
+                     the two operands are part of the same range. If
+                     so, store pointers to the first and last characters
+                     in the range in start and end, respectively. If 
+                     not, output and error message and skip this range.    */</FONT>
+                
+                <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">start</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">upper_alph</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]))</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT>
+                     <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">end</FONT>   <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">upper_alph</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]))</FONT> <FONT COLOR="#00FFFF">)</FONT>
+                    <FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">else</FONT></B> <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">start</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">lower_alph</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]))</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT>
+                          <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">end</FONT>   <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">lower_alph</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]))</FONT> <FONT COLOR="#00FFFF">)</FONT>
+                    <FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">else</FONT></B> <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">start</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">digits</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]))</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT>
+                          <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">end</FONT>   <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">digits</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]))</FONT> <FONT COLOR="#00FFFF">)</FONT>
+                    <FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">else</FONT></B> <FONT COLOR="#00FFFF">{</FONT>
+                    
+                    <FONT COLOR="#FFFF00">/*  We have mismatched operands in the range,
+                        such as 'a-R', or '3-X', so output an error
+                        message, and just copy the range expression.  */</FONT>
+                    
+                    <FONT COLOR="#00FF00">fprintf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">stderr</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;EX3_3: Mismatched operands '%c-%c'\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+                            <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]);</FONT>
+                    <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+                    <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++];</FONT>
+                    <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FFFF">}</FONT>
+                
+                
+                <FONT COLOR="#FFFF00">/*  Expand the range  */</FONT>
+                
+                <FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">start</FONT><FONT COLOR="#00FFFF">;</FONT>
+                <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FF00">end</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+                    <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+                    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">end</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#00FF00">start</FONT> <FONT COLOR="#00FFFF">)</FONT>
+                        <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+                    <B><FONT COLOR="#00FFFF">else</FONT></B>
+                        <FONT COLOR="#00FFFF">--</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FFFF">}</FONT>
+                <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">+=</FONT> <FONT COLOR="#FFFFFF"><B>2</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+            
+        <B><FONT COLOR="#00FFFF">default</FONT></B><FONT COLOR="#00FFFF">:</FONT>
+            <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">+</FONT><FONT COLOR="#FFFFFF"><B>2</B></FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+                
+                <FONT COLOR="#FFFF00">/*  This character is the first operand in
+                    a range, so just skip it - the range will
+                    be processed in the next iteration of
+                    the loop.                                   */</FONT>
+                
+                <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+            <B><FONT COLOR="#00FFFF">else</FONT></B> <FONT COLOR="#00FFFF">{</FONT>
+                
+                <FONT COLOR="#FFFF00">/*  Just a normal character, so copy it  */</FONT>
+                
+                <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++];</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+            <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FF00">s1</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s2</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>    <FONT COLOR="#FFFF00">/*  Don't forget the null character  */</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

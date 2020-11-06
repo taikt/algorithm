@@ -1,0 +1,195 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 2-3
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 2-3, page 46
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write the function <code>htoi(s)</code> , which converts a string of hexadecimal
+digits (including an optional <code>0x</code> or <code>0X)</code> into its equivalent integer
+value. The allowable digits are <code>0</code> through <code>9,</code> <code>a</code> through <code>f,</code> and <code>A</code> through <code>F</code> .
+</i>
+<br>
+<br>
+
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/* Write the function htoi(s), which converts a string of hexadecimal
+ * digits (including an optional 0x or 0X) into its equivalent integer
+ * value. The allowable digits are 0 through 9, a through f, and
+ * A through F.
+ *
+ * I've tried hard to restrict the solution code to use only what
+ * has been presented in the book at this point (page 46). As a
+ * result, the implementation may seem a little naive. Error
+ * handling is a problem. I chose to adopt atoi's approach, and
+ * return 0 on error. Not ideal, but the interface doesn't leave
+ * me much choice.
+ *
+ * I've used unsigned int to keep the behaviour well-defined even
+ * if overflow occurs. After all, the exercise calls for conversion
+ * to 'an integer', and unsigned ints are integers!
+ */</FONT>
+
+<FONT COLOR="#FFFF00">/* These two header files are only needed for the test driver */</FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdlib.h&gt;</B></FONT>
+
+<FONT COLOR="#FFFF00">/* Here's a helper function to get me around the problem of not
+ * having strchr
+ */</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">hexalpha_to_int</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">hexalpha</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;aAbBcCdDeEfF&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">hexalpha</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">hexalpha</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>10</B></FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">/</FONT> <FONT COLOR="#FFFFFF"><B>2</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">answer</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">htoi</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">const</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[])</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">valid</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">hexit</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'x'</B></FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'X'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">valid</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#FFFFFF"><B>16</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">&gt;=</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#FFFFFF"><B>'9'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">else</FONT></B>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">hexit</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">hexalpha_to_int</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]);</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">hexit</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">valid</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+      <B><FONT COLOR="#00FFFF">else</FONT></B>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#00FF00">hexit</FONT><FONT COLOR="#00FFFF">;</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+
+    <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(!</FONT><FONT COLOR="#00FF00">valid</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">answer</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">answer</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<FONT COLOR="#FFFF00">/* Solution finished. This bit's just a test driver, so
+ * I've relaxed the rules on what's allowed.
+ */</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">endp</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">NULL</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#FFFFFF">&quot;F00&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;bar&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;0100&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;0x1&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;0XA&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;0X0C0BE&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;abcdef&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;123456&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;0x123456&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;deadbeef&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;zog_c&quot;</FONT>
+  <FONT COLOR="#00FFFF">};</FONT>
+
+  <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">check</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">numtests</FONT> <FONT COLOR="#00FFFF">=</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">test</FONT> <FONT COLOR="#00FFFF">/</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thistest</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thistest</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">numtests</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">htoi</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">]);</FONT>
+    <FONT COLOR="#00FF00">check</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">int</FONT></B><FONT COLOR="#00FFFF">)</FONT><FONT COLOR="#00FF00">strtoul</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FFFF">&amp;</FONT><FONT COLOR="#00FF00">endp</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>16</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">((*</FONT><FONT COLOR="#00FF00">endp</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">result</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">result</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">check</FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Testing %s. Correct. %u\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">else</FONT></B>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Testing %s. Incorrect. %u\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thistest</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

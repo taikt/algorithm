@@ -1,3 +1,7 @@
 -- git command
 git ls-files --deleted -z | xargs -0 git rm
 git ls-files --modified -z | xargs -0 git add
+
+-- delete recursively a set of files
+find . -name "*.bak" -type f
+find . -name "*.bak" -type f -delete

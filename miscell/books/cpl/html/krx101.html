@@ -1,0 +1,128 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-1
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-1, page 8
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Run the &quot;hello, world&quot; program on your system. Experiment with leaving
+out parts of the program, to see what error messages you get.
+</i>
+<br>
+<br>
+Murphy's Law dictates that there is no single correct answer to
+the very first exercise in the book. Oh well. Here's a &quot;hello world&quot; program:
+
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;hello, world\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<P>
+As you can see, I've added a <code>return</code> statement, because <code>main</code> always
+returns <code>int,</code> and it's good style to show this explicitly.
+</P>
+
+<P>
+Here's a list of simple compile lines for a variety of popular compilers:
+</P>
+
+<br>
+GNU C
+<br>
+<code>
+gcc -W -Wall -ansi -pedantic -o hello hello.c
+</code>
+<br>
+<br>
+Microsoft C, up to version 5.1
+<br>
+<code>
+cl -W3 -Zi -Od -AL hello.c
+</code>
+<br>
+<br>
+Microsoft C,version 6, Microsoft Visual C++ 1.0, 1.5
+<br>
+<code>
+cl -W4 -Zi -Od -AL hello.c
+</code>
+<br>
+<br>
+Microsoft Visual C++ 2.0 and later
+<br>
+<code>
+cl -W4 -Zi -Od hello.c
+</code>
+<br>
+<br>
+Turbo C++
+<br>
+<code>
+tcc -A -ml hello.c  (I think)
+</code>
+<br>
+<br>
+Borland C++, 16 bit versions
+<br>
+<code>
+bcc -A -ml hello.c
+</code>
+<br>
+<br>
+Borland C++, 32 bit versions
+<br>
+<code>
+bcc32 -A hello.c
+</code>
+<br>
+<br>
+<br>
+
+<a href=index.html>  Back to index </a>
+
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

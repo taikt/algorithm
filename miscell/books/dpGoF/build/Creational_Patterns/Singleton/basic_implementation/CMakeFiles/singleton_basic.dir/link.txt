@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/singleton_basic.dir/Singleton.cpp.o CMakeFiles/singleton_basic.dir/main.cpp.o  -o singleton_basic -rdynamic 

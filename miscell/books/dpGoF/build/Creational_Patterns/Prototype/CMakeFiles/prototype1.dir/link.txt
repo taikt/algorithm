@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/prototype1.dir/prototype1.cpp.o  -o prototype1 -rdynamic libprototype.so ../libcreational_patterns.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Creational_Patterns/Prototype:/home/thomas/humax/rg/dp_eroos2/build/Creational_Patterns 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libfoundation_classes.so -o libfoundation_classes.so CMakeFiles/foundation_classes.dir/Coord.cpp.o CMakeFiles/foundation_classes.dir/Point.cpp.o CMakeFiles/foundation_classes.dir/Rect.cpp.o 

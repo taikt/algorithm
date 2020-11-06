@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/composite1.dir/main.cpp.o  -o composite1 -rdynamic libcomposite.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Structural_Patterns/Composite 

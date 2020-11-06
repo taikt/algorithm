@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libcomposite.so -o libcomposite.so CMakeFiles/composite.dir/Bus.cpp.o CMakeFiles/composite.dir/Cabinet.cpp.o CMakeFiles/composite.dir/Card.cpp.o CMakeFiles/composite.dir/Chassis.cpp.o CMakeFiles/composite.dir/CompositeEquipment.cpp.o CMakeFiles/composite.dir/Equipment.cpp.o CMakeFiles/composite.dir/FloppyDisk.cpp.o 

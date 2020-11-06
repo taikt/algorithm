@@ -1,0 +1,146 @@
+Reference
+
+0. kernel
+https://mirrors.edge.kernel.org/pub/linux/kernel/ ==> old kernel
+https://www.kernel.org/ ==> new kernel
+
+1. https://stackoverflow.com/questions/914693/learning-kernel-programming?rq=1
+
+3. https://notes.shichao.io/lkd/
+
+4. https://github.com/shichao-an/notes/tree/master/docs/lkd
+
+5. https://kernelnewbies.org/CompleteNewbiesClickHere (must read)
+
+6. http://learnlinuxconcepts.blogspot.com/2014/03/process-management.html
+
+7. http://courses.cms.caltech.edu/cs124/
+
+10. https://www.tldp.org/LDP/khg/HyperNews/get/tour/tour.html
+
+11. https://www.tldp.org/LDP/khg/HyperNews/get/khg.html (must read)
+12. https://0xax.gitbooks.io/linux-insides/ (must read)
+13. https://elixir.bootlin.com/linux/v2.6.34/source (must read --> code browsing)
+==> code version used in Linux Kernel Development book is 2.6.34.
+Rule: browing code with reading LKD book at same time.
+
+14. https://www.quora.com/What-are-the-best-resources-to-learn-about-Linux-kernel-internals
+15. https://bootlin.com/doc/training/linux-kernel/
+16. https://www.student.cs.uwaterloo.ca/~cs350/W15/notes/
+17. https://www.student.cs.uwaterloo.ca/~cs350/W15/notes/CS350-Course-Notes-W15.pdf
+18. https://www.tldp.org/LDP/tlk/tlk.html (must read)
+19. http://www.cs.cmu.edu/afs/cs/academic/class/15213-s01/docs/linux-kernel.pdf (same as 18)
+20. https://www.kernel.org/doc/html/v4.14/index.html (Linux Kernel document -> must read)
+21. Kernel code (must check)
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+22. https://linux-kernel-labs.github.io/master/lectures/intro.html (must read)
+23. https://lwn.net/Kernel/Index/ (must read)
+24. https://www.kernel.org/doc/htmldocs/kernel-locking/index.html
+
+-- booting
+https://www.thegeekstuff.com/2011/02/linux-boot-process
+https://opensource.com/article/17/2/linux-boot-and-startup
+https://opensource.com/article/18/1/analyzing-linux-boot-process (must read)
+https://www.ibm.com/developerworks/library/l-linuxboot/index.html
+https://en.wikipedia.org/wiki/Linux_startup_process
+https://www.quora.com/How-does-the-Linux-boot-process-work
+https://0xax.gitbooks.io/linux-insides/Booting/linux-bootstrap-1.html
+https://0xax.github.io/grub/
+https://kernelnewbies.org/BootDetails
+https://gl.m.wikipedia.org/wiki/Ficheiro:GNU_GRUB_components.svg
+https://www.at91.com/linux4sam/bin/view/Linux4SAM/LegacyGettingStarted
+https://savannah.gnu.org/git/?group=grub
+
+
+-- process management
+https://www.quora.com/What-is-the-relationship-between-thread_info-and-task_struct-structure
+https://stackoverflow.com/questions/6134226/need-for-thread-info-structure-in-linux-2-6-kernel
+https://stackoverflow.com/questions/12911841/kernel-stack-and-user-space-stack
+http://vh21.github.io/linux/2015/03/21/linux-current-implementation.html
+https://fenix.tecnico.ulisboa.pt/downloadFile/563568428731839/03-kernel-processes.pdf
+https://stackoverflow.com/questions/886807/kernel-stack-for-linux-process
+
+
+-- scheduling
+http://www.informit.com/articles/article.aspx?p=101760&seqNum=2
+https://notes.shichao.io/lkd/ch4/
+http://cedegesrv7.epfl.ch/2012-2013/pluginfile.php/1525979/mod_resource/content/1/linux-scheduler.pdf
+https://www.kernel.org/doc/Documentation/scheduler/sched-design-CFS.txt
+http://www.cs.columbia.edu/~krj/os/lectures/L12-LinuxSched.pdf
+https://www.cs.columbia.edu/~junfeng/13fa-w4118/lectures/l13-adv-sched.pdf
+https://lwn.net/Articles/230501/ --> CFS
+https://www.ibm.com/developerworks/linux/library/l-completely-fair-scheduler/
+https://stackoverflow.com/questions/19181834/what-is-the-concept-of-vruntime-in-cfs
+https://www.linuxjournal.com/node/10267
+https://www.linuxjournal.com/article/10165 --> real-time scheduler in linux (not CFS)
+https://tampub.uta.fi/bitstream/handle/10024/96864/GRADU-1428493916.pdf
+https://medium.com/hungys-blog/linux-kernel-process-scheduling-8ce05939fabd
+http://www.inf.ed.ac.uk/teaching/courses/os/coursework/lcpusched-fullpage-2x1.pdf
+https://www.suse.com/documentation/sles11/book_sle_tuning/data/sec_tuning_taskscheduler_cfs.html
+http://www.ittc.ku.edu/~kulkarni/teaching/EECS678/projects/scheduling/materials/plka.pdf
+
+
+-- Compiling
+1. linux v2.6.39-rc7 on Ubuntu 17.04
+   1. use gcc 4.8
+      refer to Install specific gcc in settings.docx
+   2. fix compile bug
+   2.1. Kernel doesnt support pic mode
+     https://askubuntu.com/questions/851433/kernel-doesnt-support-pic-mode-for-compiling
+   2.2. Maybe you should just omit the defined()
+   	http://linux-kernel.2935.n7.nabble.com/PATCH-1-5-kbuild-remove-deprecated-use-of-defined-in-timeconst-pl-td556009.html
+
+2. Installation
+sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev
+mkdir -p git/kernels; cd git/kernels
+git clone -b staging-testing git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+cd staging
+git checkout -b first-patch
+
+--update kernel
+git fetch origin
+git log
+git log origin/staging-testing
+git rebase origin/staging-testing
+
+-- configure kernel
+cp /boot/config-`uname -r`* .config 
+make localmodconfig
+(to enable/disable features such as specific driver => make menuconfig)
+-- build and install kernel
+++ First time.
+make -jX
+sudo make modules_install install
+reboot
+
+Later time change in core code, not driver
+make -jX
+sudo make install
+reboot
+
+++Later time change in driver (not need reboot)
+lsmod | grep xhci-hcd (check driver name)
+make drivers/usb/host/xhci-hcd.ko (driver_name.ko)
+sudo rmmod xhci-hcd && sudo insmod drivers/usb/host/xhci-hcd.ko
+
+-- running kernel
+sudo vi /etc/default/grub
+delete lines
+GRUB_HIDDEN_TIMEOUT=0 GRUB_HIDDEN_TIMEOUT_QUIET=true 
+GRUB_TIMEOUT=10  => to 30
+sudo update-grub2 
+
+-- optinal tools
+sudo apt-get install gitk 
+make tags (in staging directory)
+++ setup vim, email.
+https://kernelnewbies.org/Outreachyfirstpatch?action=show&redirect=OPWfirstpatch#kernel-setup-done
+++ git 
+git log --pretty=oneline --abbrev-commit
+
+
+Refer:
+https://kernelnewbies.org/OutreachyfirstpatchSetup?action=show&redirect=OPWfirstpatchSetup
+https://kernelnewbies.org/Outreachyfirstpatch?action=show&redirect=OPWfirstpatch#kernel-setup-done
+https://kernelnewbies.org/KernelBuild
+https://kernelnewbies.org/FirstKernelPatch

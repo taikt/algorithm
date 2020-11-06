@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/strategy.dir/main.cpp.o  -o strategy -rdynamic libstrategy1.so ../../Foundation_Classes/libfoundation_classes.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Behavioral_Patterns/Strategy:/home/thomas/humax/rg/dp_eroos2/build/Foundation_Classes 

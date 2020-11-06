@@ -1,0 +1,108 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 7-1
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 7-1, page 153
+</h3>
+<h4>
+Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write a program that converts upper case to lower or lower case to
+upper, depending on the name it is invoked with, as found in <code>argv[0].</code>
+</i>
+<br>
+<br>
+
+
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/* This program converts its input to upper case
+ * (if argv[0] begins with U or u) or lower case.
+ * If argc is 0, it prints an error and quits.
+ */</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdlib.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;ctype.h&gt;</B></FONT>
+
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">argc</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">**</FONT><FONT COLOR="#00FF00">argv</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">convcase</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>2</B></FONT><FONT COLOR="#00FFFF">])(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">{</FONT><FONT COLOR="#00FF00">toupper</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">tolower</FONT><FONT COLOR="#00FFFF">};</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">func</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">EXIT_SUCCESS</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">ch</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">argc</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">toupper</FONT><FONT COLOR="#00FFFF">((</FONT><B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B><FONT COLOR="#00FFFF">)</FONT><FONT COLOR="#00FF00">argv</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">][</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">])</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'U'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">func</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">else</FONT></B>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">func</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+
+    <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">((</FONT><FONT COLOR="#00FF00">ch</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">getchar</FONT><FONT COLOR="#00FFFF">())</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FF00">EOF</FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">ch</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">convcase</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">func</FONT><FONT COLOR="#00FFFF">])((</FONT><B><FONT COLOR="#00FFFF">unsigned</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B><FONT COLOR="#00FFFF">)</FONT><FONT COLOR="#00FF00">ch</FONT><FONT COLOR="#00FFFF">);</FONT>
+      <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">ch</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">else</FONT></B>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">fprintf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">stderr</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;Unknown name. Can't decide what to do.\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">EXIT_FAILURE</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">result</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

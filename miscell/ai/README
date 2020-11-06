@@ -1,0 +1,18 @@
+References
+
+1. https://www.tensorflow.org/about/bib
+
+
+Installation
+1. ML (book Hands.Machine.Learning>Sciket.Lear.Tensorflow)
+pip3, jupyter, matplotlib, nympy...
+
+pip3 --version
+pip3 install --upgrade pip
+pip3 install --upgrade jupyter matplotlib numpy pandas scipy scikit-learn
+
+--fix bug
+ImportError: cannot import name 'main
+=> https://stackoverflow.com/questions/43675074/python3-6-importerror-cannot-import-name-main-linux-rhel6
+
+

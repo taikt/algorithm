@@ -1,0 +1,1215 @@
+[Git]
+
+Reference:
+https://discoposse.com/2016/11/08/git-remove-multiple-deleted-files/ --> must read for delete/add auto multiple files
+git ls-files --deleted -z | xargs -0 git rm
+
+http://www-cs-students.stanford.edu/~blynn/gitmagic/ch02.html#_saving_state
+https://www.atlassian.com/git/tutorials/rewriting-history
+https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+Configure email
+https://help.github.com/articles/setting-your-email-in-git/
+ 
+ 
+git diff 683a34e^ 683a34e (commit^ is previous commit of current commit)
+
+--auto git add, git rm multiple files
+ git ls-files --deleted -z | xargs -0 git rm
+ git ls-files --modified -z | xargs -0 git add 
+
+--auto add all untracked files
+echo -e "a\n*\nq\n" |git add -i
+ 
+remove ^M
+https://stackoverflow.com/questions/9225599/should-git-change-the-ending-of-line-controlm-or-m-at-the-end-of-the-first-l
+git config --global core.autocrlf input
+ 
+ 
+https://stackoverflow.com/questions/7124914/how-to-search-a-git-repository-by-commit-message/7124949
+git log --all --grep='VCPXI-6549' -p > VCPXI-6549
+
+-- merge code from a branch to another branch (including all commits)
+https://stackoverflow.com/questions/14168677/merge-development-branch-with-master
+
+-- merge a commit from a branch to another branch
+https://stackoverflow.com/questions/9339429/what-does-cherry-picking-a-commit-with-git-mean 
+ 
+git rebase
+https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/
+ 
+git reset --hard "commit-id"
+https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
+ 
+remove commit
+https://stackoverflow.com/questions/448919/how-can-i-remove-a-commit-on-github#comment17680230_448929
+remove untracked file
+https://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-working-tree
+
+
+--commit code to gerrit
+scp -p -P 29418 tai@10.218.140.72:hooks/commit-msg .git/hooks/
+git add *
+git commit -m ''
+git push origin HEAD:refs/for/master
+ (or git push origin HEAD:refs/for/'branch-name')
+
+-- commit in gen12
+git status
+git add recipes-devtools/sldd/sldd.bb recipes-services/pktaudmgr/pktaudmgr-bin.bb
+git commit
+(message is below type
+---> no dependency
+[telemw][pktaudmgr] Add depends for meta file
+
+[VLM] NA
+[DESC][0] Add depends for meta file
+[ISSUETYPE] SV
+[TEST][PASS] success local compile
+
+---> with dependency
+[telemw][pktaudmgr] Add internal flows
+
+[VLM] NA
+[DESC][+] Add internal flows
+[+] http://vgit.lge.com/na/#/c/1189273/
+[ISSUETYPE] SV
+[TEST][PASS] success local compile
+
+
+//http://collab.lge.com/main/display/GENXII/Commit+Log+Rule
+)
+
+-- commit in BMW
+message is below type
+[WAVE][IPsecMgr][BUG] Saving IPsec state after reset
+
+[CB]22300764
+[VLM]WAVE-21490
+[RS_ID] NA
+[DESC][0] Saving IPsec state after reset
+[ISSUETYPE] LG_REQ
+[TEST][PASS] 1. Start IPsec, then reset 2. Check IPsec run automatically
+
+-- push code to server
+(git remote -v to check origin: vgit_na)
+git push vgit_na HEAD:refs/for/tiger_dev_telemw_190522
+(for BMW project)
+git push vgit_eu HEAD:refs/for/wave_sop21_release
+
+
+
+-- find change code recursively
+find . -name .git -type d -execdir git status -s ';'
+
+find . -name /path/to/file_name
+find /path/to -name .git
+cd /path/contain/.git/
+git status
+
+-- create a new remote branch from current code
+git checkout -b new_branch (create a new local branch with copy of code)
+git push origin new_branch (push to server) 
+
+-- delete a project in gerrit
+sd1@ubuntu:~/gerrit_srv$ rm -rf git/gen11-dcv.git/
+sd1@ubuntu:~/gerrit_srv$ ./bin/gerrit.sh restart
+
+-- add administrator right to user in gerrit
+gerrit UI -> people -> list group -> administrator -> member
+ 
+--push to a fork repo
+git remote set-url origin address_of_new_fork_repo
+https://stackoverflow.com/questions/25545613/how-can-i-push-to-my-fork-from-a-clone-of-the-original-repo
+-- create a tag
+git add 
+git commit -m 'xx'
+git tag tagname
+git push origin --tags (for all tags)
+git push origin tagname (for single tag)
+ 
+--update an existing tag
+git checkout tagname
+git add 
+git commit -m 'modify..'
+git tag -d tagname (delete and recreate tag locally)
+git tag tagname
+git push origin :tagname (delete and recreate tag remotely)
+git push origin tagname
+https://gist.github.com/alexrqs/40d59f8e8f130639ff3a95ccb3a1e83c
+ 
+--view content of a specfic commit
+git show commit_id
+
+-- view commit message of a specific commit
+git log -n 1 commit_id
+
+-- change commit message
+https://help.github.com/articles/changing-a-commit-message/
+
+-- append to existing commit
+git add file
+git commit --amend
+(
+git commit --amend --no-edit (no change commit message)
+)
+git push -f origin vcp21-master
+https://stackoverflow.com/questions/18588974/git-prevents-pushing-after-amending-a-commit
+https://medium.com/@igor_marques/git-basics-adding-more-changes-to-your-last-commit-1629344cb9a8
+
+
+– ignore file
+https://help.github.com/articles/ignoring-files/
+https://stackoverflow.com/questions/9750606/git-still-shows-files-as-modified-after-adding-to-gitignore
+– create patch
+https://stackoverflow.com/questions/5159185/create-a-git-patch-from-the-changes-in-the-current-working-directory
+
+
+[shell]
+-- erorr sh /usr/bin/test not found
+sudo apt install --reinstall coreutils
+
+-- export a enviromental variable for all user, can override this variable in local file .bashrc of user
+vi /etc/bash.bashrc
+export BB_NUMBER_THREADS="1"
+
+-- unset a variable
+unset BB_NUMBER_THREADS
+
+-- add new user
+sudo adduser newuser
+Ref: https://www.digitalocean.com/community/tutorials/how-to-add-and-delete-users-on-ubuntu-16-04
+
+-- add sudo right for user
+usermod -aG sudo newuser
+sudo nano /etc/sudoers
+user_name ALL=(ALL)  ALL
+Ref: https://stackoverflow.com/questions/47806576/username-is-not-in-the-sudoers-file-this-incident-will-be-reported
+
+
+[Programming]
+-- generate code document
+sudo apt-get install doxygen
+sudo apt-get install graphviz
+doxygen Doxyfile
+
+Load own driver at booting
+https://askubuntu.com/questions/299676/how-to-install-3rd-party-module-so-that-it-is-loaded-on-boot
+i.e.
+sudo vi /etc/modules, add two separate lines binder_linux, ashmem_linux
+cp -rf driver/binder/binder_linux.ko /lib/modules/`uname -r`/kernel/drivers/.
+sudo cp -rf driver/ashmem/ashmem_linux.ko /lib/modules/`uname -r`/kernel/drivers/.
+
+
+replace text in file
+find . -type f -print0 | xargs -0 sed -i 's/LGE//g'  => replace LGE to empty
+find . -type f -print0 | xargs -0 sed -i 's/mytest\/ex3\///g'   => replace mytest/ex3/ to empty
+
+replace file name and directory name
+find . -type f -exec rename 's/HUMAX/TAIKT/g' {} \;
+find . -type d -exec rename 's/HUMAX/TAIKT/g' {} \;
+
+delete all object files/ specific files
+find . -name *.o | xargs rm
+
+gcc(GCC), g++ flags
+https://stackoverflow.com/questions/1452671/disable-all-gcc-warnings
+-w in CPPFLAG or CFLAG 
+
+
+fopen - heap allocation
+https://stackoverflow.com/questions/5130375/how-exactly-does-fopen-fclose-work
+ 
+lock mutiple time in same thread
+https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
+ 
+mutex, semaphore, spinlock
+https://freethreads.wordpress.com/2010/02/19/mutex-vs-semaphore-vs-spinlock/
+ 
+compare unsigned vs singed
+https://stackoverflow.com/questions/5416414/signed-unsigned-comparisons
+ 
+Nesting in C
+http://www.dummies.com/programming/c/watching-out-for-nested-comments-in-c/
+ 
+RS232
+http://www.teuniz.net/RS-232/
+http://www.windmill.co.uk/rs232-communication.html
+ 
+Pthread_t data type
+https://stackoverflow.com/questions/6420090/pthread-concepts-in-linux
+ 
+Basis data type size
+https://news.ycombinator.com/item?id=3126376
+ 
+Error no
+https://github.com/torvalds/linux/blob/master/include/uapi/asm-generic/errno.h
+ 
+Static variable
+http://www.geeksforgeeks.org/static-variables-in-c/
+ 
+Memory layout
+http://www.geeksforgeeks.org/memory-layout-of-c-program/
+ 
+Do we need mutex for reading
+https://stackoverflow.com/questions/1525189/do-i-need-a-mutex-for-reading
+ 
+Thread memory layout
+http://cocoadevcentral.com/articles/000061.php
+ 
+Polymorphism vs inheritance
+http://www.cplusplus.com/doc/tutorial/polymorphism/
+http://www.cplusplus.com/doc/tutorial/inheritance/
+ 
+Rational Rose to Raphsody
+https://www.scribd.com/document/6092280/Transition-from-IBM-Rational-Rose-to-Telelogic-Rhapsody
+ 
+ 
+Bluetooth
+// source code
+https://github.com/drimtajm/bluetooth
+https://github.com/glock45/intel-edison-playground/blob/master/scan.c
+http://affix.sourceforge.net/affix-doc/x496.html
+https://people.csail.mit.edu/albert/bluez-intro/c404.html
+ 
+// installation bluez
+http://git.kernel.org/cgit/bluetooth/bluez.git/
+ 
+ 
+// bluetooth tips
+https://fixmynix.com/bluetooth-in-linux-with-bluez-and-hcitool/
+ 
+//tutorial
+https://learn.sparkfun.com/tutorials/bluetooth-basics
+http://www.tutorial-reports.com/wireless/bluetooth/protocolstack.php
+ 
+Design pattern
+http://stackoverflow.com/questions/5739611/differences-between-abstract-factory-pattern-and-factory-method
+ 
+ 
+Composite vs agregate
+http://stackoverflow.com/questions/1644273/what-is-the-difference-between-aggregation-composition-and-dependency
+ 
+http://electronics.stackexchange.com/questions/99434/arduino-vs-microprocessor-vs-microcontroller
+ 
+Extern C
+http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/
+https://stackoverflow.com/questions/1164167/variable-declaration-in-a-header-file
+https://stackoverflow.com/questions/8108634/global-variables-in-header-file
+ 
+Inline in C
+http://stackoverflow.com/questions/31108159/what-is-the-use-of-the-inline-keyword-in-c
+https://gcc.gnu.org/onlinedocs/gcc/Inline.html
+http://www.greenend.org.uk/rjk/tech/inline.html
+ 
+Virtual, const function
+http://stackoverflow.com/questions/9488168/virtual-function-const-vs-virtual-function-non-const
+http://www.geeksforgeeks.org/const-member-functions-c/
+Neu them const tai lop base, thi se tao chu ky khac, khi do ham con khong the override
+De overide, can them const tai ham con hoac bo const tai ham base
+ 
+Recusive Mutex
+http://www.cplusplus.com/reference/mutex/recursive_mutex/
+https://baptiste-wicht.com/posts/2012/04/c11-concurrency-tutorial-advanced-locking-and-condition-variables.html
+https://en.wikipedia.org/wiki/Reentrant_mutex
+https://stackoverflow.com/questions/187761/recursive-lock-mutex-vs-non-recursive-lock-mutex
+ 
+char * const vs const char*
+http://stackoverflow.com/questions/890535/what-is-the-difference-between-char-const-and-const-char
+ 
+Boolean in C
+http://stackoverflow.com/questions/13322709/use-of-undeclared-identifier-true
+ 
+C90, C99, C11, GNU C
+http://stackoverflow.com/questions/17206568/what-is-the-difference-between-c-c99-ansi-c-and-gnu-c-a-general-confusion-reg
+ 
+Volatile variable
+http://www.geeksforgeeks.org/understanding-volatile-qualifier-in-c/
+(khi enable compiler optimization (-O), compiler co gang rut gon asembly code size bang viec remove nhung instruction thua.
+Khi ap dung volatile cho 1 bien, khi enable OO, compiler se khong toi uu code lien quan den bien volatile. Thuong thi bien dc ap dung volatile la nhung bien co the thay doi gia tri tu ngat hoac thread khac).
+ 
+Compiler optimazation
+http://stackoverflow.com/questions/5765899/how-to-disable-compiler-optimizations-in-gcc
+https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+
+
+ 
+WiFi
+WPA_supplicant
+https://stackoverflow.com/questions/23250080/writing-an-external-program-to-interface-with-wpa-supplicant-in-c
+https://linux.die.net/man/8/wpa_cli
+https://w1.fi/wpa_supplicant/devel/index.html
+https://w1.fi/cgit
+https://wiki.archlinux.org/index.php/WPA_supplicant
+ 
+http://linuxcommando.blogspot.com/2013/10/how-to-connect-to-wpawpa2-wifi-network.html
+https://askubuntu.com/questions/330026/configure-connect-wireless-network-through-the-command-line-in-ubuntu-12-04
+https://askubuntu.com/questions/138472/how-do-i-connect-to-a-wpa-wifi-network-using-the-command-line
+ 
+wps pin keypad vs display
+http://www.digitalcitizen.life/simple-questions-what-wps-wi-fi-protected-setup
+ 
+GO (group owner) , peer-to-peer
+how to test MIMO vs SISO
+bandsteering
+wifi direct
+ 
+Power save
+http://www.wifi-insider.com/wlan/psd.htm
+https://www.slideshare.net/rahulhada/wlan-ieee-80211
+https://community.arubanetworks.com/t5/Technology-Blog/802-11-TIM-and-DTIM-Information-Elements/ba-p/256997
+ 
+Spatial stream, MIMO
+https://meraki.cisco.com/blog/2011/02/mimo-why-multiple-antennas-matter/
+http://www.multicap.be/en/technology/mimo-and-spatial-streams
+ 
+Bandsteering
+https://documentation.meraki.com/MR/Radio_Settings/Band_Steering_Overview
+ 
+WPS
+http://www.digitalcitizen.life/simple-questions-what-wps-wi-fi-protected-setup
+
+
+
+ 
+[Miscellaneous] 
+Create virtual disk
+Ref:
+https://www.techrepublic.com/article/how-to-add-new-drives-to-a-virtualbox-virtual-machine/
+http://go2linux.garron.me/linux/2010/09/uuid-linux-fstab-file-766/
+https://www.brianchristner.io/how-to-resize-ubuntu-root-partition/
+
+df
+--get UUID
+ls -l /dev/disk/by-uuid/
+sudo vi /etc/fstab
+
+
+Tasklet
+https://0xax.gitbooks.io/linux-insides/content/interrupts/interrupts-9.html
+ 
+ 
+Soft link vs hard link (symbolic link)
+https://stackoverflow.com/questions/185899/what-is-the-difference-between-a-symbolic-link-and-a-hard-link
+ 
+ 
+Run 32-bit binary on 64-bit system
+https://askubuntu.com/questions/454253/how-to-run-32-bit-app-in-ubuntu-64-bit
+
+ 
+Change hostname
+https://www.cyberciti.biz/faq/ubuntu-change-hostname-command/
+ 
+Install libstdc++5 on ubuntu
+https://askubuntu.com/questions/235127/where-can-i-get-libstdc5-packages
+ 
+ 
+Restart network
+service network-manager restart
+ 
+Run both NAT and host only 
+https://unix.stackexchange.com/questions/37122/virtualbox-two-network-interfaces-nat-and-host-only-ones-in-a-debian-guest-on
+ 
+To check the port forwarding settings on Ubuntu use iptables:
+$ sudo iptables -t nat -vnL
+From <https://unix.stackexchange.com/questions/125797/how-to-check-if-port-forwarding-is-enabled> 
+https://serverfault.com/questions/343434/how-do-i-check-iptables-port-forwarding-rules
+https://www.cyberciti.biz/faq/find-linux-what-running-on-port-80-command/
+netstat -tulpn | grep 80
+ 
+check port status
+https://www.cyberciti.biz/faq/how-do-i-find-out-what-ports-are-listeningopen-on-my-linuxfreebsd-server/
+ 
+Vbox
+https://askubuntu.com/questions/80341/unable-to-mount-virtualbox-guest-additions-as-a-guest-win7-host
+after install kernel, if fail to install guest addition
+go to http://download.virtualbox.org/virtualbox/5.1.28/
+download newest version .iso
+insert .iso to Vbox
+mkdir /media/cdrom
+sudo mount -t auto /dev/cdrom /media/cdrom
+cd /media/cdrom
+./VBoxLinux…sh
+
+Move VirtualBox VMs from one drive to another
+https://www.techrepublic.com/article/how-to-move-virtualbox-vms-from-one-drive-to-another/
+ 
+Install java
+https://www.digitalocean.com/community/tutorials/how-to-install-java-on-ubuntu-with-apt-get
+ 
+FTP server
+apt-get install vsftpd 
+==> configure /etc/vsftpd.conf
+listen=YES (default is NO); and
+#listen_ipv6=YES (default is uncommented).
+ 
+service vsftpd restart
+service vsftpd status
+systemctl status vsftpd.service
+service --status-all | grep ftp
+netstat -tlpn | grep 1000
+ 
+-- add username, password
+useradd -m tai
+passwd tai
+--test ftp
+ftp localhost
+ 
+https://askubuntu.com/questions/413677/vsftpd-530-login-incorrect
+ 
+ 
+Mysql
+mysql -u root -p
+use mysql;
+show tables;
+describe user;
+update user set authentication_string=password('XXXX') where user='root';
+SHOW VARIABLES LIKE 'skip_networking'; 
+SHOW GLOBAL VARIABLES LIKE 'PORT';
+ 
+--start mysql
+service mysql start
+-- start in safe mode
+mysqld_safe --skip-grant-tables --skip-syslog --skip-networking
+ 
+chown -R www-data:www-data /var/lib/svn
+ 
+Install svn
+https://tecadmin.net/install-subversion-server-on-ubuntu/#
+-- use sudo when start server
+sudo service apache2 restart
+-- comment below line
+#Alias /svn /var/lib/svn
+-- enable permission at svn repo: /var/lib/svn/
+sudo find . -type d -exec chmod 777 {} \;
+sudo find . -type f -exec chmod 777 {} \;
+
+ssh
+cd ~/.ssh
+ssh-keygen -t rsa
+cat id_rsa.pub and copy to SSH public keys on account at the gerrit server.
+ 
+VIM
+--install vim
+http://www.vim.org/git.php
+https://vi.stackexchange.com/questions/10817/how-can-i-get-a-newer-version-of-vim-on-ubuntu
+
+sudo apt-get --purge remove vim-gnome
+sudo apt-get --purge remove vim-gtk
+sudo apt-get remove vim.tiny
+
+git clone https://github.com/vim/vim.git
+cd vim
+sudo make uninstall
+make distclean
+./configure --with-features=huge --enable-gui=auto
+make
+sudo make install
++check old vim
+/usr/bin/vim -v
++ check new installed vim
+/usr/local/bin/vim -v
++ replace new vim
+sudo mv /usr/bin/vim /usr/bin/vim.7.4
+sudo ln -s /usr/local/bin/vim /usr/bin/vim
+vim -version
++ install gvim
+sudo apt-get install vim-gtk
+gvim -version
+
+--copy between 2 files using clipboard
+apt-get install vim-gtk (maybe not need)
+vi ~/.vimrc
+set pastetoggle=<F3>
+select text from file 1 by mouse (always Press Ctr)
+move to file 2
+press F3 (to go to insert paste mode, ~ equivalent to set paste,i)
+press Shift+Insert
+press F3 again (to swich to insert mode, ~ set nopaste)
+ 
+--copy inside a file (use visual selection)
+press v key to select texts, then press y to copy
+move to new position, press p to paste
+http://vim.wikia.com/wiki/Cut/copy_and_paste_using_visual_selection
+ 
+--to undo action
+press u
+
+ 
+--set tab width, convert tabs into spaces
+http://vim.wikia.com/wiki/Converting_tabs_to_spaces
+https://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
+ 
+--ctags: 
+1. go to multiple definition
+use g] instead of Ctrl]
+go to local declaration (gd), global declaration (gD)
+come back to old place (Ctr + o)
+2. ctag exclude a folder
+ctags -R --exclude=unittests
+3. ctag called from sub-directory
+add this to .vimrc file set tags=tags;/
+https://stackoverflow.com/questions/5017500/vim-difficulty-setting-up-ctags-source-in-subdirectories-dont-see-tags-file-i
+4. highlight word search over ssh
+edit .vimrc
+syntax on
+set hlsearch
+
+--find,seach string
+http://www.jcgonzalez.com/ubuntu-find-string-files-exampledocumentation/SETUP
+find /usr -name 'crt1*'
+
+-- find a directory
+find ./sources/ -type d -name liburcu
+-- find a file
+find ./sources/ -type f -name liburcu
+-- find a directory or file
+find ./sources/ -name liburcu
+
+–-inside vim
+--- correct string
+:!grep '\<pcm_open\>' ./../linux_kernel/sound/. -rn --include=*.c –color
+:vi ./../linux_kernel/sound/./core/pcm_native.c
+--- all
+:!grep pcm_open ./../linux_kernel/sound/. -rn --include=*.c –color
+(:!grep pcm_open ./../linux_kernel/sound/. -rn --include={*.c,*.h} –color)
+
+:!ls : list all items
+:ls  : list buffered items
+:b filename(use tab) , to open file
+https://stackoverflow.com/questions/53664/how-to-effectively-work-with-multiple-files-in-vim
+
+--move quickly horizontal and vertical
+Home and End to goto end of line
+w: forward one word in horizontal (2w for 2 words)
+b: backward one word
+edit. .vimrc
+noremap <C-Up> 10k
+Ctr+Up: for move up 10 line in vertical 
+https://stackoverflow.com/questions/5478933/vim-move-around-quickly-inside-of-long-line
+
+--short cut
+http://shortcutkeys.org/software-shortcuts/linux/vim
+ 
+--set numbering line
+set number in .vimrc
+--hide numbering line
+set nonumber in .vimrc
+
+--set tabs for makefile
+Use edit .vimrc solution
+https://vi.stackexchange.com/questions/704/insert-tabs-in-insert-mode-when-expandtab-is-set
+
+--change cd default directory
+edit ~/.bashrc 
+alias cd='HOME=/home/tai/work/linux cd'
+
+--move between tabs
+Ctr + PageUp/PageDown
+
+--setup Tagbar, Nerdtree
+vi ~.vimrc
+set nocompatible              " be iMproved, required
+filetype off                  " required
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Bundle 'majutsushi/tagbar'
+nmap <F9> :TagbarToggle<CR>
+silent! nmap <C-p> :NERDTreeToggle<CR>
+silent! map <F3> :NERDTreeFind<CR>
+let g:NERDTreeMapActivateNode="<F3>"
+let g:NERDTreeMapPreview="<F4>"
+call vundle#end()            " required
+filetype plugin indent on    " required
+switch window in nerdtree (F3), tagbar (F9) (Ctr+W and W followed).
+
+mkdir -p ~/.vim/autoload ~/.vim/bundle
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+cd ~/.vim/bundle
+git clone https://github.com/scrooloose/nerdtree.git
+git clone git://github.com/majutsushi/tagbar
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+http://chrisstrelioff.ws/sandbox/2014/05/29/install_and_setup_vim_on_ubuntu_14_04.html
+https://github.com/VundleVim/Vundle.vim
+
+--add color vim
+https://github.com/flazz/vim-colorschemes
+cd ~/.vim
+git clone https://github.com/flazz/vim-colorschemes.git
+cp -rf vim-colorschemes/colors .
+ls  ~/.vim/colors
+vi ~/.vimrc
+colorscheme molokai
+
+--vim crash or plugin crash
+https://github.com/VundleVim/Vundle.vim/issues/486
+i.e. solution (this is because eol error on machine, check whether having eol error in .vimrc)
+
+git config --global core.autocrlf input
+deleted the vundle folder in .vim, re cloned repo and created a new .vimrc file
+– create alias
+vi ~/.bashrc
+alias cd='HOME=/home/tai/work/ cd'
+
+check size
+du -h file
+du -sh forder_name
+df -h
+--find largest size file
+du -a /dir/ | sort -n -r | head -n 20 
+
+How to Shrink a VirtualBox Virtual Machine and Free Up Disk Space
+https://www.howtogeek.com/312883/how-to-shrink-a-virtualbox-virtual-machine-and-free-up-disk-space/
+
+grub
+--change boot order
+https://www.howtogeek.com/howto/43471/how-to-configure-the-linux-grub2-boot-menu-the-easy-way/
+
+--Clipboard - copy from window to ubuntu (not working)
+sudo VBoxClient-all stop
+sudo VBoxClient-all start
+http://askubuntu.com/questions/533071/virtualbox-4-12-shared-clipboard-not-working-in-ubuntu14-04>
+
+Change Mac address for linux
+Sudo ifconfig eth0 down
+Sudo ifconfig eth0 hw ether 00:00:00:01:11:11
+Sudo ifconfig eth0 up
+ 
+Access Wan from Visualbox with given MAC 
+In Network config
+Select Bridged Adapter/Mac Address
+Fill out with given MAC
+It helps access Wan from restricted MAC in router
+ 
+List of available MAC to access WAN in Humax
+5c:26:0a:65:3b:bd
+ 
+ 
+Connect Window vs Vbox offline via static ip
+http://archive.gregk.me/2010/working-on-vm-server-while-offline/
+https://geert.vanderkelen.org/2011/virtualbox-give-host-only-access-to-internet/
+---
+enable host only adapter in Vbox/Network
+check interface name for host-only in linux with ifconfig(ie. enp0s8)
+sudo vi /etc/network/interface
+**
+auto lo
+iface lo inet loopback
+
+auto enp0s8
+iface enp0s8 inet static
+    address 192.168.56.2
+    netmask 255.255.255.0
+    network 192.168.56.0
+**
+---
+
+Connect Wan from Local Lan
+https://www.howtoforge.com/nat_iptables
+http://www.thegeekstuff.com/2010/07/list-and-flush-iptables-rules/
+http://askubuntu.com/questions/161551/how-to-start-stop-iptables
+
+//connect localnet(PC1) to another networked PC2
+http://www.karlrupp.net/en/computer/nat_tutorial
+http://unix.stackexchange.com/questions/1685/connecting-to-a-network-via-another-pc
+ 
+//error virtualbox window 7
+https://community.oracle.com/thread/3639877ndow 
+http://download.virtualbox.org/virtualbox/4.3.16/
+
+--install linux and window parrallel
+https://topthuthuat.com/thu-thuat-ubuntu/cach-cai-dat-dual-song-song-ubuntu-va-window-7-8
+ 
+-- create new hardward pattion
+use boot disk -> acronic disk director
+ 
+--instll kali linux parralel with existing win
+not select default disk 
+-> Manual, find free space or linux sapce that was installed before 
+from free space, setup a linux partition with primary, type ext4 (os),
+and 1 swap partition logical (4gb)
+select network mirror to install apt-get
+ 
+--kali linux no sound
+"systemctl --user enable pulseaudio && systemctl --user start pulseaudio " and reboot
+ 
+--kali linux fix bluetooth
+aptitude install bluetooth
+/etc/init.d/bluetooth status
+sudo lsmod | grep blue
+systemctl enable bluetooth.service
+systemctl start bluetooth.service
+lsusb
+hciconfig -a
+hciconfig hci0 up
+hciconfig dev
+rfkill unblock all
+hciconfig hci0 reset
+hcitool scan
+l2ping mac-address (neu scan thanh cong, co the ping ok, khong can pair)
+btscanner (chon inquiry scan)
+ (Scanning Bluetooth Devices - Kali Linux)
+(de scan thanh cong Galaxy note3 can tick to Visiable to all nearby Bluetooth devices)
+ 
+--to enable send file via graphic tool or command line
+systemctl --user start obex
+systemctl --global enable obex
+bluetooth-sendto --device=12:34:56:78:9A:BC filename
+ 
+ 
+Dictionary for Linux
+http://xdata.vn/Ho-tro/c58-69/Huong-dan-cai-dat-tu-dien-Stardict-tren-Ubuntu.htm
+
+// install Unikey on Kali
+https://www.thekalitools.com/2016/12/huong-dan-cai-dat-phan-mem-go-tieng-viet-ibus.html
+
+install java 8
+https://stackoverflow.com/questions/25289482/installing-jdk8-on-ubuntu-unable-to-locate-package-update-doesnt-fix
+
+Remove old kernel
+https://www.tecmint.com/remove-old-kernel-in-debian-and-ubuntu/
+https://askubuntu.com/questions/594443/how-can-i-remove-compiled-kernel
+
+if Kernel compiled via make install
+/boot/vmlinuz*KERNEL-VERSION*
+/boot/initrd*KERNEL-VERSION*
+/boot/System-map*KERNEL-VERSION*
+/boot/config-*KERNEL-VERSION*
+/lib/modules/*KERNEL-VERSION*/
+/var/lib/initramfs/*KERNEL-VERSION*/
+sudo update-grub2
+reboot
+
+if kernel compiled via debian method
+dpkg --list | grep kernel-image
+sudo apt-get remove --purge kernel-image-your-kernel-image
+sudo update-grub2
+reboot
+
+Compile Kernel 
+wget http://www.kernel.org/pub/linux/kerne.cp.. 
+tar -xjvf linux-3.6.2.tar.bz2 
+cd linux-3.6.2 
+cp /boot/config-4.4-generic .config 
+sudo apt-get install ncurses-dev libncurses-dev libssl-dev bc 
+make menuconfig 
+make -j4 (4 cores runs) 
+sudo make modules_install  install -j4 
+(check uname -r) 
+sudo reboot 
+(check uname -r again) 
+----next time modified kernel 
+make –j2 
+sudo make install -j2 
+ 
+FAQ 
+1. https://lists.debian.org/debian-kernel/2016/04/msg00582.html 
+==> make deb-pkg fails: No rule to make target 'debian/certs/benh@debian.org.cert.pem 
+2. If fail to install Guest addition 
+Download newest guest addition iso 
+Insert .iso to vbox 
+Mkdir /media/cdrom 
+Mount -t auto /dev/cdrom /media/cdrom 
+Cd /media/cdrom 
+./VboxLinux..sh 
+
+
+Write email.
+https://www.linkedin.com/pulse/20140903131536-29650941-20-phrases-for-closing-an-email
+https://englishlive.ef.com/blog/top-ten-ways-say-thank-english-email/
+ 
+SVN red color
+http://stackoverflow.com/questions/2457372/tortoisesvn-shows-red-decorator-for-folder-but-no-files-within-it-are-marked
+ 
+Source Insight
+Remove source insight
+http://www.freeultimateuninstall.com/post/How-Do-I-UninstallRemove-+Source+Insight+3.5-Completely-Off-Your-PC_26_201625.html
+ 
+ 
+Key source Insight 3.5
+SI3US-845855-44504
+
+-Enable full file path
+Options -> Preference -> Display -> Trim Long Path Names With ellipses
+Number line:
+Options-> Document options -> show line numbers
+Serial: SI3US-315499-97876
+
+ SublimeText
+Shift text to right, left
+http://superuser.com/questions/536768/how-to-shift-a-block-of-text-to-the-right-left-in-sublime-text-2
+
+1. Sublime: installation
+http://askubuntu.com/questions/172698/how-do-i-install-sublime-text-2-3
+
+(For install on kali linux)
+X64 Version:
+wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_amd64.deb
+sudo dpkg -i sublime-text_build-3047_amd64.deb
+
+X86 Version :
+wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_i386.deb
+sudo dpkg -i sublime-text_build-3047_i386.deb
+
+2. Crack Build
+(3.2.2 Build 3211)
+https://gist.github.com/JerryLokjianming/71dac05f27f8c96ad1c8941b88030451/
+--> use powershell way, just run command
+
+3. Help
+3.1. Use Ctags in Sublime: 
+- Main link: https://github.com/SublimeText/CTags
+sudo apt-get install exuberant-ctags
+
+(for window, download ctags binary, then get ctags.exe)
+1. install packet control: https://packagecontrol.io/installation
+
+2. go to Preferences -> Package Control -> Install package -> Search Ctags
+(if auto installation doesn’t work, check manually installation
+download Ctags package, Preference -> Browse package -> get location
+copy Ctags package to the location
+)
+
+3. go to Preferences -> Package Settings -> Ctags -> Setting User:
+if error happen, check indent, move line to beginiing and tab
+
+For linux
+{
+   "command": "/usr/bin/ctags"
+}
+
+For window
+{
+   "command": "C:/ctags.exe"
+}
+
+
+4. go to Project folder: Ctags - Rebuild tags
+5. Restart Sublime
+
+To change button settings:
+6. go to Preferences -> Package Settings -> Ctags -> Key Binding User:
+[
+{
+    "command": "navigate_to_definition",
+    "keys": ["ctrl+]"]
+   },
+   {
+    "command": "jump_prev",
+    "keys": ["ctrl+t"]
+   }
+]
+
+7. jump a block of lines up/down
+https://stackoverflow.com/questions/46369685/sublime-how-can-i-jump-n-lines-with-the-keyboard-arrows
+
+3.2. Auto save file
+https://www.youtube.com/watch?v=6kLoVsjkCz4
+Preferences -> Settings – User 
+“save_on_focus_lost”:true
+3.3. Disable auto showup definitions
+https://forum.sublimetext.com/t/how-to-disable-definitions-popup-in-code/21602
+Preferences -> settings-User
+"show_definitions":false
+
+3.4. To enable other moving shortcut like vim, enable Vintage
+https://www.sublimetext.com/docs/2/vintage.html
+Preferences -> settings-User
+"ignored_packages": []
+
+3.5. Exclude file/folder in search/side bar
+
+https://coderwall.com/p/dza-mw/exclude-files-folders-in-sublime-text
+
+3.6 Disable update notification
+Preference-settings-User
+“update_check”:false
+
+
+Samba
+sudo ufw allow 'Samba'
+sudo apt-get install samba
+sudo smbpasswd -La tai       (register password for compiling)
+sudo vi /etc/samba/smb.conf    (/home/tai/work/ -> register Home directory)
+    [global]
+    workgroup = workgroup
+    unix charset = utf-8
+    dos charset = utf-8
+    display charset = utf-8
+    security = user
+        
+    [home]  
+    comment = home  
+    path = /home/tai/work/
+    public = yes    
+    writable = yes  
+    write list = home   
+    create mask = 0777  
+    directory mask = 0777
+
+sudo service smbd restart
+
+
+Onenote
+disable auto capitalization
+https://support.office.com/en-us/article/Choose-AutoCorrect-options-for-capitalization-spelling-and-symbols-e7433b94-f3de-4532-9dc8-b29063a96e1f
+ 
+turn-off auto captalize in onenote
+https://support.office.com/en-us/article/Choose-AutoCorrect-options-for-capitalization-spelling-and-symbols-e7433b94-f3de-4532-9dc8-b29063a96e1f
+ 
+Bitbucket comment Makeup
+https://confluence.atlassian.com/bitbucketserver0410/markdown-syntax-guide-858573871.html?utm_campaign=in-app-help&utm_medium=in-app-help&utm_source=stash
+Outlook
+enable/disable paragraph mark in Outlook
+http://smallbusiness.chron.com/remove-paragraph-symbols-outlook-76246.html
+ 
+set default font, text color for reply message
+https://support.office.com/en-gb/article/Set-the-font-or-text-color-for-messages-you-send-83425b7b-4acc-4e94-8c04-fa1e31790318
+ 
+- Copy email from one folder to another
+click 1 email from folder A
+ctr+A to select all emails
+move emails from A to B
+ 
+- Filter emails from a sender
+open a email from the sender
+click related in bar and Message from sender
+ 
+- Delete a folder that cannot delete it from Outlook
+click File
+Access this accout on Web
+select folder on Web and select "thung rac" symbol
+ 
+- Add signature in outlook
+https://support.office.com/en-us/article/Create-and-add-a-signature-to-messages-8ee5d4f4-68fd-464a-a1c1-0e1c80bb27f2
+ 
+IE
+Add default search machine in IE
+http://www.ghacks.net/2013/10/21/change-add-search-providers-internet-explorer-11/
+ 
+Adobe Reader, pdf
+ 
+Short key for Adobe reader
+https://helpx.adobe.com/acrobat/using/keyboard-shortcuts.html
+ 
+Unlock secured pdf
+open file with chrome
+print file as pdf type.
+ 
+back-forward in adobe
+ALT + <-- or ALT + -->
+ 
+MS office 
+Strikethrough in MS office
+https://support.office.com/en-us/article/Apply-or-remove-strikethrough-text-formatting-608ce6b6-13e4-42bc-834f-544375ab8295
+Word shortcut
+Back to previous position: ALT + arrow left
+Excell shortcut
+Shortcut key
+Action
+ 
+Ctrl+2
+Bold
+ 
+Ctrl+3
+Italic
+ 
+Ctrl+4
+Underline
+ 
+Ctrl+5
+Strikethrough
+ 
+ 
+https://superuser.com/questions/1117582/change-font-size-for-all-power-point-slide-notes
+ 
+ 
+Sticky note
+http://www.digitalcitizen.life/how-use-sticky-notes
+Bold: Ctrl+B
+Italic: Ctrl+I
+Underline: Ctrl+U
+Strikethrough: Ctrl+T
+Bullet list: Ctrl+Shift+L
+Increase font size: Ctrl+Shift+>
+Decrease font size: Ctrl+Shift+
+Capitalize (or otherwise) highlighted letters: Ctrl+Shift+A
+Right align: Ctrl+R
+Center align: Ctrl+E
+Left align: Ctrl+L
+Single line space: Ctrl+1
+Double line space: Ctrl+2
+1.5 line space: Ctrl+5
+ 
+
+JIRA
+Link issue in Jira
+https://confluence.atlassian.com/jirasoftwarecloud/linking-issues-776997756.html
+strikethrough
+https://jira.atlassian.com/browse/CONFSERVER-33014
+Apache
+https://stackoverflow.com/questions/3940909/configure-apache-to-listen-on-port-other-than-80
+ 
+ 
+ 
+Change drive size on window 7
+http://www.makeuseof.com/tag/shrink-extend-volumes-partitions-windows-7/
+ 
+Install vdi in D driver
+http://www.techrepublic.com/article/how-to-move-virtualbox-vms-from-one-drive-to-another/
+ 
+Move quickly to folder in window 7
+Add folder in Favorite
+Go to folder first, right click on Favorite and select
+ 
+Teraterm setup
+Font: consolas, regular, size 11
+==> save setup
+install firefox quantum
+https://itsfoss.com/firefox-quantum-ubuntu/
+
+Unsecure web in Firefox
+copy to browser: chrome://pippki/content/exceptionDialog.xul
+paste the URL of the website -> get certificate
+
+--convert pdf to ppt
+https://smallpdf.com/vi/pdf-to-ppt
+
+--create blog
+http://onlinehtmltools.com/menu-generator/#
+https://www.youtube.com/watch?v=Oqp4g9Vx_dY
+http://oneqonea.blogspot.com/2012/04/how-do-i-add-syntax-highlighting-to-my.html
+http://www.craftyfella.com/2010/01/syntax-highlighting-with-blogger-engine.html
+--make subscriber on blog
+https://feedburner.google.com
+https://www.youtube.com/watch?v=3ZjBZFYduxk
+ 
+<pre class="brush:c;">
+</pre>
+
+--active capture link by IDM in chrome
+http://thuthuattienich.com/phan-mem-hay/idm-khong-bat-link-download-tren-chrome/
+http://www.internetdownloadmanager.com/register/new_faq/chrome_extension2.html
+
+//download paper
+http://sci-hub.cc/
+ 
+//change boot order
+https://www.cnet.com/how-to/how-to-change-the-boot-order-of-a-dual-boot-linux-pc/
+
+//install codeblock
+-install codeblock app
+-install C/C++ compiler MW
+https://sourceforge.net/projects/mingw/?source=typ_redirect
+-In codeblock app -> settings-> toolchain executables -> auto-detect
+ 
+//codeblock
+Disable spellchecker: 
+Plugin -> Manage plugin -> disable spellchecker
+ 
+//add text input file and set target
+Click right on project -> properties -> Build targets 
+Select Build target files and Execution working dir (contain input text file)
+
+Crack IDM (ok for newest version)
+http://vforum.vn/diendan/showthread.php?19744-Crack-IDM-moi-phien-ban-Crack-Internet-Download-Manager-moi-nhat
+ 
+ 
+Rational Rose
+http://v-techs.net/threads/ibm-rational-rose-7-0-file-iso-crack.1273/
+
+//window shortcut
+http://windows.microsoft.com/en-us/windows/keyboard-shortcuts#keyboard-shortcuts=windows-8
+
+
+
+Install specific gcc
+https://askubuntu.com/questions/271388/how-to-install-gcc-4-8
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+ sudo apt-get update
+ sudo apt-get install gcc-4.8
+ sudo apt-get install g++-4.8
+
+Follow step 2, 3 in below
+https://askubuntu.com/questions/923337/installing-an-older-gcc-version3-4-3-on-ubuntu-14-04-currently-4-8-installed
+ls -lh /usr/bin/gcc*
+ls -lh /usr/bin/g++*
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-3.4 40 --slave /usr/bin/g++ g++ /usr/bin/g++-3.4
+
+sudo update-alternatives --config gcc
+
+
+
+
+VMware
+
+Install Vmware workstation 14 Pro, 14.1.3 build-9474260
+Key: AC5XK-0ZD4H-088HP-9NQZV-ZG2R4
+https://textuploader.com/duhec
+
+
+Share hot vs guest
+https://askubuntu.com/questions/691585/copy-paste-and-dragdrop-not-working-in-vmware-machine-with-ubuntu
+
+1. Install open vm tools 0r Vmware-tools (item 2)
+sudo apt-get install open-vm-tools open-vm-tools-desktop
+
+--uninstall open-vmtools
+sudo apt-get remove --auto-remove open-vm-tools open-vm-tools-desktop
+
+2. Install VMware Tools
+https://www.youtube.com/watch?v=3X94SMUlp6s
+
+sudo apt-get remove --auto-remove open-vm-tools open-vm-tools-desktop
+
+sudo mkdir /mnt/cdrom
+sudo mount /dev/cdrom /mnt/cdrom
+cd /mnt/cdrom
+cp /mnt/cdrom/VMwareTools-10.2.5-8068393.tar.gz /tmp/.
+cd /tmp
+tar -zxvf VmwareTools-10.2.5-8068393.tar.gz
+cd vmware-tools-distrib/
+./vmware-install.pl
+3. Reboot the VM
+
+--setup Display
+Edit -> Preference -> display -> tick autofit window, autofit guest
+
+–- download newest vmware tools for linux (linux.iso) (need login in Vmware page
+taitrananhvn@gmail.com, pw Trananhtai123)
+Start VM guest OS
+Click VM → settings → Add → CD/DvD drive → use Iso image file (linux.iso)
+cd /media/[username]/Vmwaretools
+rm /tmp/*
+cp -rf VMwareTools-10.2.5-8068393.tar.gz /tmp/.
+Do again above steps.
+
+–- unistall and install Vmtools
+https://kb.vmware.com/s/article/1014522
+
+uninstall
+/usr/bin/vmware-uninstall-tools.pl
+
+running
+vmtool auto run when reboot
+→ service vmware-tools status
+
+Disk Mount/Unmount Filesystem view, check disk partitions
+--4 ways
+df -h
+sudo lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT,LABEL
+sudo fdisk -l
+sudo parted -l
+
+sudo umount -f /dev/sr0
+eject -T /dev/sr0
+
+

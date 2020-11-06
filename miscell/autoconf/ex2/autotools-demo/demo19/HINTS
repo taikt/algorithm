@@ -1,0 +1,2 @@
++hello_CPPFLAGS = -I$(top_srcdir)/include
++hello_LDADD = libdemo.la

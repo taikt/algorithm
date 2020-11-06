@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libbridge.so -o libbridge.so CMakeFiles/bridge.dir/ApplicationWindow.cpp.o CMakeFiles/bridge.dir/IconWindow.cpp.o CMakeFiles/bridge.dir/PMWindowImp.cpp.o CMakeFiles/bridge.dir/View.cpp.o CMakeFiles/bridge.dir/Window.cpp.o CMakeFiles/bridge.dir/WindowSystemFactory.cpp.o CMakeFiles/bridge.dir/XWindowImp.cpp.o 

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/thomas/humax/rg/dp_eroos2/Creational_Patterns/Singleton/basic_implementation/Singleton.cpp
+Singleton.h
+/home/thomas/humax/rg/dp_eroos2/Creational_Patterns/Singleton/basic_implementation/Singleton.h
+iostream
+-
+
+/home/thomas/humax/rg/dp_eroos2/Creational_Patterns/Singleton/basic_implementation/Singleton.h
+
+/home/thomas/humax/rg/dp_eroos2/Creational_Patterns/Singleton/basic_implementation/main.cpp
+Singleton.h
+/home/thomas/humax/rg/dp_eroos2/Creational_Patterns/Singleton/basic_implementation/Singleton.h
+

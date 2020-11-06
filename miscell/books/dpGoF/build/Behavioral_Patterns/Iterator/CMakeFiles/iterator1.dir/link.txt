@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/iterator1.dir/iterator1.cpp.o  -o iterator1 -rdynamic libiterator.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Behavioral_Patterns/Iterator 

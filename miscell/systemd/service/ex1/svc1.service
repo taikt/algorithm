@@ -1,0 +1,15 @@
+[Unit]
+Description=testing service
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+ExecStart=/home/tai/work/tmas/systemd/service/svc1
+Restart=always
+#RestartSec=5
+#StandardOutput=syslog
+#StandardError=syslog
+#SyslogIdentifier=service-example
+
+[Install]
+WantedBy=multi-user.target

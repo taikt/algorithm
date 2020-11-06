@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libiterator.so -o libiterator.so CMakeFiles/iterator.dir/Employee.cpp.o 

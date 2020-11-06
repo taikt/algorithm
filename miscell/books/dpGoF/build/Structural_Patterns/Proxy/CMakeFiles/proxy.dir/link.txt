@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/proxy.dir/main.cpp.o  -o proxy -rdynamic libproxylib.so ../../Foundation_Classes/libfoundation_classes.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Structural_Patterns/Proxy:/home/thomas/humax/rg/dp_eroos2/build/Foundation_Classes 

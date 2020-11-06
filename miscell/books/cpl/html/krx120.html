@@ -1,0 +1,112 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-20
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-20, page 34
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write a program <code>detab</code> that replaces tabs in the input with the proper
+number of blanks to space to the next tab stop. Assume a fixed set of tab
+stops, say every </i> n <i> columns. Should </i> n <i> be a variable or
+a symbolic parameter?
+</i>
+<br>
+<br>
+
+<br>
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdlib.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;string.h&gt;</B></FONT>
+
+<FONT COLOR="#00FFFF"><B>#define MAX_BUFFER   1024</B></FONT>
+<FONT COLOR="#00FFFF"><B>#define SPACE        (char)' '</B></FONT>
+<FONT COLOR="#00FFFF"><B>#define TAB          (char)'\t'</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">CalculateNumberOfSpaces</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">Offset</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">TabSize</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+   <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">TabSize</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Offset</FONT> <FONT COLOR="#00FFFF">%</FONT> <FONT COLOR="#00FF00">TabSize</FONT><FONT COLOR="#00FFFF">);</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B>  <FONT COLOR="#00FF00">Buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">MAX_BUFFER</FONT><FONT COLOR="#00FFFF">];</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">TabSize</FONT>    <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>5</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#FFFF00">/* A good test value */</FONT>
+
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">fgets</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Buffer</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Buffer</FONT><FONT COLOR="#00FFFF">),</FONT> <FONT COLOR="#00FF00">stdin</FONT><FONT COLOR="#00FFFF">))</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">Buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">TAB</FONT><FONT COLOR="#00FFFF">)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">CalculateNumberOfSpaces</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">TabSize</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">k</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">k</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">++)</FONT>
+        <FONT COLOR="#00FFFF">{</FONT>
+          <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">SPACE</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+      <B><FONT COLOR="#00FFFF">else</FONT></B>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]);</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<br>
+<br>
+In answer to the question about whether <i> n </i> should be variable
+or symbolic, I'm tempted to offer the answer 'yes'. :-) Of course, it
+should be variable, to allow for modification of the value at runtime,
+for example via a command line argument, without requiring recompilation.
+<br>
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

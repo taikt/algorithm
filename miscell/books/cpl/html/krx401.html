@@ -1,0 +1,132 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 4-1
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 4-1, page 71
+</h3>
+<h4>
+Solution by <a href=mailto:rdear@egomaniacs.net>  Rick Dearman </a>
+</h4>
+</center>
+
+<i>
+Write the function <code>strrindex(s,t)</code> , which returns the position of the <i> rightmost </i>
+occurrence of <code>t</code> in <code>s</code> , or -1 if there is none.
+</i>
+<br>
+<br>
+
+
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/* Test driver by Richard Heathfield
+ * Solution (strrindex function) by Rick Dearman
+ */</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<FONT COLOR="#FFFF00">/* Write the function strrindex(s,t), which returns the position
+** of the rightmost occurrence of t in s, or -1 if there is none.
+*/</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">strrindex</FONT><FONT COLOR="#00FFFF">(</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[],</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">t</FONT> <FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">count</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">=</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">t</FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">count</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">count</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+<B><FONT COLOR="#00FFFF">typedef</FONT></B> <B><FONT COLOR="#00FFFF">struct</FONT></B> <FONT COLOR="#00FF00">TEST</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">data</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">testchar</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">expected</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT> <FONT COLOR="#00FF00">TEST</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <FONT COLOR="#00FF00">TEST</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FFFF">{</FONT><FONT COLOR="#FFFFFF">&quot;Hello world&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>'o'</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>7</B></FONT><FONT COLOR="#00FFFF">},</FONT>
+    <FONT COLOR="#00FFFF">{</FONT><FONT COLOR="#FFFFFF">&quot;This string is littered with iiiis&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>'i'</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>32</B></FONT><FONT COLOR="#00FFFF">},</FONT>
+    <FONT COLOR="#00FFFF">{</FONT><FONT COLOR="#FFFFFF">&quot;No 'see' letters in here&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>'c'</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">};</FONT>
+
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">numtests</FONT> <FONT COLOR="#00FFFF">=</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">test</FONT> <FONT COLOR="#00FFFF">/</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+  <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">ch</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'o'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">pos</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">numtests</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">pos</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strrindex</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">data</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">testchar</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Searching %s for last occurrence of %c.\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+           <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">data</FONT><FONT COLOR="#00FFFF">,</FONT>
+           <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">testchar</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Expected result: %d\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">expected</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;%sorrect (%d).\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">pos</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">expected</FONT> <FONT COLOR="#00FFFF">?</FONT> <FONT COLOR="#FFFFFF">&quot;C&quot;</FONT> <FONT COLOR="#00FFFF">:</FONT> <FONT COLOR="#FFFFFF">&quot;Inc&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">pos</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">pos</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Character found was %c\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">test</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">].</FONT><FONT COLOR="#00FF00">data</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">pos</FONT><FONT COLOR="#00FFFF">]);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

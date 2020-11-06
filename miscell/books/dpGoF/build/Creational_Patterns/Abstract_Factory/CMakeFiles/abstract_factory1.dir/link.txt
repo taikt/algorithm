@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/abstract_factory1.dir/main.cpp.o  -o abstract_factory1 -rdynamic ../libcreational_patterns.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Creational_Patterns 

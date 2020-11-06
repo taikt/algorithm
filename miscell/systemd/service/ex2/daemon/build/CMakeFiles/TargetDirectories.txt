@@ -1,0 +1,13 @@
+/home/tai/work/tmas/systemd/service/daemon/build/CMakeFiles/install/strip.dir
+/home/tai/work/tmas/systemd/service/daemon/build/CMakeFiles/install/local.dir
+/home/tai/work/tmas/systemd/service/daemon/build/CMakeFiles/edit_cache.dir
+/home/tai/work/tmas/systemd/service/daemon/build/CMakeFiles/rebuild_cache.dir
+/home/tai/work/tmas/systemd/service/daemon/build/CMakeFiles/list_install_components.dir
+/home/tai/work/tmas/systemd/service/daemon/build/CMakeFiles/install.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/install/strip.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/install/local.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/daemon.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/edit_cache.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/rebuild_cache.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/install.dir
+/home/tai/work/tmas/systemd/service/daemon/build/src/CMakeFiles/list_install_components.dir

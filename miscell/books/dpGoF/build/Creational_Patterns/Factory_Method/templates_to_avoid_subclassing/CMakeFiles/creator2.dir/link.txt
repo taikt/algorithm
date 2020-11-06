@@ -1,0 +1,2 @@
+/usr/bin/ar cr libcreator2.a  CMakeFiles/creator2.dir/Creator.cpp.o
+/usr/bin/ranlib libcreator2.a

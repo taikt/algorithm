@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libprototype.so -o libprototype.so CMakeFiles/prototype.dir/MazePrototypeFactory.cpp.o 

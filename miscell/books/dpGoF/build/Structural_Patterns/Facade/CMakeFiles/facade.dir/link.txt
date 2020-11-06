@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libfacade.so -o libfacade.so CMakeFiles/facade.dir/Compiler.cpp.o CMakeFiles/facade.dir/ExpressionNode.cpp.o 

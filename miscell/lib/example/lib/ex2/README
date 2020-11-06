@@ -1,0 +1,16 @@
+1. Intruction
+- Example to build shared lib with makefile
+
+- Example how to link a shared lib for another shared lib
+(not link between static libs, not link between different type lib i.e c lib to cpp lib)
+
+- In executable file, makefile include 'parent' shared lib is enouhg, 'child' shared lib is automatically called.
+but if calling a function directly from 'child' shared lib, executable file must include child lib in makefile.
+
+- need copy lib to /lib, otherwise use -Wl,.rpath
+
+2. Refer
+~/work/gen11/liblgeini_code/Makefile
+
+3. TODO
+a shared lib links a staticlib (in static lib's makefile, add -fPIC in CFLAG or CPPFLAG)

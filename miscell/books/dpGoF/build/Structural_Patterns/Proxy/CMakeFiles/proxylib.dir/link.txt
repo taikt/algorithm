@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libproxylib.so -o libproxylib.so CMakeFiles/proxylib.dir/Graphic.cpp.o CMakeFiles/proxylib.dir/TextDocument.cpp.o CMakeFiles/proxylib.dir/Image.cpp.o CMakeFiles/proxylib.dir/ImageProxy.cpp.o ../../Foundation_Classes/libfoundation_classes.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Foundation_Classes 

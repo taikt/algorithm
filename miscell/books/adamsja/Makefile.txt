@@ -1,0 +1,40 @@
+objects		= Object.o ObjectFactory.o Visitor.o Universe.o
+compiler	= g++ -Wall
+
+default:
+	echo "Must use 'make grad' or 'make ugrad'"
+
+ugrad: $(objects) driverUgrad.o
+	$(compiler) $(objects) driverUgrad.o -o ugrad_driver
+
+grad: $(objects) driverGrad.o Parser.o
+	$(compiler) $(objects) driverGrad.o Parser.o -o grad_driver
+
+driverUgrad.o : Universe.h Object.h ObjectFactory.h Visitor.h driverUgrad.cpp
+	$(compiler) -c driverUgrad.cpp
+
+driverGrad.o : Universe.h Object.h ObjectFactory.h Visitor.h Parser.h driverGrad.cpp
+	$(compiler) -c driverGrad.cpp
+
+Object.o : Vector.h Vector.cpp Visitor.h Object.h Object.cpp
+	$(compiler) -c Object.cpp
+
+Visitor.o : Visitor.h Visitor.cpp Object.h
+	$(compiler) -c Visitor.cpp
+
+ObjectFactory.o : ObjectFactory.h ObjectFactory.cpp Vector.h Vector.cpp \
+		Object.h
+	$(compiler) -c ObjectFactory.cpp
+
+Universe.o : Universe.h Universe.cpp Vector.h Vector.cpp Object.h
+	$(compiler) -c Universe.cpp
+
+Parser.o: Parser.h Parser.cpp Universe.h
+	$(compiler) -c Parser.cpp
+
+clean:
+	rm -f $(objects) Parser.o driverGrad.o driverUgrad.o
+
+realclean: clean
+	rm -f grad_driver ugrad_driver
+

@@ -1,0 +1,20 @@
+[Unit]
+Description=my testing service
+#SourcePath=/usr/bin/test
+#After=find_partitions.service systemd-udevd.service psmd.service firmware-links.service  start_servicemanager.service start_start.service applicationManager.service
+#Before=misc-daemon.service start_fs-scrub-daemon.service
+
+[Service]
+Type=simple
+#Restart=on-failure
+#RestartSec=20s
+#WatchdogSec=30s
+#EnvironmentFile=/etc/systemd/TigrisEnvironment
+ExecStart=/usr/bin/test
+#TimeoutSec=30s
+#StartLimitInterval=480s
+#StartLimitBurst=3
+#StartLimitAction=reboot-force
+
+[Install]
+WantedBy=multi-user.target

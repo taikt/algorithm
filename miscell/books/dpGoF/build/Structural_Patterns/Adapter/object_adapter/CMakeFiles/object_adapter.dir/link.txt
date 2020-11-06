@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libobject_adapter.so -o libobject_adapter.so CMakeFiles/object_adapter.dir/TextShape.cpp.o 

@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/flyweight1.dir/flyweight1.cpp.o  -o flyweight1 -rdynamic libflyweight.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Structural_Patterns/Flyweight 

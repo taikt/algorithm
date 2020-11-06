@@ -1,0 +1,1 @@
+/usr/bin/c++    -pedantic -Wall -std=c++0x    CMakeFiles/testchocolate.dir/chocolate.cpp.o  -o testchocolate -rdynamic ../lib/libchocolate.a 

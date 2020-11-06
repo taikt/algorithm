@@ -1,0 +1,111 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-5
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-5, page 14
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Modify the temperature conversion program to print the table in reverse
+order, that is, from 300 degrees to 0.
+</i>
+<br>
+<br>
+
+This version uses a <code>while</code> loop:
+<br>
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">float</FONT></B> <FONT COLOR="#00FF00">fahr</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">celsius</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">upper</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">step</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#00FF00">lower</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FF00">upper</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>300</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FF00">step</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>20</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;C     F\n\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">upper</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">&gt;=</FONT> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">fahr</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>9</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">/</FONT><FONT COLOR="#FFFFFF"><B>5</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>32</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;%3.0f %6.1f\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">celsius</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">fahr</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#00FF00">step</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<br>
+This version uses a <code>for</code> loop:
+<br>
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">float</FONT></B> <FONT COLOR="#00FF00">fahr</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">celsius</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">upper</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">step</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#00FF00">lower</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FF00">upper</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>300</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FF00">step</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>20</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;C     F\n\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">upper</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">&gt;=</FONT> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#00FF00">step</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">fahr</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>9</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">/</FONT><FONT COLOR="#FFFFFF"><B>5</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">celsius</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>32</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;%3.0f %6.1f\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">celsius</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">fahr</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+</pre>
+</code>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

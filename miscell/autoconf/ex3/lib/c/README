@@ -1,0 +1,14 @@
+Ref:
+-- how to create shared lib with autoconf
+https://github.com/dblommesteijn/autotools-example
+
+-- README, AUTHORS, NEWS.. are required files for autotool
+
+-- to install lib:
+./autogen.sh make
+./lib_c.sh install
+
+
+-- to clean lib
+./autogen.sh clean
+./lib_c.sh remove

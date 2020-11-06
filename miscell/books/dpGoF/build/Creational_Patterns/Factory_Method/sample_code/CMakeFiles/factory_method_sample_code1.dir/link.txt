@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/factory_method_sample_code1.dir/main.cpp.o  -o factory_method_sample_code1 -rdynamic ../../libcreational_patterns.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Creational_Patterns 

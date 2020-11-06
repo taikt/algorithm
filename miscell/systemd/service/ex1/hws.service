@@ -1,0 +1,15 @@
+[Unit]
+Description=Hello world service
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+ExecStart=/home/tai/work/tmas/systemd/service/hws.sh
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=helloword-example
+
+[Install]
+WantedBy=multi-user.target

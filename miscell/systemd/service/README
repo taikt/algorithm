@@ -1,0 +1,12 @@
+1. Ref
+https://www.linode.com/docs/quick-answers/linux/start-service-at-boot/
+
+2. Note
+icheck ex3 to complete and simple solution (enable service and logging also)
+
+-- make a service run after other services 
+https://superuser.com/questions/544399/how-do-you-make-a-systemd-service-as-the-last-service-on-boot
+https://stackoverflow.com/questions/21830670/systemd-start-service-after-specific-service
+
+i.e ~binder_linux: test service run after servicemanager.service start.service ApplicationManagerService.service
+service_layer/services/testService/testService.service

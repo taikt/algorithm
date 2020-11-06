@@ -1,0 +1,97 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 2-6
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 2-6, page 49
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write a function <code>setbits(x,p,n,y)</code> that returns <code>x</code> with the <code>n</code> bits that
+begin at position <code>p</code> set to the rightmost <code>n</code> bits of <code>y,</code> leaving the other
+bits unchanged.
+</i>
+<br>
+<br>
+This one's scary.
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">unsigned</FONT></B> <FONT COLOR="#00FF00">setbits</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">unsigned</FONT></B> <FONT COLOR="#00FF00">x</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <FONT COLOR="#00FF00">y</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">x</FONT> <FONT COLOR="#00FFFF">&amp;</FONT> <FONT COLOR="#00FFFF">((~</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT> <FONT COLOR="#00FFFF">&lt;&lt;</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">|</FONT> <FONT COLOR="#00FFFF">(~(~</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT> <FONT COLOR="#00FFFF">&lt;&lt;</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">)))))</FONT> <FONT COLOR="#00FFFF">|</FONT> <FONT COLOR="#00FFFF">((</FONT><FONT COLOR="#00FF00">y</FONT> <FONT COLOR="#00FFFF">&amp;</FONT> <FONT COLOR="#00FFFF">~(~</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT> <FONT COLOR="#00FFFF">&lt;&lt;</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">&lt;&lt;</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">));</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">unsigned</FONT></B> <FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">;</FONT>
+  
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>30000</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">+=</FONT> <FONT COLOR="#FFFFFF"><B>511</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>1000</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">+=</FONT> <FONT COLOR="#FFFFFF"><B>37</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>16</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">++)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">++)</FONT>
+        <FONT COLOR="#00FFFF">{</FONT>
+          <FONT COLOR="#00FF00">k</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">setbits</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">);</FONT>
+          <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;setbits(%u, %d, %d, %u) = %u\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">k</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+<br>
+<br>
+<br>
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

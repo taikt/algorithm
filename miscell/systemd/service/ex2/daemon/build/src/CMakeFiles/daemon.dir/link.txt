@@ -1,0 +1,1 @@
+/usr/bin/cc  -D_REETRANT -DNDEBUG -fPIC -Wall -Wextra -pedantic -O3 -O3 -DNDEBUG   CMakeFiles/daemon.dir/daemon.c.o  -o ../bin/daemon -rdynamic 

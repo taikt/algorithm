@@ -1,0 +1,95 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-10
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-10, page 20
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write a program to copy its input to its output,
+replacing each tab by <code>\t</code> , each backspace by <code>\b</code> , and each backslash by <code>\\</code> .
+This makes tabs and backspaces visible in an unambiguous way.
+</i>
+<br>
+<br>
+
+<br>
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<FONT COLOR="#00FFFF"><B>#define ESC_CHAR '\\'</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">((</FONT><FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">getchar</FONT><FONT COLOR="#00FFFF">())</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FF00">EOF</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">switch</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\b'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+        <FONT COLOR="#FFFF00">/* The OS on which I tested this (NT) intercepts \b characters. */</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">ESC_CHAR</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>'b'</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+        <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+      <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#FFFFFF"><B>'\t'</B></FONT><FONT COLOR="#00FFFF">:</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">ESC_CHAR</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>'t'</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+        <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+      <B><FONT COLOR="#00FFFF">case</FONT></B> <FONT COLOR="#00FF00">ESC_CHAR</FONT><FONT COLOR="#00FFFF">:</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">ESC_CHAR</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">ESC_CHAR</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+      <B><FONT COLOR="#00FFFF">default</FONT></B><FONT COLOR="#00FFFF">:</FONT>
+        <FONT COLOR="#00FF00">putchar</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <B><FONT COLOR="#00FFFF">break</FONT></B><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

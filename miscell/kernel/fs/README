@@ -1,0 +1,34 @@
+-- file system
+
+http://e2fsprogs.sourceforge.net/ext2.html ==> ext2 utilities, design paper(must read)
+http://e2fsprogs.sourceforge.net/ext2intro.html (history of fs including mentioning kernel 0.96c and design of ext2 => first read and must read)
+https://www.tldp.org/LDP/khg/HyperNews/get/fs/fs.html (must read)
+http://www.tldp.org/LDP/khg/HyperNews/get/fs/vfstour.html (must read)
+https://lwn.net/Articles/604287/ (must read)
+https://lwn.net/Articles/604515/ (must read)
+https://www.tldp.org/LDP/khg/HyperNews/get/syscall/syscall86.html (must read)
+https://lwn.net/Articles/653173/ (how to add a system call => should read)
+https://lwn.net/Articles/13325/ (Creating Linux virtual filesystems => must read)
+https://github.com/torvalds/linux/blob/master/Documentation/filesystems/vfs.txt (must read)
+https://www.ibm.com/developerworks/linux/library/l-linux-filesystem/ (must read)
+https://www.ibm.com/developerworks/library/l-virtual-filesystem-switch/index.html (must read)
+https://www.win.tue.nl/~aeb/linux/lk/lk-8.html (must read)
+http://tldp.org/LDP/lki/lki-3.html#ss3.6 (must read)
+https://help.ubuntu.com/community/LinuxFilesystemsExplained (should read)
+https://www.howtogeek.com/howto/33552/htg-explains-which-linux-file-system-should-you-choose/ (compare different fs => should read)
+https://www.youtube.com/watch?v=tMVj22EWg6A (must check)
+
+https://www.bleepingcomputer.com/tutorials/introduction-to-mounting-filesystems-in-linux/
+chapter 14, file systems, linux programming interface book. ==> good overview for file system in linux
+https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/ ==> source code of ext2
+http://www.cs.cmu.edu/afs/cs/academic/class/15213-s01/docs/linux-kernel.pdf => check file system chapter
+https://www.slashroot.in/proc-file-system-linux-explained
+https://www.tecmint.com/find-linux-filesystem-type/
+https://www.mimuw.edu.pl/~vincent/lecture12/12-fs.pdf
+https://www2.informatik.hu-berlin.de/~iks/Studienarbeit/node12.html (Gadgetfs)
+https://blog.soutade.fr/post/2016/07/create-your-own-usb-gadget-with-gadgetfs.html
+https://elixir.bootlin.com/linux/v4.15.18/source/drivers/usb/gadget/legacy/inode.c#L1949 (gadgetfs code)
+https://www.thegeekstuff.com/2011/05/ext2-ext3-ext4/?utm_source=feedburner
+https://johnsofteng.wordpress.com/2013/11/20/sysfs-procfs-sysctl-debugfs-and-other-similar-kernel-interfaces/
+
+

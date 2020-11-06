@@ -1,0 +1,64 @@
+#debug with gdb
+(-ggdb in compiling)
+0. get help
+help b (for using breakpoint)
+
+1. list code
+list or l
+
+2. run code
+run or r
+
+3. step forward
+step or r
+
+4. set breakpoint
+break line# or b line#
+
+5. show register
+info register
+
+6. quit
+q
+
+7. exame memory
+x/4xb &vari (check content at address pointed by 'vari', 4 bytes, show in hex type)
+1dw ==> in decimal(1 word = 4 bytes)
+1xb ==> in hex (1 byte)
+1tb => in binary (1 byte)
+
+8. show memory maps
+info proc mappings
+(help info proc)
+memory addess length is 64 bits(16 hexs)  or 32 bits.
+if leading 0's, just cut it.
+(https://forums.bignerdranch.com/t/why-is-length-of-memory-address-12-hex-digits-long/6764)
+
+a byte is the smallest addressable unit of memory
+(https://forums.bignerdranch.com/t/why-is-length-of-memory-address-12-hex-digits-long/6764)
+x is an interger located at address 0x6000d0.
+(gdb) x/4tb 0x6000d0
+0x6000d0:   00101100    00000001    00000000    00000000
+(gdb) x/4tb 0x6000d1
+0x6000d1:   00000001    00000000    00000000    00000010
+
+at address 0x6000d0 store 1st byte: 00101100
+at next address 0x6000d1 store 2rd byte: 00000001
+(64bit-OS up-to 2^64 addresses, meaning RAM can store up-to 2^64 bytes)
+
+64 bit-OS, commonly RAM 8GB (allowed maximum is big larger)
+(https://www.compuram.de/blog/en/how-much-ram-can-be-addressed-under-the-current-32-bit-and-64-bit-operating-systems/)
+
+1 GB = 2^30 bytes (http://www.beesky.com/newsite/bit_byte.htm)
+64 bit-OS => 2^64 addresses (1 address store 1 byte) => maximum 2^64 bytes in RAM => maximum 2^34.2^30 = 2^34 GB = 2^24. 2^40 
+= maximum 2^24 TB
+
+32 bit-Os, maximum RAM 4GB
+32 bit-OS => maximum 2^32 bytes => 4.2^30 => maximum 4GB
+
+9. check value, address
+print x ==> value
+print &x ==> address
+print &main =>> address
+
+

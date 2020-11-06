@@ -1,0 +1,142 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 3-4
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 3-4, page 64
+</h3>
+<h4>
+Solution by <a href=mailto:paul@paulgriffiths.demon.co.uk>  Paul Griffiths </a>
+</h4>
+</center>
+
+<i>
+In a two's complement number representation, our version of <code>itoa</code> does not handle the largest
+negative number, that is, the value of <code>n</code> equal to <code>-(2</code> to the power <code>(wordsize</code> <code>-</code> <code>1))</code> .
+Explain why not. Modify it to print that value correctly regardless of the machine on which it runs.
+</i>
+<br>
+<br>
+
+<pre>
+Exercise 3-4 explanation: There are a number of ways of representing signed integers in binary, for example, signed-magnitude, excess-M, one's complement and two's complement. We shall restrict our discussion to the latter two. In a one's complement number representation, the binary represenation of a negative number is simply the binary representation of its positive counterpart, with the sign of all the bits switched. For instance, with 8 bit variables: 
+                SIGNED  BINARY  UNSIGNED
+                
+                  25   00011001     25
+                 -25   11100110    230
+
+                 127   01111111    127
+                -127   10000000    128
+
+The implications of this are (amongst others) that there are two ways of representing zero (all zero bits, and all one bits), that the maximum range for a signed 8-bit number is -127 to 127, and that negative numbers are biased by (2^n - 1) (i.e. -I is represented by (2^n - 1) - (+I). In our example, so: 
+                Bias = 2^8 - 1 = 255 = 11111111
+                Subtract 25          = 00011001
+                Equals               = 11100110
+
+) In a two's complement representation, negative numbers are biased by 2^n, e.g.: 
+         Bias = 2^8  = 100000000
+         Subtract 25 =  00011001
+         Equals      =  11100111
+
+In other words, to find the two's complement representation of a negative number, find the one's complement of it, and add one. The important thing to notice is that the range of an 8 bit variable using a two's complement representation is -128 to 127, as opposed to -127 to 127 using one's complement. Thus, the absolute value of the largest negative number cannot be represented (i.e. we cannot represent +128). Since the itoa() function in Chapter 3 handles negative numbers by reversing the sign of the number before processing, then adding a '-' to the string, passing the largest negative number will result it in being translated to itself: 
+                 -128            : 11111111
+                 One's complement: 00000000
+                 Subtract 1      : 11111111
+
+Therefore, because (n /= 10) will be negative, the do-while loop will run once only, and will place in the string a '-', followed by a single character, (INT_MIN % 10 + '0'). We can remedy these two bugs in the following way: 1 - change 'while ((n /= 10) &gt; 0)' to 'while (n /= 10)'. Since any fractional part is truncated with integer division, n will eventually equal zero after successive divides by 10, and 'n /= 10' will evaluate to false sooner or later. 2 - change 'n % 10 + '0'' to 'abs(n % 10) + '0'', to get the correct character. EX3_4.C shows the revised function, which will run correctly regardless of the number representation. 
+</pre>
+
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+
+  EX3_4.C
+  =======
+  
+  Suggested solution to Exercise 3-4
+  
+*/</FONT>
+    
+<FONT COLOR="#00FFFF"><B>#include &lt;stdlib.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;limits.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">itoa</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[]);</FONT>
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">reverse</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[]);</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>20</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+    
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;INT_MIN: %d\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">INT_MIN</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">itoa</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">INT_MIN</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Buffer : %s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">);</FONT>
+    
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">itoa</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[])</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">sign</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">sign</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">do</FONT></B> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">abs</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">%</FONT> <FONT COLOR="#FFFFFF"><B>10</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT> <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">/=</FONT> <FONT COLOR="#FFFFFF"><B>10</B></FONT> <FONT COLOR="#00FFFF">);</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">sign</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">reverse</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">);</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">reverse</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[])</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strlen</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">)-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">--)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">];</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+      </pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

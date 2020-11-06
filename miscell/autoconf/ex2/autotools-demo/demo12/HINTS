@@ -1,0 +1,6 @@
+
+if test "${enable_debug}" = "yes" ; then
+   AC_DEFINE([DEBUG_ENABLED], [1], [Whether debugging is enabled])
+fi
+
+-> change default value: enable_debug=yes

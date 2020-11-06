@@ -1,0 +1,23 @@
+Ref:
+http://wireless.ictp.it/school_2019/slides/MQTT_v2.pdf
+https://github.com/eclipse/mosquitto
+
+sudo apt-get install libc-ares-dev
+sudo apt-get install libwebsockets-dev
+sudo apt-get install libssl-dev
+wget https://mosquitto.org/files/source/mosquitto-1.6.8.tar.gz
+tar -xvzf mosquitto-1.6.8.tar.gz
+cd mosquitto-1.6.8/
+make
+mosquitto-1.6.8/lib$ sudo cp libmosquitto.so.1 /lib/.
+mosquitto-1.6.8/lib$ sudo ln -sf /lib/libmosquitto.so.1 /lib/libmosquitto.so
+
+-- first tab
+./src/mosquitto
+
+
+-- second tab
+./client/mosquitto_sub -t 'test/topic' -v
+
+-- third tab
+./client/mosquitto_pub -t 'test/topic' -m 'hello world'

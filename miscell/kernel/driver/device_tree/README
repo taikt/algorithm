@@ -1,0 +1,8 @@
+- to store HW information like registers, address
+- seperate from kernel code (before device tree, kernel code includes HW info)
+i.e 
+vi ./kernel/arch/arm/boot/dts/qcom/mdm9640.dtsi
+
+Ref:
+https://elinux.org/images/f/f9/Petazzoni-device-tree-dummies_0.pdf
+https://lwn.net/Articles/448499/

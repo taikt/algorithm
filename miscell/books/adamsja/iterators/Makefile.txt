@@ -1,0 +1,10 @@
+all: stl gof
+
+stl:
+	g++ -Wall STLDriver.cpp -o stl_driver
+
+gof:
+	g++ -Wall -std=c++11 GoFDriver.cpp -o gof_driver
+
+clean:
+	rm -f stl_driver gof_driver

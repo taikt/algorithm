@@ -1,0 +1,239 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 1-13
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 1-13, page 24
+</h3>
+<h4>
+  Solution by <a href=mailto:complangc@eton.powernet.co.uk>  Richard Heathfield </a>
+</h4>
+</center>
+
+<i>
+Write a program to print a histogram of the lengths of words in its input. It is easy
+to draw the histogram with the bars horizontal; a vertical orientation is more challenging.
+</i>
+<br>
+<br>
+
+<br>
+<code>
+<pre>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<FONT COLOR="#00FFFF"><B>#define MAXWORDLEN 10</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">inspace</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">long</FONT></B> <FONT COLOR="#00FF00">lengtharr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">MAXWORDLEN</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">wordlen</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">firstletter</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">long</FONT></B> <FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">long</FONT></B> <FONT COLOR="#00FF00">maxval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">lengtharr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thisidx</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">((</FONT><FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">getchar</FONT><FONT COLOR="#00FFFF">())</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FF00">EOF</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>' '</B></FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'\t'</B></FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'\n'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">inspace</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">firstletter</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">inspace</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+        <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">wordlen</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">)</FONT>
+        <FONT COLOR="#00FFFF">{</FONT>
+          <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">wordlen</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+          <FONT COLOR="#00FFFF">{</FONT>
+            <FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">lengtharr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">wordlen</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+            <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#00FF00">maxval</FONT><FONT COLOR="#00FFFF">)</FONT>
+            <FONT COLOR="#00FFFF">{</FONT>
+              <FONT COLOR="#00FF00">maxval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">thisval</FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+          <FONT COLOR="#00FFFF">}</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+        <B><FONT COLOR="#00FFFF">else</FONT></B>
+        <FONT COLOR="#00FFFF">{</FONT>
+          <FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">lengtharr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">];</FONT>
+          <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#00FF00">maxval</FONT><FONT COLOR="#00FFFF">)</FONT>
+          <FONT COLOR="#00FFFF">{</FONT>
+            <FONT COLOR="#00FF00">maxval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">thisval</FONT><FONT COLOR="#00FFFF">;</FONT>
+          <FONT COLOR="#00FFFF">}</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">else</FONT></B>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">inspace</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">firstletter</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">wordlen</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">firstletter</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">inspace</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+      <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">wordlen</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">maxval</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisval</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisval</FONT><FONT COLOR="#00FFFF">--)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;%4d  | &quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">thisval</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT><FONT COLOR="#00FFFF">++)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">lengtharr</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">thisidx</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">&gt;=</FONT> <FONT COLOR="#00FF00">thisval</FONT><FONT COLOR="#00FFFF">)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;*  &quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+      <B><FONT COLOR="#00FFFF">else</FONT></B>
+      <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;   &quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;      +&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;---&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;\n       &quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">thisidx</FONT><FONT COLOR="#00FFFF">++)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;%2d &quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">thisidx</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;&gt;%d\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">MAXWORDLEN</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+</pre>
+</code>
+
+
+<br>
+<br>
+<br>
+Here's the output of the program when given its own source as input:
+<code>
+<pre>
+  72  | *                                
+  71  | *                                
+  70  | *                                
+  69  | *                                
+  68  | *                                
+  67  | *                                
+  66  | *                                
+  65  | *                                
+  64  | *                                
+  63  | *                                
+  62  | *                                
+  61  | *                                
+  60  | *                                
+  59  | *                                
+  58  | *                                
+  57  | *                                
+  56  | *                                
+  55  | *                                
+  54  | *                                
+  53  | *                                
+  52  | *                                
+  51  | *                                
+  50  | *                                
+  49  | *                                
+  48  | *                                
+  47  | *                                
+  46  | *                                
+  45  | *                                
+  44  | *                                
+  43  | *                                
+  42  | *                                
+  41  | *                                
+  40  | *  *                             
+  39  | *  *                             
+  38  | *  *                             
+  37  | *  *                             
+  36  | *  *                             
+  35  | *  *                             
+  34  | *  *                             
+  33  | *  *                             
+  32  | *  *                             
+  31  | *  *                             
+  30  | *  *                             
+  29  | *  *                             
+  28  | *  *                             
+  27  | *  *                             
+  26  | *  *                             
+  25  | *  *                          *  
+  24  | *  *                          *  
+  23  | *  *                          *  
+  22  | *  *                          *  
+  21  | *  *                          *  
+  20  | *  *                          *  
+  19  | *  *              *           *  
+  18  | *  *              *           *  
+  17  | *  *              *           *  
+  16  | *  *              *        *  *  
+  15  | *  *              *        *  *  
+  14  | *  *              *        *  *  
+  13  | *  *              *        *  *  
+  12  | *  *  *           *        *  *  
+  11  | *  *  *           *        *  *  
+  10  | *  *  *  *        *        *  *  
+   9  | *  *  *  *        *        *  *  
+   8  | *  *  *  *        *        *  *  
+   7  | *  *  *  *        *  *     *  *  
+   6  | *  *  *  *        *  *     *  *  
+   5  | *  *  *  *        *  *     *  *  
+   4  | *  *  *  *     *  *  *     *  *  
+   3  | *  *  *  *     *  *  *  *  *  *  
+   2  | *  *  *  *     *  *  *  *  *  *  
+   1  | *  *  *  *  *  *  *  *  *  *  *  
+      +---------------------------------
+        1  2  3  4  5  6  7  8  9 10 &gt;10
+
+</pre>
+</code>
+<br>
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

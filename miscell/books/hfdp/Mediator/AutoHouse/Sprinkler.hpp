@@ -1,0 +1,46 @@
+#ifndef	_HFDP_CPP_MEDIATOR_AUTO_HOUSE_SPRINKLER_HPP_
+#define _HFDP_CPP_MEDIATOR_AUTO_HOUSE_SPRINKLER_HPP_
+
+namespace HeadFirstDesignPatterns {
+  namespace Mediator {
+    namespace AutoHouse {
+
+      class Sprinkler : public Appliance {
+        void* _thread;
+        unsigned long _threadId;
+        unsigned long _interval;
+
+      public:
+        Sprinkler( Mediator* mediator ) :
+          Appliance( mediator )
+        {
+          assert( mediator );
+          _thread = 0;
+        }
+        void off()
+        {
+          _interval = 0;
+          _mediator->output( "Sprinkler is off" );
+        }
+        void on( unsigned long value )
+        {
+          _interval = value;
+          _mediator->output( "Sprinkler is on" );
+#if defined( WIN32 )
+          Sleep( _interval * 1000 );
+#else
+#error  Sleep() undefined for this platform
+#endif
+          onEvent();
+        }
+        void onEvent( unsigned long value = 0 ) const
+        {
+          _mediator->onEvent( this, value );
+        }
+      };
+
+    } // namespace AutoHouse
+  } // namespace Mediator
+} // namespace HeadFirstDesignPatterns
+
+#endif

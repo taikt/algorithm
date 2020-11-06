@@ -1,0 +1,2 @@
+/usr/bin/ar cr libchocolate.a  CMakeFiles/chocolate.dir/ChocolateBoiler.cpp.o
+/usr/bin/ranlib libchocolate.a

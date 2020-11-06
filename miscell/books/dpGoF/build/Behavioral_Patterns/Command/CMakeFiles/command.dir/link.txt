@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/command.dir/main.cpp.o  -o command -rdynamic libcommand1.so ../Iterator/libiterator.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Behavioral_Patterns/Command:/home/thomas/humax/rg/dp_eroos2/build/Behavioral_Patterns/Iterator 

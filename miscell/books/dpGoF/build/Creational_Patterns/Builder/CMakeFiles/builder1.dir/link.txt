@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/builder1.dir/builder1.cpp.o  -o builder1 -rdynamic libbuilder.so ../libcreational_patterns.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Creational_Patterns/Builder:/home/thomas/humax/rg/dp_eroos2/build/Creational_Patterns 

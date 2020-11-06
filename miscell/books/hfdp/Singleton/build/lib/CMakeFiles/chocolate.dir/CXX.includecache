@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/thomas/humax/rg/tmas/book/hfdpcpp/docs/_static/Silver/Singleton/Chocolate/include/ChocolateBoiler.hpp
+
+/home/thomas/humax/rg/tmas/book/hfdpcpp/docs/_static/Silver/Singleton/Chocolate/lib/ChocolateBoiler.cpp
+ChocolateBoiler.hpp
+/home/thomas/humax/rg/tmas/book/hfdpcpp/docs/_static/Silver/Singleton/Chocolate/lib/ChocolateBoiler.hpp
+iostream
+-
+

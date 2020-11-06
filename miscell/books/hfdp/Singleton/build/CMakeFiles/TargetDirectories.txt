@@ -1,0 +1,2 @@
+/home/thomas/humax/rg/tmas/book/hfdpcpp/docs/_static/Silver/Singleton/build/lib/CMakeFiles/chocolate.dir
+/home/thomas/humax/rg/tmas/book/hfdpcpp/docs/_static/Silver/Singleton/build/driver/CMakeFiles/testchocolate.dir

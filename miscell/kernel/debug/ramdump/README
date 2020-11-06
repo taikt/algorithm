@@ -1,0 +1,59 @@
+1. download crash tool
+http://people.redhat.com/anderson/
+
+2. install 32bit crash binary on 64bit os
+
+sudo apt install bison
+sudo apt-get install gcc-multilib (C compiler cannot create executables)
+( https://unix.stackexchange.com/questions/146402/configure-error-c-compiler-cannot-create-executables
+https://askubuntu.com/questions/91909/trouble-compiling-a-32-bit-binary-on-a-64-bit-machine
+)
+
+sudo apt-get install lib32ncurses5-dev
+sudo apt-get install lib32z1-dev (cannot find -lz)
+
+
+-- building crash
+make target=ARM
+
+3. install 64bit crash binary on 64 bit os
+
+sudo apt-get install libz-dev
+sudo apt install bison
+sudo apt-get install libncurses5-dev lib64ncurses5-dev
+
+make target=ARM64
+
+
+4. Guide.
+http://collab.lge.com/main/display/TMLMK/MDM9240+Crash+Dump
+http://www.dedoimedo.com/computers/crash-analyze.html
+http://people.redhat.com/anderson/crash_whitepaper/
+http://hackers4hackers.blogspot.com/2013/11/ram-dump-linux-system.html
+http://www.trace32.com/wiki/index.php/TRACE32_Update
+
+-- ramdump on Gen11 vcp
+D:\01. Documents\01. Gen10_Gen11.vol1\Seminar\MDM9x40RAM_Dump_Extract_Guide_v1 9_ENG.ppxt
+https://stackoverflow.com/questions/46148905/how-are-ramdumps-generated-on-a-system-crash
+
+i.e
+~/work/temp/tools/Port_COM25$ ../../crash-7.2.3_arm_32bit/crash bin_vmlinux DDRCS0.BIN@0x80000000
+crash> foreach bt > task.txt
+crash> kmem -i
+
+-- quick step
+mkdir temp
+copy vmlinux, dumpfile (i.e ramdump files created by QPST) to temp
+
+crash vmlinux dumpfile
+crash> bt
+
+5. Use T32 simulator (TODO)
+
+6. Enable kdump
+https://www.kernel.org/doc/Documentation/kdump/kdump.txt
+
+install linux-crashdump
+sudo sysctl -w kernel.sysrq=1
+echo c > /proc/sysrq-trigger
+

@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libadapter.so -o libadapter.so CMakeFiles/adapter.dir/TextManipulator.cpp.o CMakeFiles/adapter.dir/TextView.cpp.o 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libobserver.so -o libobserver.so CMakeFiles/observer.dir/ClockTimer.cpp.o CMakeFiles/observer.dir/DigitalClock.cpp.o CMakeFiles/observer.dir/Subject.cpp.o ../../Foundation_Classes/libfoundation_classes.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Foundation_Classes 

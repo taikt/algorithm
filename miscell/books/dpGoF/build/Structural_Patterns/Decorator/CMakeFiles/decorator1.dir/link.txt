@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/decorator1.dir/decorator1.cpp.o  -o decorator1 -rdynamic libdecorator.so -Wl,-rpath,/home/thomas/humax/rg/dp_eroos2/build/Structural_Patterns/Decorator 

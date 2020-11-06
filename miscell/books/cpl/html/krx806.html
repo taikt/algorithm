@@ -1,0 +1,134 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 8-6
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 8-6, page 189
+</h3>
+<h4>
+  Solution by <a href=mailto:gfd34@dial.pipex.com>  Bryan Williams </a>
+</h4>
+</center>
+
+<i>
+The standard library function <code>calloc(n,size)</code> returns a pointer to <code>n</code> objects
+of size <code>size</code> , with the storage initialized to zero. Write <code>calloc</code> , by
+calling <code>malloc</code> or by modifying it.
+</i>
+<br>
+<br>
+
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+    Exercise 8.6. The standard library function calloc(n, size) returns a pointer to n objects
+		  of size size, with the storage initialised to zero. Write calloc, by calling 
+		  malloc or by modifying it.
+
+    Author: Bryan Williams
+
+*/</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdlib.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;string.h&gt;</B></FONT>
+
+<FONT COLOR="#FFFF00">/*
+  Decided to re-use malloc for this because :
+	1) If the implementation of malloc and the memory management layer changes, this will be ok.
+	2) Code re-use is great.
+
+*/</FONT>
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">mycalloc</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">nmemb</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">size_t</FONT> <FONT COLOR="#00FF00">size</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">Result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">NULL</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#FFFF00">/* use malloc to get the memory */</FONT>
+  <FONT COLOR="#00FF00">Result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">malloc</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">nmemb</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">size</FONT><FONT COLOR="#00FFFF">);</FONT>
+
+  <FONT COLOR="#FFFF00">/* and clear the memory on successful allocation */</FONT>
+  <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">NULL</FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FF00">Result</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">memset</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Result</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF"><B>0x00</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">nmemb</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">size</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <FONT COLOR="#FFFF00">/* and return the result */</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">Result</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<FONT COLOR="#FFFF00">/* simple test driver, by RJH */</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">NULL</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">mycalloc</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>100</B></FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">sizeof</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">NULL</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;mycalloc returned NULL.\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+  <B><FONT COLOR="#00FFFF">else</FONT></B>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>100</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+      <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;%08X &quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]);</FONT>
+      <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">%</FONT> <FONT COLOR="#FFFFFF"><B>8</B></FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>7</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+      <FONT COLOR="#00FFFF">{</FONT>
+	<FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+      <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;\n&quot;</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">free</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+</pre>
+</code>
+
+
+<br>
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+      <br>
+    </font>
+    <font size=3>
+      This counter periodically resets itself to zero because of a bug in the CGI script. On 13/5/2000 the count
+      should have been at around the 2200 mark. (sigh)
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

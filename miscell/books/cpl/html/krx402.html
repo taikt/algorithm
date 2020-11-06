@@ -1,0 +1,241 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 4-2
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 4-2, page 73
+</h3>
+<h4>
+Solution by <a href=mailto:DCorbit@SolutionsIQ.com>  Dann Corbit </a>
+</h4>
+</center>
+
+<i>
+Extend <code>atof</code> to handle scientific notation of the form <code>123.45e-6</code> where a floating-point number
+may be followed by e or E and an optionally signed exponent.
+</i>
+<br>
+<br>
+
+
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+**  Written by Dann Corbit as K&amp;R 2, Exercise 4-2 (Page 73).
+**  Keep in mind that this is *JUST* a student exercise, and is
+**  light years away from being robust.
+**
+**  Actually, it's kind of embarassing, but I'm too lazy to fix it.
+**
+**  Caveat Emptor, not my fault if demons fly out of your nose,
+**  and all of that.
+*/</FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;ctype.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;limits.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;float.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;signal.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">my_atof</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">string</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">double</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">pnumber</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#FFFF00">/* Convert char string to double data type. */</FONT>
+    <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">retval</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">one_tenth</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#FFFFFF"><B>.1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">ten</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>10</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">zero</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B>             <FONT COLOR="#00FF00">found_digits</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B>             <FONT COLOR="#00FF00">is_negative</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B>           <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+    <FONT COLOR="#FFFF00">/* Check pointers. */</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">pnumber</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">string</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">pnumber</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">zero</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">zero</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+    <FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">string</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+    <FONT COLOR="#FFFF00">/* Advance past white space. */</FONT>
+    <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">isspace</FONT><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">))</FONT>
+        <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+
+    <FONT COLOR="#FFFF00">/* Check for sign. */</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'+'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+        <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+    <B><FONT COLOR="#00FFFF">else</FONT></B> <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">is_negative</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#FFFF00">/* Calculate the integer part. */</FONT>
+    <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">isdigit</FONT><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">found_digits</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">*=</FONT> <FONT COLOR="#00FF00">ten</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">+=</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+
+    <FONT COLOR="#FFFF00">/* Calculate the fractional part. */</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'.'</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">scale</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">one_tenth</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+        <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">isdigit</FONT><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">{</FONT>
+            <FONT COLOR="#00FF00">found_digits</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">+=</FONT> <FONT COLOR="#00FF00">scale</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+            <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+            <FONT COLOR="#00FF00">scale</FONT> <FONT COLOR="#00FFFF">*=</FONT> <FONT COLOR="#00FF00">one_tenth</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#FFFF00">/* If this is not a number, return error condition. */</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(!</FONT><FONT COLOR="#00FF00">found_digits</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">pnumber</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">zero</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#FFFF00">/* If all digits of integer &amp; fractional part are 0, return 0.0 */</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FF00">zero</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">pnumber</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">zero</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>               <FONT COLOR="#FFFF00">/* Not an error condition, and no need to
+                                 * continue. */</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#FFFF00">/* Process the exponent (if any) */</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">((*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'e'</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'E'</B></FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <B><FONT COLOR="#00FFFF">int</FONT></B>             <FONT COLOR="#00FF00">neg_exponent</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">int</FONT></B>             <FONT COLOR="#00FF00">get_out</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">long</FONT></B>            <FONT COLOR="#00FF00">index</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">long</FONT></B>            <FONT COLOR="#00FF00">exponent</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">getting_too_big</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">DBL_MAX</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">one_tenth</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">getting_too_small</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">DBL_MIN</FONT> <FONT COLOR="#00FFFF">*</FONT> <FONT COLOR="#00FF00">ten</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+        <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+        <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'+'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+            <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+        <B><FONT COLOR="#00FFFF">else</FONT></B> <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+            <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+            <FONT COLOR="#00FF00">neg_exponent</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+        <FONT COLOR="#FFFF00">/* What if the exponent is empty?  Return the current result. */</FONT>
+        <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(!</FONT><FONT COLOR="#00FF00">isdigit</FONT><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">{</FONT>
+            <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">is_negative</FONT><FONT COLOR="#00FFFF">)</FONT>
+                <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#00FF00">retval</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+            <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">pnumber</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">retval</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+            <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+        <FONT COLOR="#FFFF00">/* Convert char exponent to number &lt;= 2 billion. */</FONT>
+        <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">isdigit</FONT><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">exponent</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">LONG_MAX</FONT> <FONT COLOR="#00FFFF">/</FONT> <FONT COLOR="#FFFFFF"><B>10</B></FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">{</FONT>
+            <FONT COLOR="#00FF00">exponent</FONT> <FONT COLOR="#00FFFF">*=</FONT> <FONT COLOR="#FFFFFF"><B>10</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">exponent</FONT> <FONT COLOR="#00FFFF">+=</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">num</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>'0'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FF00">num</FONT><FONT COLOR="#00FFFF">++;</FONT>
+        <FONT COLOR="#00FFFF">}</FONT>
+
+        <FONT COLOR="#FFFF00">/* Compensate for the exponent. */</FONT>
+        <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">neg_exponent</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+            <B><FONT COLOR="#00FFFF">for</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">index</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">index</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">exponent</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FFFF">!</FONT><FONT COLOR="#00FF00">get_out</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">index</FONT><FONT COLOR="#00FFFF">++)</FONT>
+                <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">getting_too_small</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+                    <FONT COLOR="#00FF00">get_out</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                    <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">DBL_MIN</FONT><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FFFF">}</FONT> <B><FONT COLOR="#00FFFF">else</FONT></B>
+                    <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">*=</FONT> <FONT COLOR="#00FF00">one_tenth</FONT><FONT COLOR="#00FFFF">;</FONT>
+        <FONT COLOR="#00FFFF">}</FONT> <B><FONT COLOR="#00FFFF">else</FONT></B>
+            <B><FONT COLOR="#00FFFF">for</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">index</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">index</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#00FF00">exponent</FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FFFF">!</FONT><FONT COLOR="#00FF00">get_out</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">index</FONT><FONT COLOR="#00FFFF">++)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+                <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#00FF00">getting_too_big</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+                    <FONT COLOR="#00FF00">get_out</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+                    <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">DBL_MAX</FONT><FONT COLOR="#00FFFF">;</FONT>
+                <FONT COLOR="#00FFFF">}</FONT> <B><FONT COLOR="#00FFFF">else</FONT></B>
+                    <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">*=</FONT> <FONT COLOR="#00FF00">ten</FONT><FONT COLOR="#00FFFF">;</FONT>
+            <FONT COLOR="#00FFFF">}</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">is_negative</FONT><FONT COLOR="#00FFFF">)</FONT>
+        <FONT COLOR="#00FF00">retval</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#00FF00">retval</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+    <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">pnumber</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">retval</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#FFFF00">/*
+** Lame and evil wrapper function to give the exercise the requested
+** interface.  Dann Corbit will plead innocent to the end.
+** It's very existence means that the code is not conforming.
+** Pretend you are a C library implementer, OK?  But you would fix
+** all those bleeding gaps, I am sure.
+*/</FONT>
+<B><FONT COLOR="#00FFFF">double</FONT></B> <FONT COLOR="#00FF00">atof</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">double</FONT></B>          <FONT COLOR="#00FF00">d</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#FFFFFF"><B>.0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(!</FONT><FONT COLOR="#00FF00">my_atof</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FFFF">&amp;</FONT><FONT COLOR="#00FF00">d</FONT><FONT COLOR="#00FFFF">))</FONT>
+    <FONT COLOR="#00FFFF">{</FONT>
+<FONT COLOR="#00FFFF"><B>#ifdef DEBUG</B></FONT>
+        <FONT COLOR="#00FF00">fputs</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Error converting string in [sic] atof()&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">stderr</FONT><FONT COLOR="#00FFFF">);</FONT>
+<FONT COLOR="#00FFFF"><B>#endif</B></FONT>
+        <FONT COLOR="#00FF00">raise</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">SIGFPE</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">d</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<FONT COLOR="#00FFFF"><B>#ifdef UNIT_TEST</B></FONT>
+<B><FONT COLOR="#00FFFF">char</FONT></B>  <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">strings</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#FFFFFF">&quot;1.0e43&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;999.999&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;123.456e-9&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;-1.2e-3&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;1.2e-3&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;-1.2E3&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;-1.2e03&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;cat&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF">&quot;&quot;</FONT><FONT COLOR="#00FFFF">,</FONT>
+    <FONT COLOR="#FFFFFF"><B>0</B></FONT>
+<FONT COLOR="#00FFFF">};</FONT>
+<B><FONT COLOR="#00FFFF">int</FONT></B>  <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B>             <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B> <FONT COLOR="#00FFFF">(;</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">strings</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++)</FONT>
+        <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;atof(%s) = %g\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">strings</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">],</FONT> <FONT COLOR="#00FF00">atof</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">strings</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]));</FONT>
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#00FFFF"><B>#endif</B></FONT>
+</pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

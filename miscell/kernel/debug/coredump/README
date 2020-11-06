@@ -1,0 +1,80 @@
+1. setup core partern pemanently (coredump file location and file name)
+1.1. disable apport.
+/etc/default/apport ==> enabled=0
+1.2 create 60-core-pattern.conf in /etc/sysctl.d with below content.
+kernel.core_pattern = /tmp/core_%e.%p
+1.3 test without rebooting:
+sudo sysctl --system
+
+2. enable coredump
+ulimit -c unlimited
+
+3. run program
+gcc -O program 
+or gcc -O2 program ==> will not create crash when enable optimization
+
+gcc program ==> create crash
+
+./a.out ==> crashed, core dump file is created at /tmp/
+
+3. debug coredump file
+cp -rf /tmp/core_file_name .
+gdb a.out core_file_name
+bt ==> to backtrace
+
+Refer:
+https://askubuntu.com/questions/420410/how-to-permanently-edit-the-core-pattern-file
+https://stackoverflow.com/questions/16048101/changing-location-of-core-dump
+http://www.bogotobogo.com/cplusplus/debugging_core_memory_dump_segmentation_fault_gdb.php
+https://blog.monsterxx03.com/2017/07/15/enable-coredump-on-ubuntu-16.04/
+https://www.akadia.com/services/ora_enable_core.html
+
+coredump in Gen11 VCP
+D:\01. Documents\01. Gen10_Gen11.vol1\Seminar\[HowTo]coredump_v1.pptx
+http://collab.lge.com/main/pages/viewpage.action?pageId=542080042
+
+coredump in Gen12
+a. build gdb
+./build.sh wave module gdb
+-- bug
+completer.c:(.text+0x1c13): undefined reference to `_rl_completion_prefix_display_length'
+completer.c:(.text+0x1ce8): undefined reference to `rl_sort_completion_matches'
+-- solution
+edit local.conf with 
+  PACKAGECONFIG_remove_pn-gdb = "readline"
+(https://lists.yoctoproject.org/pipermail/yocto/2017-June/036676.html)
+
+gdb image:
+/home/sd1/gen12/build/tmp/work/aarch64-poky-linux/gdb/8.0.1-r0/gdb-8.0.1/gdb
+
+b. load gdb
+scp sd1@10.218.140.72:/home/sd1/gen12/build/tmp/work/aarch64-poky-linux/gdb/8.0.1-r0/package/usr/bin/gdb . (local ubuntu)
+adb shell mount -o rw,remount /
+adb push gdb /usr/bin
+adb shell chmod 777 /usr/bin/gdb
+
+c. debugging
+on board
+gdb --version
+--bug
+Could not load the Python gdb module from `/usr/local/share/gdb/python'.
+Suggest passing --data-directory=/path/to/gdb/data-directory.
+
+-- solution
+cd ~/gen12/build/tmp/work/aarch64-poky-linux/gdb/8.0.1-r0 (server)
+tar -czvf gdb-python.tar.gz ./gdb-8.0.1/gdb/python/lib/gdb (server)
+scp sd1@10.218.140.72:/home/sd1/gen12/build/tmp/work/aarch64-poky-linux/gdb/8.0.1-r0/gdb-python.tar.gz . (local ubuntu)
+tar xvzf gdb-python.tar.gz (local ubuntu)
+mkdir -p /usr/local/share/gdb/python/gdb (target board)
+adb push package/usr/share/gdb/python/gdb/* /usr/local/share/gdb/python/gdb (local ubuntu)
+adb shell chmod -R 777 /usr/local/share/gdb/python/gdb (local ubuntu)
+gdb --data-directory=/usr/local/share/gdb/ /usr/bin/tiger/PacketAudioManagerService /tmp/core_PacketAudioMana.30385 (target board)
+
+[other bug]
+scp sd1@10.218.140.72:/home/sd1/gen12/build/tmp/work/aarch64-poky-linux/gdb/8.0.1-r0/recipe-sysroot/usr/lib/libpython3.5m.so.1.0 .
+scp sd1@10.218.140.72:/home/sd1/gen12/build/tmp/work/aarch64-poky-linux/gdb/8.0.1-r0/recipe-sysroot/usr/lib/libpython3.5m.so .
+adb push libpython3.5m.so /usr/lib/.
+adb push libpython3.5m.so.1.0 /usr/lib/.
+adb shell chmod 777 /usr/lib/libpython3.5m.so.1.0
+adb shell chmod 777 /usr/lib/libpython3.5m.so
+

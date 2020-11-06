@@ -1,0 +1,10 @@
+Ref
+1. create shared lib with autoconf
+https://emdros.org/progref/current/1080.html
+
+2. build cpp app with autoconf
+https://realmike.org/blog/2010/07/18/gnu-automake-by-example/ 
+
+Note:
+need install ctest, cpptest lib firstly.
+

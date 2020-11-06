@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g -Wall -Wextra   -shared -Wl,-soname,libflyweight.so -o libflyweight.so CMakeFiles/flyweight.dir/Character.cpp.o CMakeFiles/flyweight.dir/Font.cpp.o CMakeFiles/flyweight.dir/Glyph.cpp.o CMakeFiles/flyweight.dir/GlyphContext.cpp.o CMakeFiles/flyweight.dir/GlyphFactory.cpp.o 

@@ -1,0 +1,23 @@
+1. Installation
+(java sdk + android studio)
+https://www.tutorialspoint.com/android/android_environment_setup.htm
+https://www.youtube.com/watch?v=mUhfB5bk2iM
+
+2.1 Run app on emulator
+Run => edits configuration => General => Deployment Target option: Emulator
+Click "Run" app (Shift+F10)
+
+2.2 Run app on real phone
+connect real phone with PC with cable (enable USB debugging).
+Run => edits configuration => General => Deployment Target option: USB Device
+Click "Run" app (Shift+F10)
+
+3. Import existing project to Android Studio
+3.1. Existing project based on Eclipse
+File => New => Import project
+3.2. Existing project based on Android studio
+File => New => Import module
+
+References
+1. https://github.com/hmkcode/Android
+2. 

@@ -1,0 +1,130 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 3-5
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 3-5, page 64
+</h3>
+<h4>
+Solution by <a href=mailto:paul@paulgriffiths.demon.co.uk>  Paul Griffiths </a>
+</h4>
+</center>
+
+<i>
+Write the function <code>itob(n,s,b)</code> that converts the integer <code>n</code> into a base <code>b</code> character
+representation in the string <code>s</code> . In particular, <code>itob(n,s,16)</code> formats <code>n</code> as a
+hexadecimal integer in <code>s</code> .
+</i>
+<br>
+<br>
+
+
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+
+  EX3_5.C
+  =======
+  
+  Suggested solution to Exercise 3-5
+  
+*/</FONT>
+    
+<FONT COLOR="#00FFFF"><B>#include &lt;stdlib.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+    
+    <B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">itob</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[],</FONT> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">b</FONT><FONT COLOR="#00FFFF">);</FONT>
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">reverse</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[]);</FONT>
+
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#FFFFFF"><B>10</B></FONT><FONT COLOR="#00FFFF">];</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <B><FONT COLOR="#00FFFF">for</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>2</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#FFFFFF"><B>20</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">itob</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>255</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;Decimal 255 in base %-2d : %s\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">buffer</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+<FONT COLOR="#FFFF00">/*  Stores a string representation of integer n
+    in s[], using a numerical base of b. Will handle
+    up to base-36 before we run out of digits to use.  */</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">itob</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">,</FONT> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[],</FONT> <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">b</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">static</FONT></B> <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">digits</FONT><FONT COLOR="#00FFFF">[]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">sign</FONT><FONT COLOR="#00FFFF">;</FONT>
+    
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">b</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>2</B></FONT> <FONT COLOR="#00FFFF">||</FONT> <FONT COLOR="#00FF00">b</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#FFFFFF"><B>36</B></FONT> <FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">fprintf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">stderr</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#FFFFFF">&quot;EX3_5: Cannot support base %d\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">b</FONT><FONT COLOR="#00FFFF">);</FONT>
+        <FONT COLOR="#00FF00">exit</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">EXIT_FAILURE</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+    
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">((</FONT><FONT COLOR="#00FF00">sign</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+        <FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FFFF">-</FONT><FONT COLOR="#00FF00">n</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">do</FONT></B> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">digits</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">%</FONT> <FONT COLOR="#00FF00">b</FONT><FONT COLOR="#00FFFF">];</FONT>
+    <FONT COLOR="#00FFFF">}</FONT> <B><FONT COLOR="#00FFFF">while</FONT></B> <FONT COLOR="#00FFFF">((</FONT><FONT COLOR="#00FF00">n</FONT> <FONT COLOR="#00FFFF">/=</FONT> <FONT COLOR="#00FF00">b</FONT><FONT COLOR="#00FFFF">)</FONT> <FONT COLOR="#00FFFF">&gt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+    <B><FONT COLOR="#00FFFF">if</FONT></B> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">sign</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'-'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>'\0'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FF00">reverse</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">);</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+<FONT COLOR="#FFFF00">/*  Reverses string s[] in place  */</FONT>
+
+<B><FONT COLOR="#00FFFF">void</FONT></B> <FONT COLOR="#00FF00">reverse</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[])</FONT> <FONT COLOR="#00FFFF">{</FONT>
+    <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <B><FONT COLOR="#00FFFF">for</FONT></B> <FONT COLOR="#00FFFF">(</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">j</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strlen</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">)-</FONT><FONT COLOR="#FFFFFF"><B>1</B></FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT> <FONT COLOR="#00FFFF">&lt;</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">;</FONT> <FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">++,</FONT> <FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">--)</FONT> <FONT COLOR="#00FFFF">{</FONT>
+        <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">];</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">i</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">];</FONT>
+        <FONT COLOR="#00FF00">s</FONT><FONT COLOR="#00FFFF">[</FONT><FONT COLOR="#00FF00">j</FONT><FONT COLOR="#00FFFF">]</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">;</FONT>
+    <FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+
+</pre>
+</code>
+
+<br>
+
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

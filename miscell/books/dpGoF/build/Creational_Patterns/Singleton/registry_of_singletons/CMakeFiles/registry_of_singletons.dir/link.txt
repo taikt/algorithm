@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wextra    CMakeFiles/registry_of_singletons.dir/MySingleton.cpp.o CMakeFiles/registry_of_singletons.dir/NameSingletonPair.cpp.o CMakeFiles/registry_of_singletons.dir/Singleton.cpp.o CMakeFiles/registry_of_singletons.dir/main.cpp.o  -o registry_of_singletons -rdynamic 

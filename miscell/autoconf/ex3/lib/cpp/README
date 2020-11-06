@@ -1,0 +1,12 @@
+Ref:
+-- how to create shared lib with autoconf
+https://github.com/dblommesteijn/autotools-example
+
+-- to install lib:
+./autogen.sh make
+./lib_cpp.sh install
+
+
+-- to clean lib
+./autogen.sh clean
+./lib_cpp.sh remove

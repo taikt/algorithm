@@ -1,0 +1,196 @@
+-- TODO
+gdb remote --> done
+gdb with QEMU --> done
+kgdb
+LKD (Linux kernel debugger)
+JTAG
+
+-- Ref
+D:\01. Documents\01. Gen10_Gen11.vol1\Seminar\LinuxAppDebug.ppxt
+http://www.ccs.neu.edu/home/gene/Debugging-Linux-Applications.pdf
+https://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/
+https://training.ti.com/debugging-embedded-linux-locate-device-driver?cu=1128405
+http://madwifi-project.org/wiki/DevDocs/KernelOops
+https://www.dedoimedo.com/computers/crash-analyze.html
+https://www.dedoimedo.com/computers/www.dedoimedo.com-crash-book.pdf
+http://people.redhat.com/anderson/crash_whitepaper/
+http://hackers4hackers.blogspot.com/2013/11/ram-dump-linux-system.html
+http://www.trace32.com/wiki/index.php/TRACE32_Update
+https://stackoverflow.com/questions/46148905/how-are-ramdumps-generated-on-a-system-crash
+http://www.bogotobogo.com/cplusplus/debugging_core_memory_dump_segmentation_fault_gdb.php
+http://www.alexlambert.com/2017/12/18/kernel-debugging-for-newbies.html
+https://events.static.linuxfound.org/sites/events/files/slides/ELC-E%20Linux%20Awareness.pdf
+https://www.kernel.org/doc/html/v4.14/dev-tools/gdb-kernel-debugging.html
+https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
+https://en.opensuse.org/openSUSE:Bugreport_kernel#Kdump
+https://elinux.org/images/f/f0/Bingham.pdf
+https://mindlinux.wordpress.com/2015/10/07/debugging-the-linux-kernel-with-gdb-peter-griffin-linaro-stmicroelectronics/
+http://d3s.mff.cuni.cz/teaching/crash_dump_analysis/ (must read)
+https://people.netfilter.org/hawk/presentations/debugging_conf2013/debug2013_kernel_panic_decode_JesperBrouer.pdf (must read)
+https://www.dedoimedo.com/computers/crash-analyze.html (must read)
+https://www.cs.utexas.edu/users/ygz/378-03S/IBM-debug.pdf (must read)
+
+1. -- libunwind
+https://www.nongnu.org/libunwind/man/libunwind(3).html
+https://eli.thegreenplace.net/2015/programmatic-access-to-the-call-stack-in-c/
+https://gist.github.com/crimsonwoods/4122796
+http://blog.reverberate.org/2013/05/deep-wizardry-stack-unwinding.html
+
+-- ELF
+https://www.thegeekstuff.com/2012/07/elf-object-file-format/
+https://www.bottomupcs.com/elf.xhtml
+https://www.cs.stevens.edu/~jschauma/631/elf.html
+
+-- Map file
+https://www.embeddedrelated.com/showarticle/900.php
+
+-- objdump
+https://www.thegeekstuff.com/2012/09/objdump-examples/?utm_source=feedburner
+
+-- ptrace
+https://www.linuxjournal.com/article/6100
+https://www.linuxjournal.com/article/6210
+https://webdocs.cs.ualberta.ca/~paullu/C498/meng.ptrace.slides.pdf
+
+-- backtrace
+https://stackoverflow.com/questions/77005/how-to-automatically-generate-a-stacktrace-when-my-gcc-c-program-crashes
+
+2. -- gdb
+https://sourceware.org/gdb/current/onlinedocs/gdb/index.html
+https://www.ibm.com/developerworks/library/l-gdb/index.html
+https://events.static.linuxfound.org/sites/events/files/slides/Debugging%20the%20Linux%20Kernel%20with%20GDB.pdf
+https://github.com/kbingham/qemu-kernel
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/developer_guide/gdbthreads
+https://www.slideshare.net/linaroorg/connect12-q2-gdb?from_action=save (must read)
+
+2.1 Use conque GDB
+https://www.vim.org/scripts/script.php?script_id=4582
+download conque_gdb.vmb and open with vim.
+run below cmd
+:so %
+:q
+vi test.c
+:ConqueGdb a.out or ConqueGdbVSplit a.out
+
+2.2. debug with qemu-arm
+-- download toolchain
+http://releases.linaro.org/components/toolchain/binaries/4.9-2016.02/arm-linux-gnueabi/
+
+-- static build
+arm-linux-gnueabi-gcc -static -o testapp main.c
+qemu-arm testapp
+
+-- debug with qemu
+qemu-arm testapp
+on other tab
+arm-linux-gnueabi-gdb testapp
+(gdb) target remote :2345
+(gdb) b main
+(gdb) c
+
+https://gist.github.com/hngouveia01/843a2202628c7d567dad0f657f8373aa
+http://accelazh.github.io/kernel/Build-Linux-Kernel-and-Live-Debugging
+
+2.3. debug with gdb remote
+gdbserver :2345 testapp
+gdb testapp or arm-linux-gnueabi-gdb testapp (if arm case)
+(gdb) target remote :2345
+
+2.4. debug kernel with qemu
+2.4.1. use kernel code from buildroot
+http://accelazh.github.io/kernel/Build-Linux-Kernel-and-Live-Debugging
+
+-- first terminal
+~/work/buildroot/output/build/linux-4.16.7$ qemu-system-x86_64 -kernel arch/x86/boot/bzImage -hda ./../../../output/images/rootfs.ext2 -S -s -append "nokaslr root=/dev/sda rw"
+-- second terminal
+~/work/buildroot/output/build/linux-4.16.7$ gdb vmlinux
+target remote :1234
+b start_kernel
+la src
+c
+
+~/work/buildroot/output/build/linux-4.16.7$ gdb vmlinux -iex 'add-auto-load-safe-path .' -ex 'target remote :1234'
+==> useful for lx-dmesg, lx-ps, .. (need set break and 'c' cmd first)
+
+2.4.2 use separate rootfs and kernel code
+-- install rootfs (using buildroot), rootfs must support kernel code version below
+git clone git@github.com:buildroot/buildroot.git
+cd buildroot
+make qemu_x86_64_defconfig
+make menuconfig --> toggle “build packages with debugging symbols”
+make
+
+--install kernel (use guide for build kernel)
+Note: 
+in "Kernel hacking", toggle "Kernel debugging"
+in "Kernel hacking", toggle "Compile the kernel with debug info"
+in "Kernel hacking", toggle "Compile the kernel with frame pointers"
+
+-- move to kernel code directory (contain vmlinux), do steps in 2.4.1 to debug kernel
+
+2.4.3. refer:
+https://stackoverflow.com/questions/46728240/adding-nokaslr-to-kernel-commandline
+https://stackoverflow.com/questions/11408041/how-to-debug-the-linux-kernel-with-gdb-and-qemu
+https://stackoverflow.com/questions/4943857/linux-kernel-live-debugging-how-its-done-and-what-tools-are-used
+https://www.collabora.com/news-and-blog/blog/2017/03/13/kernel-debugging-with-qemu-overview-tools-available/
+https://stackoverflow.com/questions/5276988/how-to-set-break-point-on-one-file-of-a-project-which-has-many-files-with-same-n
+
+3. -- crash tool
+http://d3s.mff.cuni.cz/teaching/crash_dump_analysis/slides/09-crash.pdf
+
+4. -- kgdb
+https://www.kernel.org/doc/htmldocs/kgdb/EnableKGDB.html
+http://bipinkunal.blogspot.com/2012/05/kgdb-tutorial.html
+https://elinux.org/Kgdb
+https://opensourceforu.com/2011/03/kgdb-with-virtualbox-debug-live-kernel/
+
+5. -- linking
+https://www.thegeekstuff.com/2011/10/c-program-to-an-executable/
+https://www.thegeekstuff.com/2011/10/gcc-linking/
+
+6. -- strace (TODO)
+https://www.suse.com/documentation/sles-12/book_sle_tuning/data/sec_tuning_tracing_strace.html
+
+7. -- ltrace (TODO)
+https://www.suse.com/documentation/sles-12/book_sle_tuning/data/sec_tuning_tracing_ltrace.html
+
+8. -- valgrind (TODO)
+https://www.suse.com/documentation/sles-12/book_sle_tuning/data/sec_tuning_tracing_valgrind.html
+
+9. -- kxec and kdump (TODO)
+https://www.suse.com/documentation/sles-12/book_sle_tuning/data/cha_tuning_kexec.html
+https://www.thegeekstuff.com/2014/05/kdump/
+https://fedoraproject.org/wiki/How_to_use_kdump_to_debug_kernel_crashes
+http://people.redhat.com/nhorman/papers/ols-slides.pdf
+https://people.redhat.com/pladd/NYRHUG_kdump_and_intro_to_vmcore_analysis.pdf
+https://events.static.linuxfound.org/sites/events/files/slides/kdump_usage_and_internals.pdf
+http://lse.sourceforge.net/kdump/documentation/ols2005-kdump-presentation.pdf
+https://events.static.linuxfound.org/slides/2011/linuxcon-japan/lcj2011_wang.pdf
+http://www.linuxtag.org/2012/fileadmin/www.linuxtag.org/slides/Stefan%20Seyfried%20-%20Configuring%20and%20Analyzing%20Kernel%20Crash%20Dumps.p310.pdf
+http://www-archive.xenproject.org/files/summit_3/kexec_kdump.pdf
+http://people.redhat.com/pladd/NYRHUG_kdump_and_intro_to_vmcore_analysis.pdf
+https://www.dedoimedo.com/computers/kdump.html
+https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html.en
+
+10. -- Kernel Oopses and kernel panics
+https://en.opensuse.org/openSUSE:Bugreport_kernel#Kdump
+https://opensourceforu.com/2011/01/understanding-a-kernel-oops/
+https://opensourceforu.com/2011/02/debug-kernel-panics-with-crash/
+
+11. -- lkcd (Linux Kernel Crash Dump)
+https://www.dedoimedo.com/computers/lkcd.html
+
+12. -- crash tool
+http://d3s.mff.cuni.cz/teaching/crash_dump_analysis/slides/09-crash.pdf
+https://people.netfilter.org/hawk/presentations/debugging_conf2013/debug2013_kernel_panic_decode_JesperBrouer.pdf
+https://www.dedoimedo.com/computers/crash.html
+
+13. -- debugfs
+https://opensourceforu.com/2010/10/debugging-linux-kernel-with-debugfs/
+
+14. -- C-assembly
+
+15. -- ftrace
+https://opensourceforu.com/2010/11/kernel-tracing-with-ftrace-part-1/
+https://www.eventhelix.com/RealtimeMantra/Basics/CToAssemblyTranslation.htm#.WydkDIp9iUk
+

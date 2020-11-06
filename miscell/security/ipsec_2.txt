@@ -1,0 +1,175 @@
+Ref:
+https://kifarunix.com/how-to-configure-ipsec-vpn-using-strongswan-on-ubuntu-18-04/
+
+ubuntu 18.04
+PC1 (192.168.56.4), role server
+PC2 (192.168.56.3), role client
+
+- on PC1
+apt install strongswan
+
+1. setup CA
+apt install strongswan-pki
+ipsec pki --gen --size 4096 --type rsa --outform pem > vpn-ca.key.pem
+
+ipsec pki --self --in vpn-ca.key.pem --type rsa --dn "CN=VPN Server root CA" --ca --lifetime 3650 --outform pem > vpn-ca.cert.pem
+
+ipsec pki --gen --size 4096 --type rsa --outform pem > vpn-server.key.pem
+
+ipsec pki --pub --in vpn-server.key.pem --type rsa \ |
+ipsec pki --issue --lifetime 2750 \
+--cacert vpn-ca.cert.pem \
+--cakey vpn-ca.key.pem \
+--dn "CN=192.168.56.4" \
+--san="192.168.56.4" \
+--flag serverAuth --flag ikeIntermediate --outform pem > vpn-server.cert.pem
+
+2. install ceritificates
+mv vpn-ca.cert.pem /etc/ipsec.d/cacerts/
+mv vpn-server.cert.pem /etc/ipsec.d/certs/
+mv {vpn-ca.key.pem,vpn-server.key.pem} /etc/ipsec.d/private
+
+3. config ipsec.conf
+cp /etc/ipsec.conf /etc/ipsec.conf.bak
+vim /etc/ipsec.conf
+
+config setup
+      charondebug="ike 2, knl 2, cfg 2, net 2, esp 2, dmn 2, mgr 2"
+      strictcrlpolicy=no
+      uniqueids=yes
+      cachecrls=no
+
+conn ipsec-ikev2-vpn
+      auto=add
+      compress=no
+      type=tunnel  # defines the type of connection, tunnel.
+      keyexchange=ikev2
+      fragmentation=yes
+      forceencaps=yes
+      dpdaction=clear
+      dpddelay=300s
+      rekey=no
+      left=%any
+      leftid=192.168.56.4    # if using IP, define it without the @ sign
+      leftcert=vpn-server.cert.pem  # reads the VPN server cert in /etc/ipsec.d/certs
+      leftsendcert=always
+      leftsubnet=0.0.0.0/0
+      right=%any
+      rightid=%any
+      rightauth=eap-mschapv2
+      rightsourceip=192.168.56.0/24  # IP address Pool to be assigned to the clients
+      rightdns=8.8.8.8  # DNS to be assigned to clients
+      rightsendcert=never
+      eap_identity=%identity  # defines the identity the client uses to reply to an EAP Identity request.
+
+
+4. config ipsec.secrets
+vim /etc/ipsec.secrets
+
+: RSA vpn-server.key.pem
+tai : EAP "at" # tai is client host name, which want to connect
+
+5. restart strongswan
+systemctl restart strongswan
+ipsec listcerts
+
+6. confire Firewall and routing
+ufw allow 500/udp      # Allows Internet Security Association and Key Management Protocol (ISAKMP) traffic to be forwarded
+ufw allow 4500/udp # Allows handling of IPsec between natted devices
+
+vim /etc/ufw/before.rules
+after *filter
+# End required lines
+-A ufw-before-forward --match policy --pol ipsec --dir in --proto esp -s 192.168.56.0/24 -j ACCEPT
+-A ufw-before-forward --match policy --pol ipsec --dir out --proto esp -d 192.168.56.0/24 -j ACCEPT
+
+at end
+*nat
+-A POSTROUTING -s 192.168.56.0/24 -o enp0s8 -m policy --pol ipsec --dir out -j ACCEPT
+-A POSTROUTING -s 192.168.56.0/24 -o enp0s8 -j MASQUERADE
+COMMIT
+
+*mangle
+-A FORWARD --match policy --pol ipsec --dir in -s 192.168.56.0/24 -o enp0s8 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss
+ 1361:1536 -j TCPMSS --set-mss 1360
+COMMIT
+
+7. apply firewall
+sudo su
+ufw disable && ufw enable
+
+8. config sysctl.conf
+vim /etc/ufw/sysctl.conf
+# Uncomment the next line to enable packet forwarding for IPv4
+net/ipv4/ip_forward=1
+...
+# Do not accept ICMP redirects (prevent MITM attacks)
+net/ipv4/conf/all/accept_redirects = 0
+...
+# Do not send ICMP redirects (we are not a router)
+net/ipv4/conf/all/send_redirects = 0
+#...
+#Disble Path MTU discovery to prevent packet fragmentation by adding the line below
+net/ipv4/ip_no_pmtu_disc=1
+
+9. restart strongswan
+systemctl restart strongswan
+systemctl enable strongswan
+systemctl status strongswan
+ipsec statusall
+
+
+
+ 
+- on PC2 (client)
+apt install strongswan libcharon-extra-plugins
+1. copy CA from PC1 to PC2
+/etc/ipsec.d/cacerts/vpn-ca.cert.pem (PC1) to /etc/ipsec.d/cacerts/vpn-ca.cert.pem (PC2)
+
+2. config ipsec.secrets
+vim /etc/ipsec.secrets
+tai : EAP "at"
+
+3. config ipsec.conf
+vim /etc/ipsec.conf
+config setup
+conn ipsec-ikev2-vpn-client
+    auto=start
+    right=192.168.56.4
+    rightid=192.168.56.4
+    rightsubnet=0.0.0.0/0
+    rightauth=pubkey
+    leftsourceip=%config
+    leftid=tai # note this id
+    leftauth=eap-mschapv2
+    eap_identity=%identity
+
+4. restart strongswan
+systemctl restart strongswan
+ipsec status #check connection to PC2
+
+
+- Testing
+to make VPN tunnel between PC1 and PC2
+#both side run:
+systemctl restart strongswan
+#check connection:
+ipsec status
+
+# ping test
+on PC1 (server): sudo tcpdump -ni enp0s8
+on PC2 (client): ping 192.168.56.4
+# on PC1 show esp packets captured
+# from window pc (host) ping to PC2 should fail
+
+# ssh test
+PC1: sudo apt-get install openssh-server
+sudo ufw allow ssh
+
+PC2: sudo apt-get install openssh-client
+ssh taikt@192.168.56.4 # taikt is host name of pc1, connection should be successfull
+# window PC (host): ssh to PC1 should fail
+
+#when disable strongswan, window host should ping or ssh to PC1 ok.
+
+

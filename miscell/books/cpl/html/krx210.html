@@ -1,0 +1,155 @@
+<html>
+  <head>
+
+    <title>
+      The C Programming Language Exercise 2-10
+    </title>
+
+  <BODY    text="#FFFF00"
+        bgcolor="#000000"
+           link="#BBBBBB"
+          alink="#FFFFFF"
+          vlink="#DDDDDD">
+
+
+<center>
+<h2>
+  &quot;The C Programming Language&quot;, 2nd edition, Kernighan and Ritchie
+</h2>
+<h3>
+  Answer to Exercise 2-10, page 52
+</h3>
+<h4>
+  Solution by <a href=mailto:gfd34@dial.pipex.com>  Bryan Williams </a>
+</h4>
+</center>
+
+<i>
+  Exercise 2-10. Rewrite the function lower, which converts upper case letters
+                 to lower case, with a conditional expression instead of <code>if-else</code> .
+</i>
+<br>
+<br>
+<code>
+<pre>
+<FONT COLOR="#FFFF00">/*
+
+  Exercise 2-10. Rewrite the function lower, which converts upper case letters
+		 to lower case, with a conditional expression instead of if-else.
+
+
+
+  Assumptions : by conditional expression they mean an expression involving a ternary operator.
+
+  Author: Bryan Williams 
+
+*/</FONT>
+
+<FONT COLOR="#00FFFF"><B>#include &lt;stdio.h&gt;</B></FONT>
+<FONT COLOR="#00FFFF"><B>#include &lt;string.h&gt;</B></FONT>
+
+<FONT COLOR="#00FFFF"><B>#define TEST</B></FONT>
+<FONT COLOR="#00FFFF"><B>#define ORIGINAL            0</B></FONT>
+<FONT COLOR="#00FFFF"><B>#define SOLUTION            1</B></FONT>
+<FONT COLOR="#00FFFF"><B>#define PORTABLE_SOLUTION   0</B></FONT>
+
+
+<FONT COLOR="#FFFF00">/*
+   ok, the original routine we are trying to convert looks like this.. 
+*/</FONT>
+<FONT COLOR="#00FFFF"><B>#if ORIGINAL</B></FONT>
+<FONT COLOR="#FFFF00">/* lower: convert c to lower case; ASCII only */</FONT>
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">if</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">&gt;=</FONT> <FONT COLOR="#FFFFFF"><B>'A'</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#FFFFFF"><B>'Z'</B></FONT><FONT COLOR="#00FFFF">)</FONT>
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>'a'</B></FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>'A'</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">else</FONT></B>
+    <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#00FFFF"><B>#endif</B></FONT>
+
+<FONT COLOR="#FFFF00">/*
+   the natural solution for simply making this a conditional (ternary) return instead of an 
+   if ... else ...
+*/</FONT>
+<FONT COLOR="#00FFFF"><B>#if SOLUTION</B></FONT>
+<FONT COLOR="#FFFF00">/* lower: convert c to lower case; ASCII only */</FONT>
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">&gt;=</FONT> <FONT COLOR="#FFFFFF"><B>'A'</B></FONT> <FONT COLOR="#00FFFF">&amp;&amp;</FONT> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">&lt;=</FONT> <FONT COLOR="#FFFFFF"><B>'Z'</B></FONT> <FONT COLOR="#00FFFF">?</FONT> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#FFFFFF"><B>'a'</B></FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#FFFFFF"><B>'A'</B></FONT> <FONT COLOR="#00FFFF">:</FONT> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#00FFFF"><B>#endif</B></FONT>
+
+
+
+<FONT COLOR="#FFFF00">/*
+   the more portable solution, requiring string.h for strchr but keeping the idea of a 
+   conditional return.  
+*/</FONT>
+<FONT COLOR="#00FFFF"><B>#if PORTABLE_SOLUTION</B></FONT>
+<FONT COLOR="#FFFF00">/* lower: convert c to lower case */</FONT>
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">Uppercase</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">Lowercase</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;abcdefghijklmnopqrstuvwxyz&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">NULL</FONT><FONT COLOR="#00FFFF">;</FONT>
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#00FF00">NULL</FONT> <FONT COLOR="#00FFFF">==</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">strchr</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">Uppercase</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">c</FONT><FONT COLOR="#00FFFF">))</FONT> <FONT COLOR="#00FFFF">?</FONT> <FONT COLOR="#00FF00">c</FONT> <FONT COLOR="#00FFFF">:</FONT> <FONT COLOR="#00FFFF">*(</FONT><FONT COLOR="#00FF00">Lowercase</FONT> <FONT COLOR="#00FFFF">+</FONT> <FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">-</FONT> <FONT COLOR="#00FF00">Uppercase</FONT><FONT COLOR="#00FFFF">));</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+<FONT COLOR="#00FFFF"><B>#endif</B></FONT>
+
+
+
+<FONT COLOR="#FFFF00">/*
+    ok, this bit is just a test driver... exclude as required
+*/</FONT>
+<FONT COLOR="#00FFFF"><B>#ifdef TEST</B></FONT>
+<B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">main</FONT><FONT COLOR="#00FFFF">(</FONT><B><FONT COLOR="#00FFFF">void</FONT></B><FONT COLOR="#00FFFF">)</FONT>
+<FONT COLOR="#00FFFF">{</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">Tests</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF">&quot;AaBbcCD3EdFGHgIJKLhM2NOjPQRkSTlUVWfXYf0Z1&quot;</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">char</FONT></B> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">Tests</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <B><FONT COLOR="#00FFFF">int</FONT></B> <FONT COLOR="#00FF00">Result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>  
+
+  <B><FONT COLOR="#00FFFF">while</FONT></B><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>'\0'</B></FONT> <FONT COLOR="#00FFFF">!=</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">)</FONT>
+  <FONT COLOR="#00FFFF">{</FONT>
+    <FONT COLOR="#00FF00">Result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">(*</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;[%c] gives [%c]\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FFFF">*</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">Result</FONT><FONT COLOR="#00FFFF">);</FONT>
+    <FONT COLOR="#00FFFF">++</FONT><FONT COLOR="#00FF00">p</FONT><FONT COLOR="#00FFFF">;</FONT>
+  <FONT COLOR="#00FFFF">}</FONT>
+
+  <FONT COLOR="#FFFF00">/* and the obligatory boundary test */</FONT>
+  <FONT COLOR="#00FF00">Result</FONT> <FONT COLOR="#00FFFF">=</FONT> <FONT COLOR="#00FF00">lower</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">);</FONT>
+  <FONT COLOR="#00FF00">printf</FONT><FONT COLOR="#00FFFF">(</FONT><FONT COLOR="#FFFFFF">&quot;'\\0' gives %d\n&quot;</FONT><FONT COLOR="#00FFFF">,</FONT> <FONT COLOR="#00FF00">Result</FONT><FONT COLOR="#00FFFF">);</FONT> 
+
+  <B><FONT COLOR="#00FFFF">return</FONT></B> <FONT COLOR="#FFFFFF"><B>0</B></FONT><FONT COLOR="#00FFFF">;</FONT>
+<FONT COLOR="#00FFFF">}</FONT>
+
+<FONT COLOR="#00FFFF"><B>#endif</B></FONT>
+
+</pre>
+</code>
+
+<br>
+<br>
+<br>
+<br>
+
+<a href=index.html>  Back to index </a>
+
+<BR>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <center>
+    <font size=4>
+      You are visitor number <img src=http://cgi.powernet.co.uk/count.cgi?eton align="center"> - call again soon!
+    </font>
+    </center>
+
+
+  </body>
+</html>
+
+

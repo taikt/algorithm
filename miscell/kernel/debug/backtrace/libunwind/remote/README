@@ -1,0 +1,25 @@
+gcc -g -o unwinded unwinded_pr.c
+gcc -g unwind_pr.c -lunwind-ptrace -lunwind-generic
+or
+gcc -g unwind_pr.c -lunwind
+
+
+./unwinded &
+
+-- do remote unwind
+sudo ./a.out "unwinded_PID"
+
+-- remote unwind result
+0x558d67c8d5fe: (loo+0x4)
+0x558d67c8d60e: (foo+0xe)
+0x558d67c8d61f: (bar+0xe)
+0x558d67c8d630: (main+0xe)
+0x7f8f7b9c01c1: (__libc_start_main+0xf1)
+0x558d67c8d51a: (_start+0x2a)
+0x0: -- no symbol name found
+
+-- extract code location
+gdb ./unwinded
+list *(loo+0x4)
+
+or addr2line 0x558d67c8d5fe -e ./unwinded -f

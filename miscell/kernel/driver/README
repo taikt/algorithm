@@ -1,0 +1,29 @@
+Ref:
+1. https://stackoverflow.com/questions/11220720/linux-kernel-device-driver-programming
+2. Linux Kernel Module Programming Guide
+    http://www.tldp.org/LDP/lkmpg/2.6/html/index.html
+    https://github.com/hamjam/lkmpg-examples
+    https://github.com/bashrc/LKMPG
+3. https://elinux.org/Device_drivers
+4. LDD overview
+https://www.slideshare.net/alexmorenocano/ldd-slides
+
+4. TTY
+https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch18.html
+https://yannik520.github.io/tty/tty_driver.html
+https://www.linux.it/~rubini/docs/serial/serial.html
+https://www.linusakesson.net/programming/tty/
+
+5. others
+https://kernelnewbies.org/WritingPortableDrivers
+https://lwn.net/Articles/653585/
+https://stackoverflow.com/questions/18052671/reading-and-writing-a-register-linux-device-driver
+https://www.cs.usfca.edu/~cruse/cs630f08/
+https://stackoverflow.com/questions/22471849/what-is-outb-function-call-in-linux
+https://unix.stackexchange.com/questions/6033/usage-of-inb-inl-inw-to-access-kernel-space-from-user-space
+http://www.faqs.org/docs/Linux-mini/IO-Port-Programming.html
+http://www.mcamafia.de/pdf/ibm_hitrc07.pdf
+https://stackoverflow.com/questions/21078932/why-test-port-0x64-in-a-bootloader-before-switching-into-protected-mode
+http://tldp.org/LDP/lkmpg/2.6/html/lkmpg.html#AEN1256
+https://www.cs.usfca.edu/~cruse/cs630f06/lesson12.ppt
+https://www.linuxjournal.com/article/1080

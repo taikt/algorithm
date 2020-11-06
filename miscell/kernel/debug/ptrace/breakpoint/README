@@ -1,0 +1,12 @@
+Ref:
+https://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/
+
+
+
+nasm -f elf tracedHello.asm
+ld -m elf_i386 tracedHello.o -o hello
+
+objdump -d hello
+
+gcc -g bp_manual.c
+./a.out hello

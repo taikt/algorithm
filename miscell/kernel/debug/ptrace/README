@@ -1,0 +1,9 @@
+Ref:
+https://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/
+https://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/
+https://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information
+https://blog.tartanllama.xyz/writing-a-linux-debugger-elf-dwarf/
+https://blog.tartanllama.xyz/writing-a-linux-debugger-unwinding/
+https://github.com/TartanLlama/minidbg
+https://gnu.wildebeest.org/blog/mjw/2007/08/23/stack-unwinding/
+https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html

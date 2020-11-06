@@ -1,0 +1,49 @@
+--Ref
+https://opensourceforu.com/2011/01/understanding-a-kernel-oops/
+https://linuxconfig.org/how-to-enable-all-sysrq-functions-on-linux
+https://stackoverflow.com/questions/23484147/how-to-generate-a-kernel-oops-or-panic-crash-in-linux-kernel-code
+https://github.com/spotify/linux/blob/master/Documentation/oops-tracing.txt
+
+1. combile with enabling gdb debug
+make debug
+
+2. debugging oops dump
+disable sysrq.
+echo 0 > /proc/sys/kernel/sysrq
+sudo insmod oops.ko
+==> oops happen
+=> check dmesg
+UG: unable to handle kernel NULL pointer dereference at (null) 
+IP: [<ffffffffa03e1012>] my_oops_init+0x12/0x21 [oops] 
+PGD 7a719067 PUD 7b2b3067 PMD 0 
+Oops: 0002 [#1] SMP 
+last sysfs file: /sys/devices/virtual/misc/kvm/uevent 
+--------------
+
+get address of text session of module
+cat /sys/module/oops/sections/.init.text
+gdb oops.ko
+gdb> add-symbol-file oops.o "address of text session"
+gdb> disassemble my_oops_init
+0x0000000000000038 <+0>:    push   %rbp 
+0x0000000000000039 <+1>:    mov    $0x0,%rdi 
+0x0000000000000040 <+8>:    xor    %eax,%eax 
+0x0000000000000042 <+10>:    mov    %rsp,%rbp 
+0x0000000000000045 <+13>:    callq  0x4a <my_oops_init+18> 
+0x000000000000004a <+18>:    movl   $0x0,0x0 
+0x0000000000000055 <+29>:    xor    %eax,%eax 
+
+Caculate IP's address.
+0x0000000000000038 + 0x12 = 0x000000000000004a
+get oops point
+
+gdb> list *(0x000000000000004a)
+0x4a is in my_oops_init (/code/oops/oops.c:6). 
+1    #include <linux/kernel.h> 
+2    #include <linux/module.h> 
+3    #include <linux/init.h> 
+4     
+5    static void create_oops() { 
+6        *(int *)0 = 0; 
+7    }
+

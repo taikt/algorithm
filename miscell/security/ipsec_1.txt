@@ -1,0 +1,101 @@
+Ref:
+https://github.com/strongswan/strongswan/blob/master/README_LEGACY.md
+
+ubuntu 18.04
+PC1 (192.168.56.4), role server
+PC2 (192.168.56.3), role client
+
+- on PC1
+apt install strongswan
+
+1. setup CA key, CA certificate, client 1's key, client 1's certificate 
+apt install strongswan-pki
+
+ipsec pki --gen --size 4096 --type rsa --outform pem > ca.key.pem
+ipsec pki --self --in ca.key.pem --type rsa --dn 'CN=root CA' --ca --lifetime 3650 --outform pem > ca-cert.pem
+
+ipsec pki --gen --size 4096 --type rsa --outform pem > pc1-key.pem
+ipsec pki --psuiub --in pc1-key.pem --type rsa \ | ipsec pki --issue --lifetime 2750 --cacert ca-cert.pem --cakey ca.key.pem --dn 'CN=192.168.56.4' --san='192.168.56.4' --flag serverAuth --flag ikeIntermediate --outform pem > pc1-cert.pem
+
+
+2. install ceritificates and key
+mv ca-cert.pem /etc/ipsec.d/cacerts/
+mv pc1-cert.pem /etc/ipsec.d/certs/
+mv pc1-key.pem /etc/ipsec.d/private
+
+3. config ipsec.conf
+cp /etc/ipsec.conf /etc/ipsec.conf.bak
+vim /etc/ipsec.conf
+
+conn host-host
+      leftcert=pc1-cert.pem
+      right=192.168.56.3
+      rightid="CN=192.168.56.3"
+      auto=start
+
+
+4. config ipsec.secrets
+vim /etc/ipsec.secrets
+: RSA pc1-key.pem
+
+5. restart strongswan
+systemctl restart strongswan
+ipsec listcerts
+
+
+ 
+- on PC2 (client)
+apt install strongswan libcharon-extra-plugins
+1. copy CA's certificate and private key from PC1 to PC2
+ls work/temp
+ca-cert.pem  ca.key.pem
+
+2. create client 2's key and certificate
+ipsec pki --gen --size 4096 --type rsa --outform pem > pc2-key.pem
+ipsec pki --pub --in pc2-key.pem --type rsa \ | ipsec pki --issue --lifetime 2750 --cacert ca-cert.pem --cakey ca.key.pem --dn 'CN=192.168.56.3' --san='192.168.56.3' --flag serverAuth --flag ikeIntermediate --outform pem > pc2-cert.pem
+
+3. install cetificate and key
+
+mv ca-cert.pem /etc/ipsec.d/cacerts/ca-cert.pem
+mv pc2-cert.pem /etc/ipsec.d/certs/
+mv pc2-key.pem /etc/ipsec.d/private/
+
+4. config ipsec.conf
+vi /etc/ipsec.conf
+conn host-host
+      leftcert=pc2-cert.pem
+      right=192.168.56.4
+      rightid="CN=192.168.56.4"
+      auto=start
+
+5. config ipsec.secrets 
+vim /etc/ipsec.secrets
+: RSA pc2-key.pem
+
+
+6. restart strongswan
+systemctl restart strongswan
+ipsec status #check connection to PC2
+
+
+- Testing
+to make VPN tunnel between PC1 and PC2
+#both side run:
+systemctl restart strongswan
+#check connection:
+ipsec status
+
+# ping test
+on PC1 (server): sudo tcpdump -ni enp0s8
+on PC2 (client): ping 192.168.56.4
+# on PC1 show esp packets captured
+
+# ssh test
+PC1: sudo apt-get install openssh-server
+sudo ufw allow ssh
+
+PC2: sudo apt-get install openssh-client
+ssh taikt@192.168.56.4 # taikt is host name of pc1, connection should be successfull
+
+
+

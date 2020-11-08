@@ -1,8 +1,7 @@
 // 6-Aug.2017
+
+// https://www.youtube.com/watch?v=vcQIFT79_50   => must check
 // https://stackoverflow.com/questions/22141477/simple-linked-list-c
-// http://www.sanfoundry.com/cpp-program-implement-single-linked-list/
-// http://www.sourcetricks.com/2008/07/c-singly-linked-lists.html
-// https://www.codementor.io/codementorteam/a-comprehensive-guide-to-implementation-of-singly-linked-list-using-c_plus_plus-ondlm5azr
 
 
 #include <stdio.h>
@@ -52,10 +51,10 @@ void createNode2(Node** head, int data) {
 
 void printList(Node* head) {
 	Node* a = head;
-	
-	while (a != NULL) {	
-		printf("%d \n",(*a).data);	
-		a = (*a).link;		
+
+	while (a != NULL) {
+		printf("%d \n",(*a).data);
+		a = (*a).link;
 	}
 }
 
@@ -71,7 +70,7 @@ int main() {
 	printf("first list\n");
 	printList(A);
 
-	
+
 	Node* B;
 	B = NULL;
 	createNode2(&B,4);

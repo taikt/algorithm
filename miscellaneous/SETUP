@@ -212,6 +212,11 @@ find . -type d -exec rename 's/HUMAX/TAIKT/g' {} \;
 delete all object files/ specific files
 find . -name *.o | xargs rm
 
+find and delete a directory recursively
+
+find /dir/to/search/ -type d -name "dirName" -exec rm -rf {} + 
+
+
 gcc(GCC), g++ flags
 https://stackoverflow.com/questions/1452671/disable-all-gcc-warnings
 -w in CPPFLAG or CFLAG 

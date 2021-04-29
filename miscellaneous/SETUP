@@ -1,5 +1,20 @@
 [Git]
 
+
+Undo the commit.
+https://www.git-tower.com/learn/git/faq/undo-last-commit/
+i.e. local commited
+commit1
+commit2
+commit3 (merged on server)
+=> want drop commit1 and commit2
+drop commit but no drop code change
+git reset --soft HEAD~2
+
+drop commit but drop code change also
+git reset --hard HEAD~2
+
+
 Reference:
 https://discoposse.com/2016/11/08/git-remove-multiple-deleted-files/ --> must read for delete/add auto multiple files
 git ls-files --deleted -z | xargs -0 git rm

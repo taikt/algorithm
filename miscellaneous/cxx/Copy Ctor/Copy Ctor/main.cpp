@@ -28,7 +28,7 @@ Integer& NotCopyConstructorFunctionReturn(Integer &a) {
 int main() {
 	Integer a(1);
 	//a.SetValue(Add(a,b).GetValue()) ;
-	
+
 	// Integer x(a); //==> call copy constructor, manully copy variable
 	// testCopyConstructor(a); //==> call copy constructor, pass by value
 
@@ -42,10 +42,12 @@ int main() {
 	// copy constructor is not called (return function by reference)
 	// cout << "value= " << NotCopyConstructorFunctionReturn(a).GetValue() << "\n";
 
-	 Integer c;
-	 c = a; // assigment operator is called
-	 cout << "value: " << c.GetValue()<<"\n";
+	//Integer c;
+	//c = a; // assigment operator is called
+	//cout << "value: " << c.GetValue()<<"\n";
 
+    Integer& c = a; // not call assignment operator
+    cout << "value2: " << c.GetValue()<<"\n";
 
 	return 0;
 }

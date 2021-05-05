@@ -8,6 +8,7 @@
 #include <cstdio>
 using namespace std;
 
+#if 0
 // check cycle by bfs
 class Graph {
      public:
@@ -144,9 +145,9 @@ int main() {
 
 	return 0;
 }
+#endif
 
-
-#if 0
+#if 1
 // check cycle by dfs
 // 24.12.2016, Tai<taitrananhvn@gmail.com>
 
@@ -195,6 +196,7 @@ void Graph::dfs(int u) {
 	}
 }
 
+// tim cycle cho do thi co huong
 bool Graph::isCyclic(int u) {
 	visited[u] = 1; printf("visit %d\n",u);
     restack[u] = 1;

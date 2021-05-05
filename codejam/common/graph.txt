@@ -1,0 +1,21 @@
+1. ma trận kề
+
+2. danh sách kề
+
+3. danh sách cạnh
+
+4. tập union-find disjoint
+
+5. DFS
+
+6. BFS
+
+7. Tìm thành phần kết nối (đồ thị vô hướng)
+
+8. tô màu thành phần kết nối
+9. topological sort (đồ thị có hướng không chu kì)
+10. bipartite
+11. Minimum spaning tree
+12. duong di ngan nhat single-source
+13. duong di ngan nhat all-pairs
+14. luong mang

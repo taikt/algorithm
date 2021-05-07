@@ -1,4 +1,9 @@
 // https://thispointer.com/how-to-put-a-thread-to-sleep-in-c11-sleep_for-sleep_until/
+// https://thispointer.com/c11-multithreading-part-8-stdfuture-stdpromise-and-returning-values-from-thread/
+// https://thispointer.com//c11-multithreading-part-9-stdasync-tutorial-example/
+// https://thispointer.com/c11-multithreading-part-10-packaged_task-example-and-tutorial/
+
+
 
 #include <thread>
 #include <iostream>
